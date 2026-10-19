@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output and tool caches
+dist/
+build/
+.wrangler/
+.vercel/
+.netlify/
+coverage/
+
+# Environment settings and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.*
+
+# Local databases, exports, and backups
+*.sqlite
+*.sqlite3
+*.db
+*.bak
+*.backup
+backups/
+exports/
+
+# Logs and operating-system files
+*.log
+.DS_Store
+Thumbs.db
