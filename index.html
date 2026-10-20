@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#F5F7FA">
   <meta name="description" content="Track Urban Company job payments and incentives in one simple place.">
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" href="./icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="icon" href="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" type="image/png">
+  <link rel="apple-touch-icon" href="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png">
   <title>Hisaab Kitab — Partner payment tracker</title>
   <style>
     :root {
@@ -544,7 +544,7 @@
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand"><img class="brand-mark" src="./icon.svg" alt="Hisaab Kitab logo"><div><div class="brand-name">Hisaab Kitab</div><div class="brand-caption">PARTNER EARNINGS WORKSPACE</div></div></div>
+      <div class="brand"><img class="brand-mark" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab logo"><div><div class="brand-name">Hisaab Kitab</div><div class="brand-caption">PARTNER EARNINGS WORKSPACE</div></div></div>
       <div class="nav-label">Workspace</div>
       <nav class="nav-list" aria-label="Main navigation">
         <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Home</button>
@@ -560,7 +560,7 @@
     <main class="main-area">
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
-        <div class="topbar-left"><img class="topbar-logo" src="./icon.svg" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
+        <div class="topbar-left"><img class="topbar-logo" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
         <div class="top-actions"><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Private to this device</span></div><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
@@ -734,8 +734,8 @@
       let jobsStatusChosen = false;
       let scheduleSearch = '';
       let jobSearch = '';
-      let jobTypeFilter = 'regular';
-      let jobRangeFilter = 'last30';
+      let jobTypeFilter = 'all';
+      let jobRangeFilter = 'thisMonth';
       let jobSortOrder = 'recommended';
       let jobFiltersOpen = false;
       let jobPage = 1;
@@ -1030,8 +1030,8 @@
       function renderJobsLegacy() {
         const today = new Date(); today.setHours(0, 0, 0, 0);
         const days = ({ last7: 7, last15: 15 })[jobRangeFilter];
-        const monthAgo = new Date(today); const monthDay = monthAgo.getDate(); monthAgo.setDate(1); monthAgo.setMonth(monthAgo.getMonth() - 1); monthAgo.setDate(Math.min(monthDay, new Date(monthAgo.getFullYear(), monthAgo.getMonth() + 1, 0).getDate()));
-        const fromPreset = jobRangeFilter === 'last30' ? localISO(monthAgo) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
+        const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+        const fromPreset = jobRangeFilter === 'thisMonth' ? localISO(monthStart) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
         const fromDate = jobRangeFilter === 'custom' ? jobDateFrom : fromPreset;
         const toDate = jobRangeFilter === 'custom' ? jobDateTo : jobRangeFilter === 'all' ? '' : localISO(today);
         const jobs = [...data.jobs].sort((a, b) => (b.date || b.dueDate || '').localeCompare(a.date || a.dueDate || ''))
@@ -1053,13 +1053,13 @@
         }).join('');
         const renderSection = (title, subtitle, group) => group.length ? `<section class="panel job-section"><div class="panel-head"><div><h3 class="panel-title">${title}</h3><div class="panel-subtitle">${subtitle}</div></div><span class="progress-pill">${group.length} ${group.length === 1 ? 'job' : 'jobs'}</span></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Completed / deadline</th><th>Known expected</th><th>Received</th><th>Payment status</th><th></th></tr></thead><tbody>${renderRows(group)}</tbody></table></div></section>` : '';
         const sections = (jobTypeFilter !== 'referral' ? renderSection('Regular jobs', '₹354 net job value plus eligible incentives.', regularJobs) : '') + (jobTypeFilter !== 'regular' ? renderSection('Referral jobs', 'Only the referral amount entered for each job is expected.', referralJobs) : '');
-        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', last30: 'Last 1 month', all: 'All dates', custom: 'Custom date range' })[jobRangeFilter];
+        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', thisMonth: 'This month', all: 'All dates', custom: 'Custom date range' })[jobRangeFilter];
         const typeLabel = ({ regular: 'Regular jobs', referral: 'Referral jobs', all: 'All job types' })[jobTypeFilter];
         const emptyIsFiltered = jobSearch || jobTypeFilter !== 'all' || jobRangeFilter !== 'all';
         const filteredCount = jobs.length;
         const focusNotice = jobFocusId ? `<div class="notice"><span class="notice-icon">⌕</span><span>Showing the selected job${getJob(jobFocusId) ? `: ${escapeHtml(getJob(jobFocusId).customer)} · ${dateText(getJob(jobFocusId).date || getJob(jobFocusId).dueDate, { day: 'numeric', month: 'short' })}` : ''}.</span><button type="button" class="button button-small" data-action="clear-job-focus">Show all jobs</button></div>` : '';
-        const typeOptions = `<option value="regular" ${jobTypeFilter === 'regular' ? 'selected' : ''}>Regular jobs</option><option value="referral" ${jobTypeFilter === 'referral' ? 'selected' : ''}>Referral jobs</option><option value="all" ${jobTypeFilter === 'all' ? 'selected' : ''}>All job types</option>`;
-        const rangeOptions = [['last7','Last 7 days'],['last15','Last 15 days'],['last30','Last 1 month'],['all','All dates'],['custom','Choose dates']].map(([value,label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const typeOptions = `<option value="all" ${jobTypeFilter === 'all' ? 'selected' : ''}>All job types</option><option value="regular" ${jobTypeFilter === 'regular' ? 'selected' : ''}>Regular jobs</option><option value="referral" ${jobTypeFilter === 'referral' ? 'selected' : ''}>Referral jobs</option>`;
+        const rangeOptions = [['last7','Last 7 days'],['last15','Last 15 days'],['thisMonth','This month'],['all','All dates'],['custom','Choose dates']].map(([value,label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
         const customDates = jobRangeFilter === 'custom' ? `<div class="job-custom-range"><label for="jobDateFrom">From<input id="jobDateFrom" type="date" value="${escapeHtml(jobDateFrom)}"></label><label for="jobDateTo">To<input id="jobDateTo" type="date" value="${escapeHtml(jobDateTo)}"></label></div>` : '';
         const countCards = jobTypeFilter === 'all' ? `<div class="job-count-grid"><div class="stat-card"><div class="stat-label">Regular jobs</div><div class="stat-value">${regularJobs.length}</div><div class="stat-foot">In this date range</div></div><div class="stat-card"><div class="stat-label">Referral jobs</div><div class="stat-value">${referralJobs.length}</div><div class="stat-foot">In this date range</div></div></div>` : `<div class="job-count-grid"><div class="stat-card"><div class="stat-label">${typeLabel}</div><div class="stat-value">${filteredCount}</div><div class="stat-foot">${rangeLabel}</div></div></div>`;
         return `<div class="welcome-row"><div><p>Each customer and completion date gets its own tracker record.</p></div><div class="overview-actions"><button class="button" data-action="go-schedule">My schedule</button><button class="button button-primary" data-action="add-job">＋ Add a job</button></div></div>
@@ -1102,8 +1102,8 @@
       function renderJobs() {
         const today = new Date(); today.setHours(0, 0, 0, 0);
         const days = ({ last7: 7, last15: 15 })[jobRangeFilter];
-        const monthAgo = new Date(today); const monthDay = monthAgo.getDate(); monthAgo.setDate(1); monthAgo.setMonth(monthAgo.getMonth() - 1); monthAgo.setDate(Math.min(monthDay, new Date(monthAgo.getFullYear(), monthAgo.getMonth() + 1, 0).getDate()));
-        const fromPreset = jobRangeFilter === 'last30' ? localISO(monthAgo) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
+        const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+        const fromPreset = jobRangeFilter === 'thisMonth' ? localISO(monthStart) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
         const fromDate = jobRangeFilter === 'custom' ? jobDateFrom : fromPreset;
         const toDate = jobRangeFilter === 'custom' ? jobDateTo : jobRangeFilter === 'all' ? '' : localISO(today);
         const jobs = [...data.jobs]
@@ -1159,13 +1159,13 @@
           const label = status === 'completed' ? 'Done' : workStatusLabel(status);
           return `<button type="button" class="job-status-tab" aria-pressed="${scheduleStatusFilter === status}" data-schedule-status="${status}"><span>${label}</span><span class="job-status-tab-count">${counts[status]}</span></button>`;
         }).join('');
-        const typeOptions = `<option value="regular" ${jobTypeFilter === 'regular' ? 'selected' : ''}>Regular jobs</option><option value="referral" ${jobTypeFilter === 'referral' ? 'selected' : ''}>Referral jobs</option><option value="all" ${jobTypeFilter === 'all' ? 'selected' : ''}>All job types</option>`;
-        const rangeOptions = [['last7', 'Last 7 days'], ['last15', 'Last 15 days'], ['last30', 'Last 1 month'], ['all', 'All dates'], ['custom', 'Choose dates']].map(([value, label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
-        const sortOptions = [['recommended', 'Recommended'], ['newest', 'Newest first'], ['oldest', 'Oldest first']].map(([value, label]) => `<option value="${value}" ${jobSortOrder === value ? 'selected' : ''}>${label}</option>`).join('');
+        const typeOptions = `<option value="all" ${jobTypeFilter === 'all' ? 'selected' : ''}>All job types</option><option value="regular" ${jobTypeFilter === 'regular' ? 'selected' : ''}>Regular jobs</option><option value="referral" ${jobTypeFilter === 'referral' ? 'selected' : ''}>Referral jobs</option>`;
+        const rangeOptions = [['last7', 'Last 7 days'], ['last15', 'Last 15 days'], ['thisMonth', 'This month'], ['all', 'All dates'], ['custom', 'Choose dates']].map(([value, label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const sortOptions = [['recommended', 'Recommended order'], ['newest', 'Latest job date first'], ['oldest', 'Earliest job date first']].map(([value, label]) => `<option value="${value}" ${jobSortOrder === value ? 'selected' : ''}>${label}</option>`).join('');
         const customDates = jobRangeFilter === 'custom' ? `<div class="job-filter-field"><div class="job-custom-range" role="group" aria-label="Job date range"><label for="jobDateFrom">From<input id="jobDateFrom" type="date" value="${escapeHtml(jobDateFrom)}"></label><label for="jobDateTo">To<input id="jobDateTo" type="date" value="${escapeHtml(jobDateTo)}"></label></div></div>` : '';
         const typeLabel = ({ regular: 'Regular jobs', referral: 'Referral jobs', all: 'All job types' })[jobTypeFilter];
-        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', last30: 'Last 1 month', all: 'All dates', custom: 'Custom date range' })[jobRangeFilter];
-        const sortLabel = ({ recommended: 'Recommended order', newest: 'Newest first', oldest: 'Oldest first' })[jobSortOrder];
+        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', thisMonth: 'This month', all: 'All dates', custom: 'Custom date range' })[jobRangeFilter];
+        const sortLabel = ({ recommended: 'Recommended order', newest: 'Latest job date first', oldest: 'Earliest job date first' })[jobSortOrder];
         const help = `<span class="job-info-wrap"><button type="button" class="hk-info-tooltip__trigger job-info-button" data-action="toggle-job-help" aria-expanded="false" aria-controls="jobHelpText" aria-label="About job statuses">ⓘ</button><span id="jobHelpText" class="hk-info-tooltip__content" data-open="false">Schedule jobs by their status. Payment status is shown inside each job’s details.</span></span>`;
         const search = data.jobs.length ? `<label class="jobs-search"><span class="sr-only">Search jobs</span><input class="input" id="jobSearch" value="${escapeHtml(jobSearch)}" placeholder="Search customer or model" autocomplete="off"></label>` : '';
         let empty = '';
@@ -1397,7 +1397,7 @@
           const action = button.dataset.action;
           if (action === 'go-schedule') setPage('schedule');
           if (action === 'add-job') openJobDialog();
-          if (action === 'show-all-jobs' || action === 'clear-job-focus') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'regular'; jobRangeFilter = 'last30'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; jobsStatusChosen = false; render(); }
+          if (action === 'show-all-jobs' || action === 'clear-job-focus') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'thisMonth'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; jobsStatusChosen = false; render(); }
           if (action === 'show-first-job-status') { scheduleStatusFilter = button.dataset.status; jobsStatusChosen = true; render(); }
           if (action === 'clear-job-search') { jobSearch = ''; jobPage = 1; jobsStatusChosen = false; render(); }
           if (action === 'clear-customer-search') { customerSearch = ''; render(); }
@@ -1419,7 +1419,7 @@
           if (action === 'delete-customer-profile') deleteCustomerProfile(button.dataset.id);
           if (action === 'add-payment') openPaymentDialog();
           if (action === 'go-payments') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
-          if (action === 'go-jobs') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'regular'; jobRangeFilter = 'last30'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; setPage('jobs'); }
+          if (action === 'go-jobs') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'thisMonth'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; setPage('jobs'); }
           if (action === 'previous-job-page' && jobPage > 1) { jobPage--; renderKeepingFocus('jobPageStatus'); }
           if (action === 'next-job-page') { jobPage++; renderKeepingFocus('jobPageStatus'); }
           if (action === 'previous-payment-page' && paymentPage > 1) { paymentPage--; renderKeepingFocus('paymentPageStatus'); }
