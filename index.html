@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f6f2">
+  <meta name="theme-color" content="#F5F7FA">
   <meta name="description" content="Track Urban Company job payments and incentives in one simple place.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -11,19 +11,20 @@
   <title>Hisaab Kitab — Partner payment tracker</title>
   <style>
     :root {
-      --ink: #18251f;
-      --muted: #718078;
-      --line: #e7ebe6;
+      --ink: #142D4E;
+      --muted: #526579;
+      --line: #DCE4EB;
       --paper: #ffffff;
-      --canvas: #f5f6f2;
-      --green: #1d684e;
-      --green-dark: #174c3b;
-      --green-soft: #eaf4ee;
-      --lime: #d7f36a;
-      --amber: #a96c18;
-      --amber-soft: #fff5e5;
-      --red: #b84d48;
-      --shadow: 0 12px 34px rgba(30, 50, 40, .08);
+      --canvas: #F5F7FA;
+      --green: #087F5B;
+      --green-dark: #075F48;
+      --green-soft: #E7F3EE;
+      --gold: #F2B84B;
+      --gold-soft: #FFF5DE;
+      --amber: #80580D;
+      --amber-soft: #FFF5DE;
+      --red: #B42318;
+      --shadow: 0 12px 34px rgba(20, 45, 78, .08);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--ink);
       background: var(--canvas);
@@ -34,25 +35,28 @@
     body { margin: 0; min-width: 320px; background: var(--canvas); }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
+    :where(button, a, input, select, summary, [tabindex]):focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
     .app-shell { min-height: 100vh; display: grid; grid-template-columns: 244px minmax(0, 1fr); }
-    .sidebar { background: #fff; border-right: 1px solid var(--line); padding: 25px 16px 18px; display: flex; flex-direction: column; }
+    .sidebar { position: sticky; top: 0; height: 100vh; background: linear-gradient(180deg, #fff 0%, var(--canvas) 100%); border-right: 1px solid var(--line); padding: 25px 16px 18px; display: flex; flex-direction: column; }
     .brand { display: flex; align-items: center; gap: 11px; padding: 0 10px 30px; }
-    .brand-mark { width: 37px; height: 37px; border-radius: 12px; background: var(--green); color: white; display: grid; place-items: center; font-size: 18px; font-weight: 800; letter-spacing: -1px; }
+    .brand-mark { width: 42px; height: 42px; border-radius: 12px; background: white; display: block; object-fit: contain; box-shadow: 0 4px 12px rgba(20,45,78,.12); }
     .brand-name { font-size: 17px; font-weight: 750; letter-spacing: -.5px; }
     .brand-caption { font-size: 10px; color: var(--muted); margin-top: 2px; }
     .mobile-brand { display: none; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: -.3px; }
-    .mobile-brand .brand-mark { width: 30px; height: 30px; border-radius: 10px; font-size: 15px; }
-    .nav-label { padding: 0 12px; margin: 3px 0 10px; color: #9aa59e; font-size: 10px; font-weight: 750; letter-spacing: 1.15px; text-transform: uppercase; }
+    .mobile-brand .brand-mark { width: 32px; height: 32px; border-radius: 9px; }
+    .nav-label { padding: 0 12px; margin: 3px 0 10px; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 1.15px; text-transform: uppercase; }
     .nav-list { display: grid; gap: 5px; }
-    .nav-item { border: 0; background: transparent; color: #637168; border-radius: 10px; min-height: 43px; width: 100%; text-align: left; display: flex; align-items: center; gap: 12px; padding: 0 12px; font-weight: 600; font-size: 13px; }
-    .nav-item:hover { background: #f5f7f4; color: var(--ink); }
+    .nav-item { position: relative; border: 0; background: transparent; color: var(--muted); border-radius: 10px; min-height: 45px; width: 100%; text-align: left; display: flex; align-items: center; gap: 12px; padding: 0 12px; font-weight: 620; font-size: 13px; transition: background .15s ease, color .15s ease; }
+    .nav-item:hover { background: var(--canvas); color: var(--ink); }
     .nav-item.active { color: var(--green-dark); background: var(--green-soft); }
-    .nav-icon { width: 19px; text-align: center; font-size: 16px; font-weight: 500; }
+    .nav-item.active::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 0 4px 4px 0; background: var(--green); }
+    .nav-icon { width: 20px; height: 20px; flex: 0 0 20px; display: grid; place-items: center; color: currentColor; }
+    .nav-icon svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
     .sidebar-bottom { margin-top: auto; }
-    .device-note { background: #f6f8f5; border: 1px solid #edf0ed; border-radius: 12px; padding: 12px; color: var(--muted); font-size: 11px; line-height: 1.5; }
-    .device-note strong { color: #46564c; display: block; font-size: 11px; margin-bottom: 3px; }
+    .device-note { background: var(--canvas); border: 1px solid var(--line); border-radius: 12px; padding: 12px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .device-note strong { color: var(--ink); display: block; font-size: 11px; margin-bottom: 3px; }
     .sidebar-user { display: flex; align-items: center; gap: 10px; border-top: 1px solid var(--line); margin-top: 14px; padding: 16px 6px 0; }
-    .avatar { width: 32px; height: 32px; border-radius: 50%; background: #e7efe8; color: var(--green); display: grid; place-items: center; font-weight: 700; font-size: 12px; }
+    .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-soft); color: var(--green); display: grid; place-items: center; font-weight: 700; font-size: 12px; }
     .user-name { font-size: 12px; font-weight: 700; }
     .user-role { color: var(--muted); font-size: 10px; margin-top: 2px; }
     .main-area { min-width: 0; }
@@ -65,71 +69,101 @@
     .welcome-row { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 23px; }
     .welcome-row h2 { margin: 0 0 7px; font-size: clamp(22px, 3vw, 28px); letter-spacing: -1px; }
     .welcome-row p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
-    .button { min-height: 39px; border-radius: 9px; padding: 0 14px; border: 1px solid var(--line); background: white; color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: .15s ease; }
-    .button:hover { border-color: #c9d2ca; transform: translateY(-1px); }
-    .button-primary { background: var(--green); border-color: var(--green); color: white; box-shadow: 0 4px 10px rgba(29,104,78,.12); }
+    .button { min-height: 42px; border-radius: 9px; padding: 0 14px; border: 1px solid var(--line); background: white; color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: .15s ease; }
+    .button:hover { border-color: #AFC2D4; transform: translateY(-1px); }
+    .button-primary { background: var(--green); border-color: var(--green); color: white; box-shadow: 0 4px 10px rgba(8,127,91,.14); }
     .button-primary:hover { background: var(--green-dark); border-color: var(--green-dark); }
     .button-quiet { background: transparent; border-color: transparent; color: var(--muted); }
-    .button-small { min-height: 32px; padding: 0 11px; font-size: 11px; }
+    .button-small { min-height: 38px; padding: 0 11px; font-size: 11px; }
     .button-wide { width: 100%; }
-    .hero-strip { padding: 17px 19px; display: flex; gap: 15px; align-items: center; border-radius: 13px; background: var(--green-dark); color: white; margin-bottom: 17px; }
-    .hero-icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; flex: 0 0 auto; background: rgba(255,255,255,.12); font-size: 17px; }
-    .hero-copy { min-width: 0; flex: 1; }
-    .hero-copy strong { font-size: 12px; display: block; margin-bottom: 4px; }
-    .hero-copy span { display: block; font-size: 11px; color: #d1e2d7; line-height: 1.5; }
-    .hero-strip .button { flex: 0 0 auto; background: var(--lime); border-color: var(--lime); color: #243b27; }
-    .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; margin-bottom: 18px; }
-    .stat-card, .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 13px; }
-    .stat-card { padding: 16px 17px; min-height: 114px; }
+    .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+    .stat-card, .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 2px 8px rgba(20,45,78,.035); }
+    .stat-card { padding: 15px; min-height: 112px; }
+    .stat-card-button { width: 100%; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+    .stat-card-button .stat-top { display: flex; }
+    .stat-card-button .stat-value, .stat-card-button .stat-foot { display: block; }
+    .stat-card-button:hover { border-color: #AFC2D4; box-shadow: 0 5px 15px rgba(20,45,78,.08); }
+    #overviewAttention { scroll-margin-top: 90px; }
     .stat-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .stat-label { color: var(--muted); font-size: 11px; font-weight: 600; }
-    .stat-icon { color: var(--green); background: #f0f6f1; width: 27px; height: 27px; border-radius: 8px; display: grid; place-items: center; font-size: 13px; }
-    .stat-value { margin-top: 13px; font-size: 23px; font-weight: 750; letter-spacing: -.8px; }
-    .stat-foot { font-size: 10px; color: #92a097; margin-top: 3px; }
-    .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(280px, .9fr); gap: 17px; }
+    .stat-label { color: var(--muted); font-size: 12px; font-weight: 650; line-height: 1.25; }
+    .stat-icon { color: var(--green); background: var(--green-soft); width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font-size: 13px; font-weight: 750; flex: 0 0 auto; }
+    .stat-value { margin-top: 13px; font-size: clamp(17px, 1.55vw, 23px); font-weight: 750; letter-spacing: -.8px; white-space: nowrap; }
+    .stat-foot { font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
+    .overview-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+    .overview-secondary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+    .overview-secondary-card { min-width: 0; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.78); }
+    .overview-secondary-label { color: var(--muted); font-size: 11px; line-height: 1.35; }
+    .overview-secondary-value { margin-top: 5px; color: var(--ink); font-size: clamp(16px, 1.5vw, 20px); font-weight: 750; letter-spacing: -.4px; overflow-wrap: anywhere; }
+    .overview-secondary-note { margin-top: 3px; color: var(--muted); font-size: 10px; line-height: 1.4; }
+    .overview-activity-tools { display: flex; align-items: end; gap: 10px; margin: 16px 0 11px; }
+    .overview-activity-tools .field { flex: 1 1 240px; min-width: 0; }
+    .overview-activity-tools .field.range-field { flex: 0 1 190px; }
+    .overview-activity-tools label { color: var(--muted); font-size: 11px; font-weight: 650; }
+    .overview-activity-tools input, .overview-activity-tools select { width: 100%; margin-top: 5px; }
+    .overview-panel { min-width: 0; }
+    .attention-summary { color: var(--muted); font-size: 11px; }
+    .attention-list { display: grid; }
+    .attention-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .attention-item:last-child { border-bottom: 0; }
+    .attention-copy { min-width: 0; }
+    .attention-name { color: var(--ink); font-size: 12px; font-weight: 750; overflow-wrap: anywhere; }
+    .attention-detail { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+    .attention-item .button { flex: 0 0 auto; }
+    .overview-empty { padding: 22px 12px; }
+    .overview-empty .empty-icon { width: 34px; height: 34px; }
     .panel { overflow: hidden; }
     .panel-head { min-height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; border-bottom: 1px solid var(--line); gap: 12px; }
     .panel-title { font-size: 13px; font-weight: 750; margin: 0; }
     .panel-subtitle { color: var(--muted); font-size: 10px; margin-top: 4px; }
     .panel-body { padding: 16px 18px; }
-    .progress-overview { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-bottom: 16px; border-bottom: 1px solid #eff2ef; }
+    .progress-overview { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
     .progress-amount { font-size: 25px; font-weight: 750; letter-spacing: -1px; }
     .progress-caption { color: var(--muted); font-size: 10px; margin-top: 4px; }
     .progress-pill { font-size: 10px; font-weight: 700; color: var(--green); background: var(--green-soft); padding: 7px 9px; border-radius: 20px; white-space: nowrap; }
     .component-list { display: grid; gap: 14px; padding-top: 16px; }
     .component-row { display: grid; grid-template-columns: 110px minmax(70px, 1fr) 102px; align-items: center; gap: 12px; }
-    .component-label { color: #536159; font-size: 11px; }
-    .track { background: #edf1ed; border-radius: 10px; height: 6px; overflow: hidden; }
-    .fill { height: 100%; background: #69a184; border-radius: 10px; min-width: 0; transition: width .2s; }
-    .component-amount { text-align: right; font-size: 10px; color: #77847b; }
+    .component-label { color: var(--muted); font-size: 11px; }
+    .track { background: #E7EDF3; border-radius: 10px; height: 6px; overflow: hidden; }
+    .fill { height: 100%; background: var(--green); border-radius: 10px; min-width: 0; transition: width .2s; }
+    .component-amount { text-align: right; font-size: 10px; color: var(--muted); }
     .component-amount strong { color: var(--ink); font-size: 11px; }
     .activity-list { display: grid; }
-    .activity-item { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid #f0f2ef; }
+    .activity-item { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); }
     .activity-item:last-child { border: 0; }
-    .activity-dot { width: 28px; height: 28px; border-radius: 9px; background: #f0f6f1; color: var(--green); display: grid; place-items: center; font-size: 12px; }
-    .activity-title { font-size: 11px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .activity-meta { font-size: 9px; color: var(--muted); margin-top: 3px; }
+    .activity-dot { width: 28px; height: 28px; border-radius: 9px; background: var(--green-soft); color: var(--green); display: grid; place-items: center; font-size: 12px; }
+    .activity-title { display: block; font-size: 11px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .activity-meta { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
     .activity-amount { font-weight: 750; font-size: 11px; white-space: nowrap; }
+    .activity-item[data-action] { cursor: pointer; }
+    .activity-item[data-action]:hover .activity-title { color: var(--green); text-decoration: underline; text-underline-offset: 2px; }
+    .activity-button { width: 100%; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; }
     .empty-state { padding: 32px 15px; text-align: center; color: var(--muted); }
-    .empty-state .empty-icon { margin: 0 auto 10px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; background: #f0f5f1; color: var(--green); font-size: 18px; }
-    .empty-state strong { color: #3d4d43; display: block; font-size: 12px; margin-bottom: 5px; }
+    .empty-state .empty-icon { margin: 0 auto 10px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; background: var(--green-soft); color: var(--green); font-size: 18px; }
+    .empty-state strong { color: var(--ink); display: block; font-size: 12px; margin-bottom: 5px; }
     .empty-state p { margin: 0 0 12px; font-size: 10px; line-height: 1.5; }
     .page-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 13px; margin-bottom: 15px; }
     .toolbar-left { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .search-box { position: relative; }
     .search-box input { padding-left: 34px; width: min(280px, 56vw); }
-    .search-glyph { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #98a39b; font-size: 13px; }
-    .input, input, select { min-height: 39px; border: 1px solid #dfe5df; background: white; border-radius: 8px; padding: 0 11px; outline: none; color: var(--ink); font-size: 12px; }
-    .input:focus, input:focus, select:focus { border-color: #7ca991; box-shadow: 0 0 0 3px rgba(29,104,78,.08); }
-    .input::placeholder, input::placeholder { color: #a2aca5; }
+    .search-glyph { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
+    .input, input, select { min-height: 42px; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 0 11px; outline: none; color: var(--ink); font-size: 12px; }
+    .input:focus, input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(8,127,91,.12); }
+    .input::placeholder, input::placeholder { color: #66798C; opacity: 1; }
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; min-width: 680px; }
-    th { background: #fafbf9; text-align: left; padding: 11px 15px; color: #8b978f; font-size: 9px; text-transform: uppercase; letter-spacing: .7px; font-weight: 750; white-space: nowrap; }
-    td { padding: 13px 15px; border-top: 1px solid #f0f2ef; font-size: 11px; color: #506056; white-space: nowrap; }
+    th { background: var(--canvas); text-align: left; padding: 11px 15px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .7px; font-weight: 750; white-space: nowrap; }
+    td { padding: 13px 15px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); white-space: nowrap; }
     td strong { color: var(--ink); font-weight: 700; }
     .customer-cell { display: flex; align-items: center; gap: 9px; }
-    .customer-avatar { width: 28px; height: 28px; border-radius: 9px; background: #eff4ef; display: grid; place-items: center; color: var(--green); font-size: 10px; font-weight: 750; }
-    .subcell { display: block; color: #9aa49d; font-size: 9px; margin-top: 3px; }
+    .settlement-dot { display: inline-block; flex: 0 0 auto; width: 8px; height: 8px; margin-left: 5px; border-radius: 50%; vertical-align: middle; }
+    .settlement-dot.settled { background: #13A66F; box-shadow: 0 0 5px rgba(19,166,111,.7), 0 0 12px rgba(19,166,111,.36); }
+    .settlement-dot.pending { background: #D92D20; box-shadow: 0 0 5px rgba(217,45,32,.64), 0 0 11px rgba(217,45,32,.32); animation: pending-breathe 1.7s ease-in-out infinite; }
+    .settlement-dot.unknown { background: #8292A4; box-shadow: 0 0 4px rgba(82,101,121,.3); }
+    @keyframes pending-breathe { 0%,100% { opacity: .58; transform: scale(.86); } 50% { opacity: 1; transform: scale(1.15); } }
+    @media (prefers-reduced-motion: reduce) { .settlement-dot.pending { animation: none; } }
+    .customer-avatar { width: 28px; height: 28px; border-radius: 9px; background: var(--green-soft); display: grid; place-items: center; color: var(--green); font-size: 10px; font-weight: 750; }
+    .subcell { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
     .subcell a, .customer-profile-meta a { color: var(--green); text-decoration: underline; text-underline-offset: 2px; }
     .customer-profile-actions { display: flex; align-items: center; gap: 8px; }
     .customer-menu { position: relative; }
@@ -137,39 +171,71 @@
     .customer-menu > summary::-webkit-details-marker { display: none; }
     .customer-menu-panel { position: absolute; z-index: 20; top: calc(100% + 5px); right: 0; min-width: 172px; padding: 5px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 32px rgba(20,39,28,.14); }
     .customer-menu-panel button { display: flex; width: 100%; justify-content: flex-start; border: 0; background: transparent; text-align: left; }
-    .customer-menu-panel button:hover { background: #f5f8f5; }
-    .customer-menu-panel .button-danger { color: #a94c47; }
+    .customer-menu-panel button:hover { background: var(--canvas); }
+    .customer-menu-panel .button-danger { color: var(--red); }
     .customer-profile-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; color: var(--muted); font-size: 11px; }
     .status { display: inline-flex; align-items: center; gap: 5px; border-radius: 18px; padding: 5px 8px; font-size: 9px; font-weight: 700; }
     .status.pending { color: var(--amber); background: var(--amber-soft); }
     .status.paid { color: var(--green); background: var(--green-soft); }
-    .status.unmatched { color: #63736a; background: #f0f2ef; }
+    .status.unmatched { color: #35506D; background: #EDF2F7; }
     .batch-block { margin-bottom: 15px; }
-    .batch-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: #fbfcfa; border-bottom: 1px solid var(--line); }
+    .batch-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: var(--canvas); border-bottom: 1px solid var(--line); }
     .batch-title { font-size: 11px; font-weight: 750; }
     .batch-meta { color: var(--muted); font-size: 9px; margin-top: 3px; }
     .batch-sum { font-size: 12px; font-weight: 750; }
-    .batch-section-label { color: #91a097; font-size: 9px; font-weight: 750; letter-spacing: .7px; text-transform: uppercase; padding: 12px 15px 4px; }
+    .batch-section-label { color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: .7px; text-transform: uppercase; padding: 12px 15px 4px; }
     .batch-table { min-width: 760px; }
     .batch-table th { background: white; }
     .row-actions { display: flex; justify-content: flex-end; align-items: center; gap: 5px; }
-    .button-danger { color: #a94c47; }
+    .button-danger { color: var(--red); }
     [hidden] { display: none !important; }
     .customer-profile-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
     .customer-job-list { display: grid; gap: 12px; }
     .customer-job-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 15px; }
-    .customer-job-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid #f0f2ef; }
+    .customer-job-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
     .customer-job-title { font-size: 12px; font-weight: 750; }
     .customer-job-meta { color: var(--muted); font-size: 10px; margin-top: 4px; }
     .customer-breakdown { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding-top: 12px; }
-    .customer-breakdown-item { background: #fafbf9; border: 1px solid #f0f2ef; border-radius: 9px; padding: 10px; }
-    .customer-breakdown-label { color: #5c6b61; font-size: 10px; font-weight: 700; }
+    .customer-breakdown-item { background: var(--canvas); border: 1px solid var(--line); border-radius: 9px; padding: 10px; }
+    .customer-breakdown-label { color: var(--muted); font-size: 10px; font-weight: 700; }
     .customer-breakdown-meta { color: var(--muted); font-size: 9px; margin-top: 5px; }
     .customer-history { display: grid; gap: 8px; margin-top: 12px; }
-    .customer-history-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; font-size: 10px; padding: 8px 0; border-top: 1px solid #f0f2ef; }
+    .customer-history-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; font-size: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
     .job-count-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 15px; }
     .job-section { margin-bottom: 15px; }
-    .notice { display: flex; gap: 10px; align-items: flex-start; background: #f0f6f1; color: #4c6556; border-radius: 9px; padding: 11px 12px; font-size: 10px; line-height: 1.5; margin-bottom: 15px; }
+    .job-filter-panel { display: grid; grid-template-columns: minmax(150px, .8fr) minmax(150px, .8fr) minmax(220px, 1.5fr); align-items: end; gap: 10px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 11px; background: var(--canvas); }
+    .job-filter-field { display: grid; gap: 5px; min-width: 0; }
+    .job-filter-field label { color: var(--muted); font-size: 10px; font-weight: 750; }
+    .job-filter-field select, .job-filter-field input { width: 100%; min-width: 0; }
+    .job-custom-range { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .job-custom-range label { display: grid; gap: 4px; color: var(--muted); font-size: 10px; }
+    .job-results-summary { color: var(--muted); font-size: 10px; margin: 0 0 12px; }
+    .schedule-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0 0 17px; border-bottom: 1px solid var(--line); }
+    .schedule-tab { position: relative; display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 43px; padding: 0 8px 9px; border: 0; background: transparent; color: var(--muted); font-size: 11px; font-weight: 650; white-space: nowrap; }
+    .schedule-tab.active { color: var(--ink); }
+    .schedule-tab.active::after { content: ''; position: absolute; left: 8px; right: 8px; bottom: -1px; height: 2px; border-radius: 2px; background: var(--ink); }
+    .schedule-tab-count { min-width: 19px; padding: 3px 5px; border-radius: 10px; background: #EDF2F7; color: #35506D; font-size: 10px; }
+    .schedule-day-group { margin: 17px 0 20px; }
+    .schedule-day-title { margin: 0 0 10px; font-size: 19px; letter-spacing: -.4px; }
+    .schedule-card-list { display: grid; gap: 10px; }
+    .schedule-card { padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    .schedule-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .schedule-card-main { min-width: 0; }
+    .schedule-card-name { display: block; margin-top: 8px; font-size: 16px; font-weight: 700; overflow-wrap: anywhere; }
+    .schedule-card-meta { margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.45; }
+    .schedule-badge { display: inline-flex; align-items: center; min-height: 22px; padding: 3px 8px; border-radius: 6px; background: var(--green-soft); color: var(--green-dark); font-size: 10px; font-weight: 750; }
+    .schedule-badge.pending { background: var(--gold-soft); color: var(--amber); }
+    .schedule-badge.followup { background: #EDF2F7; color: #35506D; }
+    .schedule-badge.overdue { background: #FDECEB; color: var(--red); }
+    .schedule-card-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
+    .schedule-stage-select { min-height: 33px; font-size: 10px; }
+    .schedule-slide { display: grid; grid-template-columns: 1fr 34px; align-items: center; gap: 7px; max-width: 310px; margin-top: 12px; padding: 7px 9px; border-radius: 9px; background: var(--green-soft); color: var(--green-dark); }
+    .schedule-slide label { display: block; font-size: 10px; font-weight: 700; }
+    .schedule-slide input { width: 100%; min-height: 18px; height: 18px; margin-top: 4px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; accent-color: var(--green); }
+    .schedule-slide input:focus { box-shadow: none; }
+    .schedule-slide-arrow { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 8px; background: var(--green); color: white; font-size: 16px; }
+    .schedule-empty { margin-top: 14px; }
+    .notice { display: flex; gap: 10px; align-items: flex-start; background: var(--green-soft); color: #365B4A; border-radius: 9px; padding: 11px 12px; font-size: 11px; line-height: 1.5; margin-bottom: 15px; }
     .notice-icon { font-size: 14px; color: var(--green); }
     .mobile-nav { display: none; }
     dialog { border: 0; border-radius: 15px; padding: 0; width: min(480px, calc(100vw - 28px)); max-height: min(90vh, 760px); box-shadow: 0 26px 90px rgba(19,39,28,.23); color: var(--ink); }
@@ -177,40 +243,40 @@
     .modal-head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--line); padding: 19px 21px 15px; }
     .modal-head h3 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
     .modal-head p { color: var(--muted); font-size: 10px; margin: 5px 0 0; }
-    .icon-button { border: 0; background: #f4f6f3; color: #5d6a61; width: 29px; height: 29px; border-radius: 8px; font-size: 17px; line-height: 1; }
+    .icon-button { border: 0; background: var(--canvas); color: var(--muted); width: 36px; height: 36px; border-radius: 8px; font-size: 17px; line-height: 1; }
     .modal-body { padding: 17px 21px 20px; overflow-y: auto; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .field { display: grid; gap: 6px; }
     .field.full { grid-column: 1 / -1; }
-    .field label { color: #536159; font-size: 10px; font-weight: 700; }
-    .field small { color: #8a968e; font-size: 9px; line-height: 1.4; }
+    .field label { color: var(--muted); font-size: 11px; font-weight: 700; }
+    .field small { color: var(--muted); font-size: 10px; line-height: 1.45; }
     .field input, .field select { width: 100%; }
-    .check-field { min-height: 42px; display: flex; align-items: center; gap: 9px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 10px; color: #516056; }
+    .check-field { min-height: 42px; display: flex; align-items: center; gap: 9px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 11px; color: var(--muted); }
     .check-field input { min-height: auto; accent-color: var(--green); }
-    .form-hint { background: #f6f8f5; border-radius: 8px; padding: 10px 11px; color: #6f7e73; font-size: 9px; line-height: 1.5; }
+    .form-hint { background: var(--canvas); border-radius: 8px; padding: 10px 11px; color: var(--muted); font-size: 10px; line-height: 1.5; }
     .quick-pick { display: flex; gap: 8px; margin: 2px 0 9px; }
     .quick-pick button { border: 0; background: transparent; padding: 3px 0; color: var(--green); font-size: 10px; font-weight: 750; }
     .quick-pick button:hover { text-decoration: underline; }
     .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .payment-option { min-height: 54px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 9px; padding: 8px 10px; cursor: pointer; }
-    .payment-option.selected { border-color: #83ad94; background: #f2f8f3; }
-    .payment-option.disabled { opacity: .56; background: #f7f8f6; cursor: not-allowed; }
+    .payment-option { min-height: 58px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 9px; padding: 9px 10px; cursor: pointer; }
+    .payment-option.selected { border-color: var(--green); background: var(--green-soft); }
+    .payment-option.disabled { opacity: .62; background: var(--canvas); cursor: not-allowed; }
     .payment-option input { width: 16px; height: 16px; min-height: auto; margin: 0; accent-color: var(--green); flex: 0 0 auto; }
     .payment-option span { min-width: 0; }
-    .payment-option strong { display: block; font-size: 10px; color: #39493f; }
-    .payment-option small { display: block; font-size: 9px; color: #87938b; margin-top: 3px; }
+    .payment-option strong { display: block; font-size: 11px; color: var(--ink); }
+    .payment-option small { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; }
     .manual-entry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 17px; }
-    .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 15px); z-index: 20; opacity: 0; pointer-events: none; background: #1f3428; color: white; border-radius: 9px; padding: 11px 15px; font-size: 11px; box-shadow: var(--shadow); transition: .2s; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 15px); z-index: 20; opacity: 0; pointer-events: none; background: var(--ink); color: white; border-radius: 9px; padding: 11px 15px; font-size: 11px; box-shadow: var(--shadow); transition: .2s; }
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .money-muted { color: #9aa49d; }
-    .storage-warning { padding: 11px clamp(18px, 4vw, 54px); background: #fff3df; color: #794d12; border-bottom: 1px solid #f1d5a8; font-size: 12px; line-height: 1.5; }
+    .money-muted { color: var(--muted); }
+    .storage-warning { padding: 11px clamp(18px, 4vw, 54px); background: var(--gold-soft); color: #69470A; border-bottom: 1px solid var(--gold); font-size: 12px; line-height: 1.5; }
     .backup-menu { position: relative; }
     .backup-menu > summary { list-style: none; }
     .backup-menu > summary::-webkit-details-marker { display: none; }
     .backup-menu-panel { position: absolute; z-index: 20; top: calc(100% + 7px); right: 0; min-width: 180px; padding: 5px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 32px rgba(20,39,28,.14); }
     .backup-menu-panel button { display: flex; width: 100%; justify-content: flex-start; border: 0; background: transparent; text-align: left; }
-    .backup-menu-panel button:hover { background: #f5f8f5; }
+    .backup-menu-panel button:hover { background: var(--canvas); }
     @media (max-width: 1000px) {
       .app-shell { grid-template-columns: 210px minmax(0, 1fr); }
       .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -223,20 +289,29 @@
       .topbar .eyebrow { display: none; }
       .mobile-brand { display: flex; }
       .page-heading { font-size: 13px; }
-      .top-actions .button { min-height: 34px; padding: 0 10px; font-size: 10px; }
+      .top-actions .button { min-height: 40px; padding: 0 10px; font-size: 10px; }
+      .top-actions #topAddButton span { display: none; }
       .content { padding: 20px 15px 30px; }
-      .welcome-row { align-items: flex-start; margin-bottom: 17px; }
+      .welcome-row { align-items: flex-start; flex-direction: column; margin-bottom: 17px; }
       .welcome-row h2 { font-size: 22px; }
       .welcome-row p { font-size: 11px; }
       .welcome-row > .button { display: none; }
-      .hero-strip { padding: 12px; gap: 10px; margin-bottom: 12px; }
-      .hero-copy span { font-size: 9px; }
-      .hero-strip .button { min-height: 32px; padding: 0 9px; font-size: 9px; }
-      .stat-grid { gap: 9px; margin-bottom: 12px; }
-      .stat-card { min-height: 98px; padding: 12px; }
+      .overview-actions { width: 100%; }
+      .overview-actions .button { flex: 1; min-height: 42px; }
+      .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-bottom: 11px; }
+      .stat-card { min-height: 96px; padding: 12px; }
       .stat-value { font-size: 20px; margin-top: 10px; }
-      .stat-label { font-size: 10px; }
-      .stat-foot { font-size: 9px; }
+      .stat-label { font-size: 11px; }
+      .stat-foot { font-size: 10px; line-height: 1.35; }
+      .overview-secondary { gap: 7px; }
+      .overview-secondary-card { padding: 10px; }
+      .overview-secondary-label { font-size: 10px; }
+      .overview-secondary-value { font-size: 15px; }
+      .overview-secondary-note { font-size: 9px; }
+      .overview-activity-tools { align-items: stretch; flex-direction: column; gap: 8px; }
+      .overview-activity-tools .field, .overview-activity-tools .field.range-field { flex-basis: auto; }
+      .attention-item { align-items: flex-start; flex-direction: column; gap: 8px; }
+      .attention-item .button { min-height: 38px; }
       .panel-head { padding: 0 13px; }
       .panel-body { padding: 14px 13px; }
       .component-row { grid-template-columns: 82px minmax(36px, 1fr) 86px; gap: 8px; }
@@ -247,7 +322,12 @@
       .page-toolbar .search-box input { width: 100%; }
       .page-toolbar .toolbar-left { width: 100%; }
       .page-toolbar .button { width: 100%; }
-      .mobile-nav { position: fixed; z-index: 10; display: grid; grid-template-columns: repeat(4, 1fr); left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.96); border-top: 1px solid var(--line); padding: 6px 10px max(7px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }
+      .job-filter-panel { grid-template-columns: 1fr 1fr; }
+      .job-filter-field.search-filter { grid-column: 1 / -1; }
+      .job-filter-field.search-filter .search-box input { width: 100%; }
+      .schedule-tab { gap: 3px; padding-right: 2px; padding-left: 2px; font-size: 9px; }
+      .schedule-tab-count { min-width: 16px; padding: 2px 4px; }
+    .mobile-nav { position: fixed; z-index: 10; display: grid; grid-template-columns: repeat(5, 1fr); left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.96); border-top: 1px solid var(--line); padding: 6px 10px max(7px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }
       .mobile-nav .nav-item { min-height: 48px; flex-direction: column; justify-content: center; gap: 3px; padding: 2px; font-size: 9px; }
       .mobile-nav .nav-icon { font-size: 15px; }
       .form-grid { grid-template-columns: 1fr; }
@@ -255,18 +335,29 @@
       .customer-profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
       .customer-breakdown { grid-template-columns: 1fr; }
     }
+    @media (max-width: 360px) {
+      .backup-menu > summary span { display: none; }
+      .overview-secondary { grid-template-columns: 1fr; }
+      .overview-secondary-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .overview-secondary-value { margin: 0; white-space: nowrap; }
+      .overview-secondary-note { display: none; }
+      .stat-card { padding: 10px; }
+      .stat-label { font-size: 10px; }
+      .stat-icon { width: 27px; height: 27px; }
+    }
   </style>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">H</div><div><div class="brand-name">Hisaab Kitab</div><div class="brand-caption">EVERY JOB. EVERY PAYMENT. CLEAR.</div></div></div>
+      <div class="brand"><img class="brand-mark" src="./icon.svg" alt="Hisaab Kitab logo"><div><div class="brand-name">Hisaab Kitab</div><div class="brand-caption">PARTNER EARNINGS WORKSPACE</div></div></div>
       <div class="nav-label">Workspace</div>
       <nav class="nav-list" aria-label="Main navigation">
-        <button class="nav-item active" data-page="overview"><span class="nav-icon">◫</span>Overview</button>
-        <button class="nav-item" data-page="customers"><span class="nav-icon">♙</span>Customers</button>
-        <button class="nav-item" data-page="jobs"><span class="nav-icon">▣</span>Jobs</button>
-        <button class="nav-item" data-page="payments"><span class="nav-icon">↔</span>Payments</button>
+        <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Overview</button>
+        <button class="nav-item" data-page="schedule"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h6"/></svg></span>My Schedule</button>
+        <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
+        <button class="nav-item" data-page="jobs"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span>Jobs</button>
+        <button class="nav-item" data-page="payments"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Payments</button>
       </nav>
       <div class="sidebar-bottom">
         <div class="device-note"><strong>Private to this device</strong>Your entries stay in this browser. This demo is not connected to Urban Company.</div>
@@ -276,17 +367,18 @@
     <main class="main-area">
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
-        <div class="topbar-left"><div class="mobile-brand"><div class="brand-mark">H</div><span>Hisaab Kitab</span></div><div><div class="eyebrow">Every job. Every payment. Clear.</div><h1 class="page-heading" id="topTitle">Overview</h1></div></div>
+      <div class="topbar-left"><div class="mobile-brand"><img class="brand-mark" src="./icon.svg" alt=""><span>Hisaab Kitab</span></div><div><div class="eyebrow">Partner earnings workspace</div><h1 class="page-heading" id="topTitle">Overview</h1></div></div>
         <div class="top-actions"><details class="backup-menu" id="backupMenu"><summary class="button" aria-label="Backup options">↓ <span>Backup</span></summary><div class="backup-menu-panel"><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden><button class="button button-primary" id="topAddButton">＋ <span>Add a job</span></button></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
   </div>
   <nav class="mobile-nav" aria-label="Mobile navigation">
-    <button class="nav-item active" data-page="overview"><span class="nav-icon">◫</span>Overview</button>
-    <button class="nav-item" data-page="customers"><span class="nav-icon">♙</span>Customers</button>
-    <button class="nav-item" data-page="jobs"><span class="nav-icon">▣</span>Jobs</button>
-    <button class="nav-item" data-page="payments"><span class="nav-icon">↔</span>Payments</button>
+    <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Overview</button>
+    <button class="nav-item" data-page="schedule"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h6"/></svg></span>Schedule</button>
+    <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
+    <button class="nav-item" data-page="jobs"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span>Jobs</button>
+    <button class="nav-item" data-page="payments"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Payments</button>
   </nav>
 
   <dialog id="jobDialog">
@@ -297,13 +389,16 @@
         <div class="form-grid">
           <div class="field full"><label for="customerName">Customer name</label><input id="customerName" required maxlength="80" placeholder="Name as shown in UC payments"></div>
           <div class="field full"><label for="customerPhone">Customer mobile number</label><input id="customerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div>
-          <div class="field"><label for="jobDate">Job completion date</label><input id="jobDate" type="date" required></div>
+          <div class="field" id="jobDueDateField"><label for="jobDueDate">Complete by</label><input id="jobDueDate" type="date"><small>Last date by which this job should be finished.</small></div>
+          <div class="field"><label for="jobWorkflowStatus">Job status</label><select id="jobWorkflowStatus"><option value="upcoming">Upcoming</option><option value="pending">Pending</option><option value="followup">Follow-up</option><option value="completed">Completed</option></select></div>
+          <div class="field" id="completedDateField" hidden><label for="jobDate">Completed on</label><input id="jobDate" type="date"><small>Used to match UC payment history.</small></div>
           <div class="field"><label for="purifierModel">Purifier / model</label><input id="purifierModel" maxlength="50" value="M1" placeholder="e.g. M1"></div>
           <div class="field"><label for="jobType">Job type</label><select id="jobType"><option value="regular">Regular job</option><option value="referral">Referral job</option></select></div>
+          <div class="field" id="jobCategoryField"><label for="jobCategory">Regular job category</label><select id="jobCategory" required><option value="">Choose category</option><option value="installation">Installation</option><option value="repair">Repair</option><option value="refresh">Refresh install</option></select></div>
           <div id="regularJobFields" class="field full"><div class="check-field"><input id="onTimeExpected" type="checkbox" checked><label for="onTimeExpected">Expect on-time incentive <strong>₹250</strong></label></div><div class="check-field"><input id="ratingExpected" type="checkbox"><label for="ratingExpected">Expect 5-star rating reward <strong>₹150</strong></label></div></div>
           <div id="localityFields" class="field full"><label for="jobLocality">Job location type</label><select id="jobLocality"><option value="local">Local job</option><option value="nonLocal">Non-local job</option></select></div>
           <div id="extraMileExpectedField" class="field full" hidden><label for="extraMileExpected">Expected extra-mile amount (₹, if known)</label><input id="extraMileExpected" type="number" min="0" step="1" placeholder="Leave blank if not known"><small>Non-local jobs stay pending until an extra-mile payment is recorded.</small></div>
-          <div class="field"><label id="referralExpectedLabel" for="referralExpected">Referral reward expected (₹)</label><input id="referralExpected" type="number" min="0" step="1" placeholder="0"></div>
+          <div class="field" id="referralExpectedField"><label id="referralExpectedLabel" for="referralExpected">Referral payout expected (₹)</label><input id="referralExpected" type="number" min="0" step="1" placeholder="0"></div>
           <div class="field full"><div class="form-hint" id="jobTypeHint">Regular jobs include the ₹354 net job value. Extra-mile varies and is tracked when received.</div></div>
         </div>
         <div class="modal-actions"><button type="button" class="button" data-close="jobDialog">Cancel</button><button type="submit" class="button button-primary">Save job</button></div>
@@ -326,21 +421,23 @@
               <label class="payment-option"><input type="checkbox" data-payment-part="jobValue"><span><strong>Net job value</strong><small data-amount-label>₹354</small></span></label>
               <label class="payment-option"><input type="checkbox" data-payment-part="onTime"><span><strong>On-time incentive</strong><small data-amount-label>₹250</small></span></label>
               <label class="payment-option"><input type="checkbox" data-payment-part="rating"><span><strong>5-star rating reward</strong><small data-amount-label>₹150</small></span></label>
-              <label class="payment-option"><input type="checkbox" data-payment-part="referral"><span><strong>Referral reward</strong><small data-amount-label id="referralPartHint">Set on job or enter below</small></span></label>
+              <label class="payment-option" id="referralPaymentOption"><input type="checkbox" data-payment-part="referral"><span><strong>Referral job payout</strong><small data-amount-label id="referralPartHint">Set on job or enter below</small></span></label>
+              <label class="payment-option"><input type="checkbox" data-payment-part="goodwill"><span><strong>Goodwill</strong><small data-amount-label>Optional · enter amount</small></span></label>
             </div>
+          <div class="field full" id="goodwillAmountField" hidden><label for="goodwillAmount">Goodwill received (₹)</label><input id="goodwillAmount" type="number" min="1" step="1" placeholder="Enter amount given by customer"><small>Enter the amount the customer gave after the job.</small></div>
           <div id="manualVariableCredits" class="field full"><label>Manual credits (₹)</label>
             <div class="manual-entry-grid">
               <div id="extraMilePaymentField" class="field"><label for="extraMileAmount">Extra-mile incentive</label><input id="extraMileAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
-              <div class="field"><label for="commissionAmount">UC commission</label><input id="commissionAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
+              <div class="field" id="commissionPaymentField"><label for="commissionAmount">UC commission</label><input id="commissionAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
             </div>
-            <small>Enter only the credits received. Referral jobs do not use extra-mile or commission credits.</small>
+            <small>Enter only the credits received. Goodwill is recorded separately above.</small>
           </div>
-          <div class="field full"><label id="referralAmountLabel" for="referralAmount">Referral reward (if amount differs)</label><input id="referralAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
+          <div class="field full"><label id="referralAmountLabel" for="referralAmount">Referral payout received (if amount differs)</label><input id="referralAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
           <div class="field full"><div class="form-hint" id="paymentHint">Selecting multiple parts records them together with the same job and received date.</div></div>
           </div>
           <div id="paymentEditFields" class="field full" hidden>
             <div class="form-grid">
-              <div class="field full"><label for="editPaymentComponent">Payment part</label><select id="editPaymentComponent"><option value="jobValue">Net job value</option><option value="onTime">On-time incentive</option><option value="rating">5-star rating reward</option><option value="extraMile">Extra-mile incentive</option><option value="referral">Referral reward</option><option value="commission">UC commission</option></select></div>
+              <div class="field full"><label for="editPaymentComponent">Payment part</label><select id="editPaymentComponent"><option value="jobValue">Net job value</option><option value="onTime">On-time incentive</option><option value="rating">5-star rating reward</option><option value="extraMile">Extra-mile incentive</option><option value="referral">Referral job payout</option><option value="goodwill">Goodwill</option><option value="commission">UC commission</option></select></div>
               <div class="field full"><label for="editPaymentAmount">Amount received (₹)</label><input id="editPaymentAmount" type="number" min="1" step="1"></div>
               <div class="field full"><div class="form-hint">Choose the correct job above, or leave it unmatched and enter the customer name.</div></div>
             </div>
@@ -382,19 +479,29 @@
       const KNOWN_COMPONENTS = ['jobValue', 'onTime', 'rating', 'referral'];
       const COMPONENT_LABELS = {
         jobValue: 'Net job value', onTime: 'On-time incentive', rating: '5-star rating reward',
-        extraMile: 'Extra-mile incentive', referral: 'Referral reward', commission: 'UC commission'
+        extraMile: 'Extra-mile incentive', referral: 'Referral job payout', goodwill: 'Goodwill', commission: 'UC commission'
       };
       const COMPONENT_SECTION = {
         jobValue: 'Job payments', onTime: 'Incentive payments', rating: 'Incentive payments',
-        extraMile: 'Incentive payments', referral: 'Incentive payments', commission: 'Manual additions'
+        extraMile: 'Incentive payments', referral: 'Referral job payments', goodwill: 'Manual additions', commission: 'Manual additions'
       };
-      const pageTitles = { overview: 'Overview', customers: 'Customers', jobs: 'Jobs', payments: 'Payments' };
+      const pageTitles = { overview: 'Overview', schedule: 'My Schedule', customers: 'Customers', jobs: 'Jobs', payments: 'Payments' };
       let data = loadData();
       let currentPage = 'overview';
+      let scheduleStatusFilter = 'upcoming';
+      let scheduleSearch = '';
       let jobSearch = '';
+      let jobTypeFilter = 'regular';
+      let jobRangeFilter = 'last30';
+      let jobDateFrom = '';
+      let jobDateTo = '';
       let customerSearch = '';
       let selectedCustomerKey = '';
       let paymentSearch = '';
+      let paymentFocusId = '';
+      let jobFocusId = '';
+      let overviewSearch = '';
+      let overviewDateRange = 'last30';
 
       function loadData() {
         try {
@@ -506,6 +613,7 @@
       }
       function receivedFor(jobId, component) { return paymentsFor(jobId, component).reduce((sum, item) => sum + Number(item.amount || 0), 0); }
       function expectedFor(job, component) {
+        if (!jobIsComplete(job)) return 0;
         if (job.type === 'referral') return component === 'referral' ? Number(job.referralExpected || 0) : 0;
         if (component === 'jobValue') return BASE_JOB_VALUE;
         if (component === 'onTime') return job.onTimeExpected ? ON_TIME_VALUE : 0;
@@ -521,7 +629,8 @@
         return data.payments.filter(item => item.jobId === jobId && item.component === component && item.id !== excludedId).reduce((sum, item) => sum + Number(item.amount || 0), 0);
       }
       function pendingPartsFor(job) {
-        const names = { jobValue: 'net job value', onTime: 'on-time incentive', rating: '5-star reward', referral: 'referral reward' };
+        if (!jobIsComplete(job)) return [];
+        const names = { jobValue: 'net job value', onTime: 'on-time incentive', rating: '5-star reward', referral: 'referral payout' };
         const pending = KNOWN_COMPONENTS.filter(component => expectedFor(job, component) > receivedFor(job.id, component)).map(component => names[component]);
         if (job.type !== 'referral' && job.locality === 'nonLocal') {
           const extraExpected = expectedFor(job, 'extraMile');
@@ -531,16 +640,72 @@
         return pending;
       }
       function jobStatusFor(job) {
-        if (job.type === 'referral' && expectedFor(job, 'referral') <= 0) return 'Referral amount not set';
+        if (!jobIsComplete(job)) return `Scheduled: ${workStatusLabel(workStatusFor(job))}`;
+        if (job.type === 'referral' && expectedFor(job, 'referral') <= 0) return 'Referral payout not set';
         const pending = pendingPartsFor(job);
         return pending.length ? `Pending: ${pending.join(', ')}` : 'Settled';
+      }
+      function jobCategoryLabel(job) {
+        if (job.type === 'referral') return '';
+        return ({ installation: 'Installation', repair: 'Repair', refresh: 'Refresh install' })[job.category] || 'Category not set';
+      }
+      function workStatusFor(job) { return job.workStatus || 'completed'; }
+      function jobIsComplete(job) { return workStatusFor(job) === 'completed'; }
+      function workStatusLabel(status) { return ({ upcoming: 'Upcoming', pending: 'Pending', followup: 'Follow-up', completed: 'Completed' })[status] || 'Upcoming'; }
+      function customerSettlement(customer) {
+        const completedJobs = customer.jobs.filter(jobIsComplete);
+        if (!completedJobs.length) return customer.unmatchedPayments.length ? 'pending' : customer.jobs.length ? 'scheduled' : 'unknown';
+        if (customer.unmatchedPayments.length || completedJobs.some(job => jobStatusFor(job) !== 'Settled')) return 'pending';
+        return 'settled';
       }
       function totalKnownExpected() { return data.jobs.reduce((sum, job) => sum + knownExpectedFor(job), 0); }
       function totalKnownReceived() { return data.jobs.reduce((sum, job) => sum + knownReceivedFor(job), 0); }
       function totalKnownPending() { return data.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0); }
       function totalReceived() { return data.payments.reduce((sum, item) => sum + Number(item.amount || 0), 0); }
-      function otherCredits() { return data.payments.filter(item => !KNOWN_COMPONENTS.includes(item.component)).reduce((sum, item) => sum + Number(item.amount || 0), 0); }
+      function otherCredits() { return data.payments.filter(item => ['extraMile', 'commission'].includes(item.component)).reduce((sum, item) => sum + Number(item.amount || 0), 0); }
+      function totalGoodwill() { return data.payments.filter(item => item.component === 'goodwill').reduce((sum, item) => sum + Number(item.amount || 0), 0); }
       function percentage(credited, expected) { return expected > 0 ? Math.min(100, Math.round(credited / expected * 100)) : 0; }
+      function overviewDateMatches(value) {
+        if (overviewDateRange === 'all') return true;
+        if (!value) return false;
+        const days = Number(overviewDateRange.replace('last', ''));
+        const itemDate = new Date(`${String(value).slice(0, 10)}T00:00:00`);
+        const todayDate = new Date(`${localISO()}T00:00:00`);
+        if (Number.isNaN(itemDate.getTime())) return false;
+        if (!days) return true;
+        const startDate = new Date(todayDate);
+        startDate.setDate(startDate.getDate() - (days - 1));
+        return itemDate >= startDate && itemDate <= todayDate;
+      }
+      function overviewJobEntryDate(job) {
+        if (job.createdAt) {
+          const createdAt = new Date(job.createdAt);
+          if (!Number.isNaN(createdAt.getTime())) return localISO(createdAt);
+        }
+        return job.date || job.dueDate || '';
+      }
+      function needsAttentionItems() {
+        const today = localISO();
+        const items = [];
+        data.jobs.forEach(job => {
+          const reasons = [];
+          if (jobIsComplete(job)) {
+            const pending = pendingPartsFor(job).filter(part => part !== 'extra-mile payment');
+            const amountPending = knownPendingFor(job);
+            if (amountPending > 0) reasons.push(`${pending.join(', ') || 'Known payment parts'} pending · ${money(amountPending)}`);
+            const extraMileUnpriced = job.type !== 'referral' && job.locality === 'nonLocal'
+              && expectedFor(job, 'extraMile') <= 0 && receivedFor(job.id, 'extraMile') <= 0;
+            if (extraMileUnpriced) reasons.push('Extra-mile amount not entered');
+          } else if (job.dueDate && job.dueDate < today) {
+            reasons.push(`Job overdue · complete by ${dateText(job.dueDate)}`);
+          }
+          if (reasons.length) items.push({ type: 'job', id: job.id, name: job.customer, detail: reasons.join(' · '), date: jobIsComplete(job) ? job.date : job.dueDate || '' });
+        });
+        data.payments.filter(payment => !getJob(payment.jobId)).forEach(payment => {
+          items.push({ type: 'payment', id: payment.id, name: payment.customerName || 'Unmatched payment', detail: `${COMPONENT_LABELS[payment.component] || 'Payment'} · ${money(payment.amount)} · Match to a job`, date: payment.date || '' });
+        });
+        return items;
+      }
       function setPage(page) {
         currentPage = page;
         if (page === 'customers') selectedCustomerKey = '';
@@ -552,11 +717,14 @@
       function render() {
         const root = document.getElementById('pageContent');
         if (currentPage === 'overview') root.innerHTML = renderOverview();
+        if (currentPage === 'schedule') root.innerHTML = renderSchedule();
         if (currentPage === 'customers') root.innerHTML = renderCustomers();
         if (currentPage === 'jobs') root.innerHTML = renderJobs();
         if (currentPage === 'payments') root.innerHTML = renderPayments();
         const addLabel = currentPage === 'payments' ? 'Add a payment' : currentPage === 'customers' ? (selectedCustomerKey ? 'Add a job' : 'Add a customer') : 'Add a job';
-        document.getElementById('topAddButton').innerHTML = `＋ <span>${addLabel}</span>`;
+        const topAddButton = document.getElementById('topAddButton');
+        topAddButton.innerHTML = `＋ <span>${addLabel}</span>`;
+        topAddButton.setAttribute('aria-label', addLabel);
         bindPageEvents();
       }
       function renderOverview() {
@@ -564,11 +732,27 @@
         const knownReceived = totalKnownReceived();
         const allReceived = totalReceived();
         const knownPending = totalKnownPending();
+        const completedJobs = data.jobs.filter(jobIsComplete);
         const percent = percentage(knownReceived, expected);
-        const latest = [...data.payments].sort((a, b) => (b.date || '').localeCompare(a.date || '')).slice(0, 5);
+        const attention = needsAttentionItems();
+        const query = overviewSearch.trim().toLowerCase();
+        const recentJobs = [...data.jobs]
+          .filter(job => overviewDateMatches(overviewJobEntryDate(job)))
+          .filter(job => !query || `${job.customer} ${job.model || ''} ${jobCategoryLabel(job)} ${job.type || 'regular'} ${job.id}`.toLowerCase().includes(query))
+          .sort((a, b) => overviewJobEntryDate(b).localeCompare(overviewJobEntryDate(a)) || (b.createdAt || '').localeCompare(a.createdAt || ''))
+          .slice(0, 5);
+        const recentPayments = [...data.payments]
+          .filter(item => overviewDateMatches(item.date))
+          .filter(item => {
+            const job = getJob(item.jobId);
+            const name = job ? job.customer : item.customerName || 'Unmatched payment';
+            return !query || `${name} ${COMPONENT_LABELS[item.component] || 'Payment'} ${item.amount} ${item.date || ''}`.toLowerCase().includes(query);
+          })
+          .sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || '').localeCompare(a.createdAt || ''))
+          .slice(0, 5);
         const breakdown = KNOWN_COMPONENTS.map(component => {
           const exp = data.jobs.reduce((sum, job) => sum + expectedFor(job, component), 0);
-          const got = data.payments.filter(item => item.component === component).reduce((sum, item) => sum + Number(item.amount || 0), 0);
+          const got = data.jobs.reduce((sum, job) => sum + receivedFor(job.id, component), 0);
           return `<div class="component-row"><div class="component-label">${COMPONENT_LABELS[component]}</div><div class="track"><div class="fill" style="width:${percentage(got, exp)}%"></div></div><div class="component-amount"><strong>${money(got)}</strong> / ${money(exp)}</div></div>`;
         }).join('') + (() => {
           const exp = data.jobs.reduce((sum, job) => sum + expectedFor(job, 'extraMile'), 0);
@@ -576,27 +760,90 @@
           const got = data.jobs.filter(job => job.locality === 'nonLocal').reduce((sum, job) => sum + receivedFor(job.id, 'extraMile'), 0);
           return `<div class="component-row"><div class="component-label">Extra-mile incentive</div><div class="track"><div class="fill" style="width:${percentage(got, exp)}%"></div></div><div class="component-amount"><strong>${money(got)}</strong> / ${money(exp)}</div></div>`;
         })();
-        const recentHtml = latest.length ? `<div class="activity-list">${latest.map(item => {
+        const recentPaymentsHtml = recentPayments.length ? `<div class="activity-list">${recentPayments.map(item => {
           const job = getJob(item.jobId);
           const name = job ? job.customer : (item.customerName || 'Unmatched payment');
-          return `<div class="activity-item"><div class="activity-dot">↗</div><div><div class="activity-title">${escapeHtml(name)} · ${COMPONENT_LABELS[item.component] || 'Payment'}</div><div class="activity-meta">${dateText(item.date)} · ${escapeHtml(COMPONENT_SECTION[item.component] || 'Manual entry')}</div></div><div class="activity-amount">+${money(item.amount)}</div></div>`;
-        }).join('')}</div>` : `<div class="empty-state"><div class="empty-icon">↗</div><strong>No payments logged yet</strong><p>Add a payment from the UC Money section when it appears.</p><button class="button button-small" data-action="add-payment">＋ Add payment</button></div>`;
-        return `<div class="welcome-row"><div><h2>Your earnings at a glance</h2><p>See what is expected, what has arrived, and what is still pending.</p></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div>
-          <div class="hero-strip"><div class="hero-icon">✓</div><div class="hero-copy"><strong>Track every payment against its job.</strong><span>Select a customer when a payment arrives, then mark each received part.</span></div><button class="button button-small" data-action="add-payment">＋ Record payment</button></div>
+          return `<button type="button" class="activity-item activity-button" data-action="focus-payment" data-id="${escapeHtml(item.id)}"><span class="activity-dot" aria-hidden="true">↗</span><span><span class="activity-title">${escapeHtml(name)} · ${escapeHtml(COMPONENT_LABELS[item.component] || 'Payment')}</span><span class="activity-meta">${dateText(item.date)} · ${escapeHtml(COMPONENT_SECTION[item.component] || 'Manual entry')}${job ? '' : ' · Unmatched'}</span></span><span class="activity-amount">+${money(item.amount)}</span></button>`;
+        }).join('')}</div>` : `<div class="empty-state"><div class="empty-icon">↗</div><strong>${data.payments.length && (query || overviewDateRange !== 'all') ? 'No payments match these filters' : 'No payments logged yet'}</strong><p>${data.payments.length && (query || overviewDateRange !== 'all') ? 'Try a different search or activity period.' : 'When a credit appears in the UC Money section, add it here and match it to a job.'}</p>${!query && !data.payments.length ? '<button class="button button-small" data-action="add-payment">＋ Add payment</button>' : ''}</div>`;
+        const recentJobsHtml = recentJobs.length ? `<div class="activity-list">${recentJobs.map(job => {
+          const dateLabel = jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `Due ${dateText(job.dueDate)}`;
+          const kind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'}`;
+          const status = jobIsComplete(job) ? jobStatusFor(job) : workStatusLabel(workStatusFor(job));
+          return `<button type="button" class="activity-item activity-button" data-action="focus-job" data-id="${escapeHtml(job.id)}"><span class="activity-dot" aria-hidden="true">▣</span><span><span class="activity-title">${escapeHtml(job.customer)}</span><span class="activity-meta">${dateLabel} · ${escapeHtml(kind)} · ${escapeHtml(status)}</span></span><span class="activity-amount">${escapeHtml(job.model || 'Purifier')}</span></button>`;
+        }).join('')}</div>` : `<div class="empty-state"><div class="empty-icon">▣</div><strong>${data.jobs.length && (query || overviewDateRange !== 'all') ? 'No jobs match these filters' : 'No jobs added yet'}</strong><p>${data.jobs.length && (query || overviewDateRange !== 'all') ? 'Try a different search or activity period.' : 'Add a job to keep its details and payments together.'}</p>${!query && !data.jobs.length ? '<button class="button button-small button-primary" data-action="add-job">＋ Add first job</button>' : ''}</div>`;
+        const attentionHtml = attention.length ? `<div class="attention-list">${attention.map(item => `<div class="attention-item"><div class="attention-copy"><div class="attention-name">${escapeHtml(item.name)}</div><div class="attention-detail">${escapeHtml(item.detail)}${item.date ? ` · ${dateText(item.date, { day: 'numeric', month: 'short' })}` : ''}</div></div><button type="button" class="button button-small" data-action="${item.type === 'job' ? 'focus-job' : 'focus-payment'}" data-id="${escapeHtml(item.id)}">${item.type === 'job' ? 'Open job' : 'Open payment'}</button></div>`).join('')}</div>` : `<div class="empty-state overview-empty"><div class="empty-icon">✓</div><strong>You’re all caught up</strong><p>Jobs with unpaid known amounts, overdue deadlines, unpriced extra-mile, and unmatched payments will appear here.</p></div>`;
+        const rangeOptions = [['last7','Last 7 days'],['last30','Last 30 days'],['last90','Last 90 days'],['all','All dates']].map(([value, label]) => `<option value="${value}" ${overviewDateRange === value ? 'selected' : ''}>${label}</option>`).join('');
+        return `<div class="welcome-row"><div><h2>Your earnings at a glance</h2><p>See your jobs, received payments, and outstanding balances.</p></div><div class="overview-actions"><button class="button button-primary" data-action="add-job">＋ Add Job</button><button class="button" data-action="add-payment">＋ Record Payment</button></div></div>
           <div class="stat-grid">
-            <div class="stat-card"><div class="stat-top"><span class="stat-label">Expected</span><span class="stat-icon">₹</span></div><div class="stat-value">${money(expected)}</div><div class="stat-foot">Known job and incentive amounts</div></div>
+            <div class="stat-card"><div class="stat-top"><span class="stat-label">Total jobs</span><span class="stat-icon">▣</span></div><div class="stat-value">${data.jobs.length}</div><div class="stat-foot">All regular and referral jobs</div></div>
             <div class="stat-card"><div class="stat-top"><span class="stat-label">Received</span><span class="stat-icon">↗</span></div><div class="stat-value">${money(allReceived)}</div><div class="stat-foot">All credits entered in Hisaab Kitab</div></div>
-            <div class="stat-card"><div class="stat-top"><span class="stat-label">Pending</span><span class="stat-icon">◷</span></div><div class="stat-value">${money(knownPending)}</div><div class="stat-foot">Known fixed amounts not yet received</div></div>
-            <div class="stat-card"><div class="stat-top"><span class="stat-label">Extra-mile + commission</span><span class="stat-icon">＋</span></div><div class="stat-value">${money(otherCredits())}</div><div class="stat-foot">Variable credits entered manually</div></div>
+            <div class="stat-card"><div class="stat-top"><span class="stat-label">Outstanding</span><span class="stat-icon">◷</span></div><div class="stat-value">${money(knownPending)}</div><div class="stat-foot">Known amounts due; unpriced extra-mile excluded</div></div>
+            <button type="button" class="stat-card stat-card-button" data-action="scroll-attention"><span class="stat-top"><span class="stat-label">Needs attention</span><span class="stat-icon">!</span></span><span class="stat-value">${attention.length}</span><span class="stat-foot">Jobs and payments to review</span></button>
           </div>
+          <section class="overview-secondary" aria-label="Earnings breakdown">
+            <div class="overview-secondary-card"><div><div class="overview-secondary-label">Expected</div><div class="overview-secondary-note">Known amounts for completed jobs</div></div><div class="overview-secondary-value">${money(expected)}</div></div>
+            <div class="overview-secondary-card"><div><div class="overview-secondary-label">Goodwill</div><div class="overview-secondary-note">Customer-given amount received</div></div><div class="overview-secondary-value">${money(totalGoodwill())}</div></div>
+            <div class="overview-secondary-card"><div><div class="overview-secondary-label">Extra-mile + commission</div><div class="overview-secondary-note">Partner credits recorded</div></div><div class="overview-secondary-value">${money(otherCredits())}</div></div>
+          </section>
+          <section class="panel" id="overviewAttention"><div class="panel-head"><div><h3 class="panel-title">Needs attention</h3><div class="panel-subtitle">Pending amounts, overdue jobs, unpriced extra-mile, and unmatched payments</div></div><span class="attention-summary">${attention.length} ${attention.length === 1 ? 'item' : 'items'}</span></div><div class="panel-body">${attentionHtml}</div></section>
+          <div class="overview-activity-tools" aria-label="Filter recent activity"><div class="field"><label for="overviewSearch">Search jobs and payments</label><input class="input" id="overviewSearch" type="search" value="${escapeHtml(overviewSearch)}" placeholder="Customer, job type, payment or amount"></div><div class="field range-field"><label for="overviewDateRange">Activity period</label><select id="overviewDateRange">${rangeOptions}</select></div></div>
           <div class="dashboard-grid">
-            <section class="panel"><div class="panel-head"><div><h3 class="panel-title">Payment progress</h3><div class="panel-subtitle">Expected amounts compared with received</div></div><span class="progress-pill">${percent}% received</span></div><div class="panel-body"><div class="progress-overview"><div><div class="progress-amount">${money(knownReceived)} <span class="money-muted" style="font-size:14px;font-weight:500">of ${money(expected)}</span></div><div class="progress-caption">Net job value, fixed incentives, and known extra-mile amounts</div></div><div class="progress-pill">${data.jobs.length} ${data.jobs.length === 1 ? 'job' : 'jobs'}</div></div><div class="component-list">${data.jobs.length ? breakdown : `<div class="empty-state"><div class="empty-icon">▣</div><strong>Add your first job</strong><p>Payment progress will appear here.</p><button class="button button-small button-primary" data-action="add-job">＋ Add a job</button></div>`}</div></div></section>
-            <section class="panel"><div class="panel-head"><div><h3 class="panel-title">Recent payments</h3><div class="panel-subtitle">Latest credits you recorded</div></div><button class="button button-quiet button-small" data-action="go-payments">View all →</button></div><div class="panel-body">${recentHtml}</div></section>
-          </div>`;
+            <section class="panel overview-panel"><div class="panel-head"><div><h3 class="panel-title">Recent jobs</h3><div class="panel-subtitle">Latest jobs added within this period</div></div><button class="button button-quiet button-small" data-action="go-jobs">View all →</button></div><div class="panel-body">${recentJobsHtml}</div></section>
+            <section class="panel overview-panel"><div class="panel-head"><div><h3 class="panel-title">Recent payments</h3><div class="panel-subtitle">Credits recorded within this period</div></div><button class="button button-quiet button-small" data-action="go-payments">View all →</button></div><div class="panel-body">${recentPaymentsHtml}</div></section>
+          </div>
+          <section class="panel" style="margin-top:16px"><div class="panel-head"><div><h3 class="panel-title">Payment progress</h3><div class="panel-subtitle">Matched job payments compared with expected amounts</div></div><span class="progress-pill">${percent}% received</span></div><div class="panel-body"><div class="progress-overview"><div><div class="progress-amount">${money(knownReceived)} <span class="money-muted" style="font-size:14px;font-weight:500">of ${money(expected)}</span></div><div class="progress-caption">Goodwill and unmatched payments are not included in job progress.</div></div><div class="progress-pill">${completedJobs.length} ${completedJobs.length === 1 ? 'completed job' : 'completed jobs'}</div></div><div class="component-list">${completedJobs.length ? breakdown : `<div class="empty-state"><div class="empty-icon">▣</div><strong>${data.jobs.length ? 'Finish a scheduled job to track payments' : 'Add your first job'}</strong><p>Payment progress appears after a job is marked complete.</p><button class="button button-small button-primary" data-action="add-job">＋ Add a job</button></div>`}</div></div></section>`;
+      }
+      function renderSchedule() {
+        const statuses = ['upcoming', 'pending', 'followup', 'completed'];
+        const counts = Object.fromEntries(statuses.map(status => [status, data.jobs.filter(job => workStatusFor(job) === status).length]));
+        const jobs = data.jobs.filter(job => workStatusFor(job) === scheduleStatusFilter)
+          .filter(job => `${job.customer} ${job.model} ${jobCategoryLabel(job)}`.toLowerCase().includes(scheduleSearch.toLowerCase()))
+          .sort((a, b) => {
+            const aDate = jobIsComplete(a) ? a.date : a.dueDate;
+            const bDate = jobIsComplete(b) ? b.date : b.dueDate;
+            return scheduleStatusFilter === 'completed' ? (bDate || '').localeCompare(aDate || '') : (aDate || '').localeCompare(bDate || '');
+          });
+        const grouped = new Map();
+        jobs.forEach(job => {
+          const date = jobIsComplete(job) ? job.date : job.dueDate;
+          const key = date || 'not-set';
+          if (!grouped.has(key)) grouped.set(key, []);
+          grouped.get(key).push(job);
+        });
+        const today = localISO();
+        const tomorrowDate = new Date(); tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+        const tomorrow = localISO(tomorrowDate);
+        const groupsHtml = [...grouped.entries()].map(([date, group]) => {
+          const dateObj = date === 'not-set' ? null : new Date(`${date}T00:00:00`);
+          const overdue = scheduleStatusFilter !== 'completed' && dateObj && date < today;
+          const heading = date === 'not-set' ? 'Date not set' : date === today ? 'Today' : date === tomorrow ? 'Tomorrow' : `${overdue ? 'Past due · ' : ''}${dateText(date)}`;
+          const cards = group.map(job => {
+            const profile = customerGroups().find(customer => customer.key === customerKey(job.customer));
+            const phone = job.phone || profile?.phone || '';
+            const customerLabel = phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}">Call customer</a>` : '';
+            const badgeClass = overdue ? 'overdue' : scheduleStatusFilter === 'pending' ? 'pending' : scheduleStatusFilter === 'followup' ? 'followup' : '';
+            const stageOptions = ['upcoming','pending','followup'].map(status => `<option value="${status}" ${workStatusFor(job) === status ? 'selected' : ''}>${workStatusLabel(status)}</option>`).join('');
+            const progressControl = !jobIsComplete(job) ? `<div class="schedule-slide"><div><label for="complete-${escapeHtml(job.id)}">Slide to mark job complete</label><input id="complete-${escapeHtml(job.id)}" type="range" min="0" max="100" value="0" aria-label="Slide to mark ${escapeHtml(job.customer)} job complete" data-complete-job="${escapeHtml(job.id)}"></div><span class="schedule-slide-arrow" aria-hidden="true">→</span></div>` : '';
+            return `<article class="schedule-card"><div class="schedule-card-top"><div class="schedule-card-main"><span class="schedule-badge ${badgeClass}">${overdue ? 'Past due' : workStatusLabel(workStatusFor(job))}</span><strong class="schedule-card-name">${escapeHtml(job.customer)}</strong><div class="schedule-card-meta">${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`)}<br>${jobIsComplete(job) ? `Completed on ${dateText(job.date)}` : date === 'not-set' ? 'Add a completion deadline' : `Complete by ${dateText(job.dueDate)}`}</div></div></div><div class="schedule-card-actions">${customerLabel}<button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">${jobIsComplete(job) ? 'Edit job' : 'Reschedule / edit'}</button>${!jobIsComplete(job) ? `<label class="money-muted" for="stage-${escapeHtml(job.id)}" style="font-size:10px">Move to</label><select class="schedule-stage-select" id="stage-${escapeHtml(job.id)}" aria-label="Change ${escapeHtml(job.customer)} job status" data-job-stage="${escapeHtml(job.id)}">${stageOptions}</select>` : ''}</div>${progressControl}</article>`;
+          }).join('');
+          return `<section class="schedule-day-group"><h3 class="schedule-day-title">${escapeHtml(heading)}</h3><div class="schedule-card-list">${cards}</div></section>`;
+        }).join('');
+        const tabs = statuses.map(status => `<button type="button" class="schedule-tab ${scheduleStatusFilter === status ? 'active' : ''}" data-schedule-status="${status}">${workStatusLabel(status)} <span class="schedule-tab-count">${counts[status]}</span></button>`).join('');
+        return `<div class="welcome-row"><div><h2>My Schedule</h2><p>See the jobs to finish by each date. Reschedule or slide a job to mark it ended.</p></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div><div class="schedule-tabs" role="tablist" aria-label="Job status">${tabs}</div><div class="job-filter-panel" style="grid-template-columns:minmax(200px,1fr)"><div class="job-filter-field"><label for="scheduleSearch">Search customer or model</label><input class="input" id="scheduleSearch" value="${escapeHtml(scheduleSearch)}" placeholder="Enter customer or model"></div></div>${groupsHtml || `<section class="panel schedule-empty"><div class="empty-state"><div class="empty-icon">▣</div><strong>${scheduleSearch ? 'No matching jobs' : `No ${workStatusLabel(scheduleStatusFilter).toLowerCase()} jobs`}</strong><p>${scheduleStatusFilter === 'completed' ? 'Jobs marked as ended will appear here.' : 'Add a job with a completion deadline to see it here.'}</p><button class="button button-small button-primary" data-action="add-job">＋ Add a job</button></div></section>`}`;
       }
       function renderJobs() {
-        const jobs = [...data.jobs].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-          .filter(job => `${job.customer} ${job.model} ${job.date}`.toLowerCase().includes(jobSearch.toLowerCase()));
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const days = ({ last7: 7, last15: 15 })[jobRangeFilter];
+        const monthAgo = new Date(today); const monthDay = monthAgo.getDate(); monthAgo.setDate(1); monthAgo.setMonth(monthAgo.getMonth() - 1); monthAgo.setDate(Math.min(monthDay, new Date(monthAgo.getFullYear(), monthAgo.getMonth() + 1, 0).getDate()));
+        const fromPreset = jobRangeFilter === 'last30' ? localISO(monthAgo) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
+        const fromDate = jobRangeFilter === 'custom' ? jobDateFrom : fromPreset;
+        const toDate = jobRangeFilter === 'custom' ? jobDateTo : jobRangeFilter === 'all' ? '' : localISO(today);
+        const jobs = [...data.jobs].sort((a, b) => (b.date || b.dueDate || '').localeCompare(a.date || a.dueDate || ''))
+          .filter(job => !jobFocusId || job.id === jobFocusId)
+          .filter(job => jobTypeFilter === 'all' || (jobTypeFilter === 'referral' ? job.type === 'referral' : job.type !== 'referral'))
+          .filter(job => !fromDate || (job.date || job.dueDate || '') >= fromDate)
+          .filter(job => !toDate || (job.date || job.dueDate || '') <= toDate)
+          .filter(job => `${job.customer} ${job.model} ${job.date} ${job.dueDate} ${jobCategoryLabel(job)} ${job.type || 'regular'}`.toLowerCase().includes(jobSearch.toLowerCase()));
         const regularJobs = jobs.filter(job => job.type !== 'referral');
         const referralJobs = jobs.filter(job => job.type === 'referral');
         const renderRows = group => group.map(job => {
@@ -604,16 +851,27 @@
           const referralAmountMissing = job.type === 'referral' && expectedFor(job, 'referral') <= 0;
           const pendingParts = pendingPartsFor(job);
           const commission = receivedFor(job.id, 'commission');
-          const status = referralAmountMissing ? `<span class="status pending">● Referral amount not set</span>` : pendingParts.length ? `<span class="status pending">● ${pending ? `Pending: ${escapeHtml(pendingParts.join(', '))} · ${money(pending)} known` : `Pending: ${escapeHtml(pendingParts.join(', '))}`}</span>` : `<span class="status paid">● Settled</span>`;
-          return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(job.customer)}</div><div><strong>${escapeHtml(job.customer)}</strong><span class="subcell">${job.type === 'referral' ? 'Referral job' : `Regular job · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'}`} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</span></div></div></td><td>${dateText(job.date)}<span class="subcell">${escapeHtml(job.model || 'Purifier')}</span></td><td><strong>${money(expected)}</strong></td><td>${money(received)}</td><td>${status}<span class="subcell">UC commission ${money(commission)}</span></td><td><div class="row-actions"><button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit</button><button class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></td></tr>`;
+        const status = !jobIsComplete(job) ? `<span class="status unmatched">● ${escapeHtml(workStatusLabel(workStatusFor(job)))}</span>` : referralAmountMissing ? `<span class="status pending">● Referral payout not set</span>` : pendingParts.length ? `<span class="status pending">● ${pending ? `Pending: ${escapeHtml(pendingParts.join(', '))} · ${money(pending)} known` : `Pending: ${escapeHtml(pendingParts.join(', '))}`}</span>` : `<span class="status paid">● Settled</span>`;
+          const jobKind = job.type === 'referral' ? 'Referral job' : `Regular · ${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'}`;
+          return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(job.customer)}</div><div><strong>${escapeHtml(job.customer)}</strong><span class="subcell">${escapeHtml(jobKind)} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</span></div></div></td><td>${jobIsComplete(job) ? dateText(job.date) : `Due ${dateText(job.dueDate)}`}<span class="subcell">${escapeHtml(job.model || 'Purifier')}</span></td><td><strong>${money(expected)}</strong></td><td>${money(received)}</td><td>${status}<span class="subcell">UC commission ${money(commission)}</span></td><td><div class="row-actions"><button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit</button><button class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></td></tr>`;
         }).join('');
-        const renderSection = (title, subtitle, group) => group.length ? `<section class="panel job-section"><div class="panel-head"><div><h3 class="panel-title">${title}</h3><div class="panel-subtitle">${subtitle}</div></div><span class="progress-pill">${group.length} ${group.length === 1 ? 'job' : 'jobs'}</span></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Completed</th><th>Known expected</th><th>Received</th><th>Payment status</th><th></th></tr></thead><tbody>${renderRows(group)}</tbody></table></div></section>` : '';
-        const sections = renderSection('Regular jobs', '₹354 net job value plus eligible incentives.', regularJobs) + renderSection('Referral jobs', 'Only the referral amount entered for each job is expected.', referralJobs);
+        const renderSection = (title, subtitle, group) => group.length ? `<section class="panel job-section"><div class="panel-head"><div><h3 class="panel-title">${title}</h3><div class="panel-subtitle">${subtitle}</div></div><span class="progress-pill">${group.length} ${group.length === 1 ? 'job' : 'jobs'}</span></div><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Completed / deadline</th><th>Known expected</th><th>Received</th><th>Payment status</th><th></th></tr></thead><tbody>${renderRows(group)}</tbody></table></div></section>` : '';
+        const sections = (jobTypeFilter !== 'referral' ? renderSection('Regular jobs', '₹354 net job value plus eligible incentives.', regularJobs) : '') + (jobTypeFilter !== 'regular' ? renderSection('Referral jobs', 'Only the referral amount entered for each job is expected.', referralJobs) : '');
+        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', last30: 'Last 1 month', all: 'All dates', custom: 'Custom date range' })[jobRangeFilter];
+        const typeLabel = ({ regular: 'Regular jobs', referral: 'Referral jobs', all: 'All job types' })[jobTypeFilter];
+        const emptyIsFiltered = jobSearch || jobTypeFilter !== 'all' || jobRangeFilter !== 'all';
+        const filteredCount = jobs.length;
+        const focusNotice = jobFocusId ? `<div class="notice"><span class="notice-icon">⌕</span><span>Showing the selected job${getJob(jobFocusId) ? `: ${escapeHtml(getJob(jobFocusId).customer)} · ${dateText(getJob(jobFocusId).date || getJob(jobFocusId).dueDate, { day: 'numeric', month: 'short' })}` : ''}.</span><button type="button" class="button button-small" data-action="clear-job-focus">Show all jobs</button></div>` : '';
+        const typeOptions = `<option value="regular" ${jobTypeFilter === 'regular' ? 'selected' : ''}>Regular jobs</option><option value="referral" ${jobTypeFilter === 'referral' ? 'selected' : ''}>Referral jobs</option><option value="all" ${jobTypeFilter === 'all' ? 'selected' : ''}>All job types</option>`;
+        const rangeOptions = [['last7','Last 7 days'],['last15','Last 15 days'],['last30','Last 1 month'],['all','All dates'],['custom','Choose dates']].map(([value,label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const customDates = jobRangeFilter === 'custom' ? `<div class="job-custom-range"><label for="jobDateFrom">From<input id="jobDateFrom" type="date" value="${escapeHtml(jobDateFrom)}"></label><label for="jobDateTo">To<input id="jobDateTo" type="date" value="${escapeHtml(jobDateTo)}"></label></div>` : '';
+        const countCards = jobTypeFilter === 'all' ? `<div class="job-count-grid"><div class="stat-card"><div class="stat-label">Regular jobs</div><div class="stat-value">${regularJobs.length}</div><div class="stat-foot">In this date range</div></div><div class="stat-card"><div class="stat-label">Referral jobs</div><div class="stat-value">${referralJobs.length}</div><div class="stat-foot">In this date range</div></div></div>` : `<div class="job-count-grid"><div class="stat-card"><div class="stat-label">${typeLabel}</div><div class="stat-value">${filteredCount}</div><div class="stat-foot">${rangeLabel}</div></div></div>`;
         return `<div class="welcome-row"><div><h2>My jobs</h2><p>Each customer and completion date gets its own tracker record.</p></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div>
-          <div class="notice"><span class="notice-icon">ⓘ</span><span>Customer name is used to match UC payment lines. If the same customer has multiple jobs, use the job date and purifier model to choose the right one. Deleting a job keeps its payment records as unmatched payments.</span></div>
-          <div class="page-toolbar"><div class="toolbar-left"><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="jobSearch" value="${escapeHtml(jobSearch)}" placeholder="Search customer or model"></div></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div>
-          <div class="job-count-grid"><div class="stat-card"><div class="stat-label">Regular jobs</div><div class="stat-value">${regularJobs.length}</div><div class="stat-foot">₹354 net job value applies</div></div><div class="stat-card"><div class="stat-label">Referral jobs</div><div class="stat-value">${referralJobs.length}</div><div class="stat-foot">Only the entered referral amount applies</div></div></div>
-          ${sections || `<section class="panel"><div class="empty-state"><div class="empty-icon">▣</div><strong>${jobSearch ? 'No matching jobs' : 'No jobs added yet'}</strong><p>${jobSearch ? 'Try another customer name or model.' : 'Add a completed job to start tracking its payment parts.'}</p>${!jobSearch ? '<button class="button button-small button-primary" data-action="add-job">＋ Add first job</button>' : ''}</div></section>`}`;
+          ${focusNotice}<div class="notice"><span class="notice-icon">ⓘ</span><span>Customer name is used to match UC payment lines. If the same customer has multiple jobs, use the job date and purifier model to choose the right one. Deleting a job keeps its payment records as unmatched payments.</span></div>
+          <div class="job-filter-panel"><div class="job-filter-field"><label for="jobTypeFilter">Job type</label><select id="jobTypeFilter">${typeOptions}</select></div><div class="job-filter-field"><label for="jobRangeFilter">Date range</label><select id="jobRangeFilter">${rangeOptions}</select></div>${jobRangeFilter === 'custom' ? `<div class="job-filter-field"><label>Choose dates</label>${customDates}</div>` : ''}<div class="job-filter-field search-filter"><label for="jobSearch">Search jobs</label><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="jobSearch" value="${escapeHtml(jobSearch)}" placeholder="Customer, model, category"></div></div></div>
+          <div class="job-results-summary">Showing ${filteredCount} ${filteredCount === 1 ? 'job' : 'jobs'} · ${typeLabel} · ${rangeLabel}</div>
+          ${countCards}
+          ${sections || `<section class="panel"><div class="empty-state"><div class="empty-icon">▣</div><strong>${data.jobs.length ? (jobSearch ? 'No matching jobs' : 'No jobs in this selection') : 'No jobs added yet'}</strong><p>${data.jobs.length ? 'Change the job type or date range to see more jobs.' : 'Add a completed job to start tracking its payment parts.'}</p>${data.jobs.length && emptyIsFiltered ? '<button class="button button-small" data-action="show-all-jobs">Show all jobs</button>' : !data.jobs.length ? '<button class="button button-small button-primary" data-action="add-job">＋ Add first job</button>' : ''}</div></section>`}`;
       }
       function renderCustomers() {
         const groups = customerGroups().filter(item => !(data.hiddenCustomers || []).includes(item.key));
@@ -627,10 +885,14 @@
           const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
           const unmatched = customer.unmatchedPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
           const contact = customer.phone ? `<a href="tel:${escapeHtml(phoneHref(customer.phone))}">Call ${escapeHtml(customer.phone)}</a>` : 'No mobile number';
-          return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer.name)}</div><div><strong>${escapeHtml(customer.name)}</strong><span class="subcell">ID ${escapeHtml(customerCodeFor(customer))} · ${contact} · ${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'}</span></div></div></td><td>${money(received)}<span class="subcell">${customer.jobs.length ? `of ${money(expected)} known expected` : 'No linked jobs'}</span></td><td>${customer.jobs.length ? pending ? `<span class="status pending">${money(pending)} pending</span>` : customer.jobs.some(job => pendingPartsFor(job).length) ? `<span class="status pending">Payment pending</span>` : `<span class="status paid">Settled</span>` : `<span class="status unmatched">No job yet</span>`}</td><td>${unmatched ? `<span class="status unmatched">${money(unmatched)} unmatched</span>` : '—'}</td><td><button class="button button-small" data-action="view-customer" data-id="${escapeHtml(customer.key)}">View profile</button></td></tr>`;
+          const settlement = customerSettlement(customer);
+          const dotLabel = settlement === 'settled' ? 'All completed job payments settled' : settlement === 'pending' ? 'Payment pending or unmatched payment needs review' : settlement === 'scheduled' ? 'Job not completed yet' : 'No jobs recorded yet';
+          const dotClass = settlement === 'scheduled' ? 'unknown' : settlement;
+          const statusLabel = settlement === 'settled' ? '<span class="status paid">Settled</span>' : settlement === 'pending' ? (pending ? `<span class="status pending">${money(pending)} pending</span>` : customer.unmatchedPayments.length ? '<span class="status unmatched">Needs matching</span>' : '<span class="status pending">Payment pending</span>') : settlement === 'scheduled' ? '<span class="status unmatched">Job not completed</span>' : '<span class="status unmatched">No job yet</span>';
+          return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer.name)}</div><div><strong>${escapeHtml(customer.name)} <span class="settlement-dot ${dotClass}" role="img" aria-label="${escapeHtml(dotLabel)}" title="${escapeHtml(dotLabel)}"></span></strong><span class="subcell">ID ${escapeHtml(customerCodeFor(customer))} · ${contact} · ${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'}</span></div></div></td><td>${money(received)}<span class="subcell">${customer.jobs.length ? `of ${money(expected)} known expected` : 'No linked jobs'}</span></td><td>${statusLabel}</td><td>${unmatched ? `<span class="status unmatched">${money(unmatched)} unmatched</span>` : '—'}</td><td><button class="button button-small" data-action="view-customer" data-id="${escapeHtml(customer.key)}">View profile</button></td></tr>`;
         }).join('');
         return `<div class="welcome-row"><div><h2>Customers</h2><p>Create customer profiles and review their job and payment history.</p></div><button class="button button-primary" data-action="add-customer">＋ Add a customer</button></div>
-          <div class="notice"><span class="notice-icon">ⓘ</span><span>Open a customer profile to see each job, received amount, pending payment parts, and unmatched payments with that customer name.</span></div>
+          <div class="notice"><span class="notice-icon">ⓘ</span><span>Green dot means completed-job payments are settled. Breathing red means a payment is pending or needs matching. Grey means there is no completed job to check yet. Open a customer profile to see the payment details.</span></div>
           <div class="page-toolbar"><div class="toolbar-left"><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="customerSearch" value="${escapeHtml(customerSearch)}" placeholder="Search customer"></div></div><button class="button button-primary" data-action="add-customer">＋ Add a customer</button></div>
           <section class="panel"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Received</th><th>Known pending</th><th>Unmatched credits</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">♙</div><strong>${customerSearch ? 'No matching customers' : 'No customer profiles yet'}</strong><p>${customerSearch ? 'Try another name.' : 'Create a customer profile, add a job, or enter a named unmatched payment.'}</p>${!customerSearch ? '<button class="button button-small button-primary" data-action="add-customer">＋ Add a customer</button>' : ''}</div></td></tr>`}</tbody></table></div></section>`;
       }
@@ -640,22 +902,23 @@
         const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
         const manual = customer.jobs.flatMap(job => paymentsFor(job.id)).filter(payment => payment.component === 'commission').reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
         const jobCards = customer.jobs.map(job => {
-          const parts = KNOWN_COMPONENTS.filter(component => expectedFor(job, component) > 0 || receivedFor(job.id, component) > 0).map(component => {
+          const parts = jobIsComplete(job) ? KNOWN_COMPONENTS.filter(component => expectedFor(job, component) > 0 || receivedFor(job.id, component) > 0).map(component => {
             const partExpected = expectedFor(job, component);
             const partReceived = receivedFor(job.id, component);
             const partPending = Math.max(partExpected - partReceived, 0);
             const state = partExpected === 0 ? 'Received' : partPending ? `${money(partPending)} pending` : 'Settled';
             return `<div class="customer-breakdown-item"><div class="customer-breakdown-label">${COMPONENT_LABELS[component]}</div><span class="status ${partPending ? 'pending' : 'paid'}">${state}</span><div class="customer-breakdown-meta">Received ${money(partReceived)} · Expected ${money(partExpected)}</div></div>`;
-          }).join('');
+          }).join('') : '';
           const extraExpected = expectedFor(job, 'extraMile');
           const extraReceived = receivedFor(job.id, 'extraMile');
           const extraPending = Math.max(extraExpected - extraReceived, 0);
-          const extraPart = job.type !== 'referral' && job.locality === 'nonLocal' ? `<div class="customer-breakdown-item"><div class="customer-breakdown-label">Extra-mile incentive</div><span class="status ${extraExpected > extraReceived || extraReceived <= 0 ? 'pending' : 'paid'}">${extraExpected > 0 ? extraPending ? `${money(extraPending)} pending` : 'Settled' : extraReceived > 0 ? 'Received' : 'Payment pending'}</span><div class="customer-breakdown-meta">Received ${money(extraReceived)} · ${extraExpected > 0 ? `Expected ${money(extraExpected)}` : 'Expected amount not set'}</div></div>` : '';
+          const extraPart = jobIsComplete(job) && job.type !== 'referral' && job.locality === 'nonLocal' ? `<div class="customer-breakdown-item"><div class="customer-breakdown-label">Extra-mile incentive</div><span class="status ${extraExpected > extraReceived || extraReceived <= 0 ? 'pending' : 'paid'}">${extraExpected > 0 ? extraPending ? `${money(extraPending)} pending` : 'Settled' : extraReceived > 0 ? 'Received' : 'Payment pending'}</span><div class="customer-breakdown-meta">Received ${money(extraReceived)} · ${extraExpected > 0 ? `Expected ${money(extraExpected)}` : 'Expected amount not set'}</div></div>` : '';
           const history = paymentsFor(job.id).sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(payment => `<div class="customer-history-row"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)}</span><strong>+${money(payment.amount)}</strong></div>`).join('');
           const pendingParts = pendingPartsFor(job);
           const referralAmountMissing = job.type === 'referral' && expectedFor(job, 'referral') <= 0;
           const commission = receivedFor(job.id, 'commission');
-          return `<article class="customer-job-card"><div class="customer-job-head"><div><div class="customer-job-title">${escapeHtml(job.model || 'Purifier')} · ${job.type === 'referral' ? 'Referral job' : `${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`}</div><div class="customer-job-meta">Completed ${dateText(job.date)} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</div></div><div class="row-actions"><button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit job</button><button class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></div><div class="customer-breakdown">${parts}${extraPart}</div><div class="customer-job-meta">${referralAmountMissing ? 'Referral amount not set' : pendingParts.length ? `Pending parts: ${escapeHtml(pendingParts.join(', '))}` : 'All payment parts are settled'} · UC commission received: ${money(commission)}</div><div class="customer-history"><strong class="customer-breakdown-label">Payments received</strong>${history || '<span class="customer-job-meta">No payments recorded for this job yet.</span>'}</div></article>`;
+        const progressSummary = jobIsComplete(job) ? `${referralAmountMissing ? 'Referral payout not set' : pendingParts.length ? `Pending parts: ${escapeHtml(pendingParts.join(', '))}` : 'All payment parts are settled'} · UC commission received: ${money(commission)}` : `Status: ${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}. Payment tracking starts when the job is complete.`;
+          return `<article class="customer-job-card"><div class="customer-job-head"><div><div class="customer-job-title">${escapeHtml(job.model || 'Purifier')} · ${job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`}</div><div class="customer-job-meta">${jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}`} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</div></div><div class="row-actions"><button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit job</button><button class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></div>${jobIsComplete(job) ? `<div class="customer-breakdown">${parts}${extraPart}</div>` : ''}<div class="customer-job-meta">${progressSummary}</div><div class="customer-history"><strong class="customer-breakdown-label">Payments received</strong>${history || '<span class="customer-job-meta">No payments recorded for this job yet.</span>'}</div></article>`;
         }).join('');
         const unmatchedRows = customer.unmatchedPayments.map(payment => `<div class="customer-history-row"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)} <span class="status unmatched">Unmatched</span></span><span><strong>+${money(payment.amount)}</strong> <button class="button button-small" data-action="edit-payment" data-id="${escapeHtml(payment.id)}">Edit / match</button></span></div>`).join('');
         const noJobsTitle = customer.unmatchedPayments.length ? 'No job linked yet' : 'No jobs yet';
@@ -668,7 +931,7 @@
           ${unmatchedRows ? `<section class="panel" style="margin-top:14px"><div class="panel-head"><div><h3 class="panel-title">Unmatched credits</h3><div class="panel-subtitle">These payments have this customer name but are not linked to a job.</div></div></div><div class="panel-body">${unmatchedRows}</div></section>` : ''}`;
       }
       function renderPayments() {
-        const filtered = [...data.payments].sort((a, b) => (b.date || '').localeCompare(a.date || '')).filter(item => {
+        const filtered = [...data.payments].sort((a, b) => (b.date || '').localeCompare(a.date || '')).filter(item => !paymentFocusId || item.id === paymentFocusId).filter(item => {
           const job = getJob(item.jobId);
           return `${job ? job.customer : item.customerName || ''} ${COMPONENT_LABELS[item.component] || ''} ${item.amount}`.toLowerCase().includes(paymentSearch.toLowerCase());
         });
@@ -686,27 +949,53 @@
             return `<div class="batch-section-label">${section}</div><div class="table-wrap"><table class="batch-table"><thead><tr><th>Customer / job</th><th>Payment part</th><th>Received date</th><th>Amount</th><th></th></tr></thead><tbody>${sectionItems.map(item => {
               const job = getJob(item.jobId);
               const customer = job ? job.customer : item.customerName || 'Unmatched payment';
-              return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer)}</div><div><strong>${escapeHtml(customer)}</strong><span class="subcell">${job ? `${dateText(job.date)} · ${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}` : '<span class="status unmatched">Unmatched</span>'}</span></div></div></td><td>${COMPONENT_LABELS[item.component] || 'Payment'}</td><td>${dateText(item.date)}</td><td><strong>${money(item.amount)}</strong></td><td><div class="row-actions"><button class="button button-small" data-action="edit-payment" data-id="${escapeHtml(item.id)}">${job ? 'Edit' : 'Match / edit'}</button>${job ? `<button class="button button-small" data-action="unmatch-payment" data-id="${escapeHtml(item.id)}">Unmatch</button>` : ''}<button class="button button-small button-danger" data-action="delete-payment" data-id="${escapeHtml(item.id)}">Delete</button></div></td></tr>`;
+              return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer)}</div><div><strong>${escapeHtml(customer)}</strong><span class="subcell">${job ? `${jobIsComplete(job) ? dateText(job.date) : `Due ${dateText(job.dueDate)}`} · ${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}` : '<span class="status unmatched">Unmatched</span>'}</span></div></div></td><td>${COMPONENT_LABELS[item.component] || 'Payment'}</td><td>${dateText(item.date)}</td><td><strong>${money(item.amount)}</strong></td><td><div class="row-actions"><button class="button button-small" data-action="edit-payment" data-id="${escapeHtml(item.id)}">${job ? 'Edit' : 'Match / edit'}</button>${job ? `<button class="button button-small" data-action="unmatch-payment" data-id="${escapeHtml(item.id)}">Unmatch</button>` : ''}<button class="button button-small button-danger" data-action="delete-payment" data-id="${escapeHtml(item.id)}">Delete</button></div></td></tr>`;
             }).join('')}</tbody></table></div>`;
           }).join('');
           return `<section class="panel batch-block"><div class="batch-head"><div><div class="batch-title">${escapeHtml(label)}</div><div class="batch-meta">${items.length} ${items.length === 1 ? 'payment entry' : 'payment entries'}</div></div><div class="batch-sum">${money(total)}</div></div>${sections}</section>`;
         }).join('');
+        const focusedPayment = data.payments.find(item => item.id === paymentFocusId);
+        const focusedJob = focusedPayment ? getJob(focusedPayment.jobId) : null;
+        const focusNotice = paymentFocusId ? `<div class="notice"><span class="notice-icon">⌕</span><span>Showing the selected payment${focusedPayment ? `: ${escapeHtml(focusedJob?.customer || focusedPayment.customerName || 'Unmatched payment')} · ${escapeHtml(COMPONENT_LABELS[focusedPayment.component] || 'Payment')} · ${money(focusedPayment.amount)}` : ''}.</span><button type="button" class="button button-small" data-action="clear-payment-focus">Show all payments</button></div>` : '';
         return `<div class="welcome-row"><div><h2>Payments</h2><p>Record each line from UC Money with its payment date and matched job.</p></div><button class="button button-primary" data-action="add-payment">＋ Add a payment</button></div>
+          ${focusNotice}
           <div class="notice"><span class="notice-icon">ⓘ</span><span>Use Edit to correct a payment or its job match, Unmatch to keep it for later, or Delete to remove it from Hisaab Kitab.</span></div>
           <div class="page-toolbar"><div class="toolbar-left"><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="paymentSearch" value="${escapeHtml(paymentSearch)}" placeholder="Search customer, date or payment"></div></div><button class="button button-primary" data-action="add-payment">＋ Add a payment</button></div>
           ${batchHtml || `<section class="panel"><div class="empty-state"><div class="empty-icon">↔</div><strong>${paymentSearch ? 'No matching payments' : 'No payments recorded yet'}</strong><p>${paymentSearch ? 'Try another search.' : 'When a credit appears in the UC Money section, add it here and match it to a job.'}</p>${!paymentSearch ? '<button class="button button-small button-primary" data-action="add-payment">＋ Add first payment</button>' : ''}</div></section>`}`;
       }
       function bindPageEvents() {
+        const overviewSearchInput = document.getElementById('overviewSearch');
+        if (overviewSearchInput) overviewSearchInput.addEventListener('input', event => { overviewSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('overviewSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        const overviewRangeInput = document.getElementById('overviewDateRange');
+        if (overviewRangeInput) overviewRangeInput.addEventListener('change', event => { overviewDateRange = event.target.value; render(); });
         const jobSearchInput = document.getElementById('jobSearch');
-        if (jobSearchInput) jobSearchInput.addEventListener('input', event => { jobSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('jobSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        if (jobSearchInput) jobSearchInput.addEventListener('input', event => { jobSearch = event.target.value; jobFocusId = ''; const cursor = event.target.selectionStart; render(); const again = document.getElementById('jobSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        document.querySelectorAll('[data-schedule-status]').forEach(button => button.addEventListener('click', () => { scheduleStatusFilter = button.dataset.scheduleStatus; render(); }));
+        const scheduleSearchInput = document.getElementById('scheduleSearch');
+        if (scheduleSearchInput) scheduleSearchInput.addEventListener('input', event => { scheduleSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('scheduleSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        document.querySelectorAll('[data-job-stage]').forEach(select => select.addEventListener('change', () => setJobWorkflowStatus(select.dataset.jobStage, select.value)));
+        document.querySelectorAll('[data-complete-job]').forEach(slider => slider.addEventListener('input', () => { if (Number(slider.value) >= 95) markJobComplete(slider.dataset.completeJob); }));
+        const jobTypeFilterInput = document.getElementById('jobTypeFilter');
+        if (jobTypeFilterInput) jobTypeFilterInput.addEventListener('change', event => { jobTypeFilter = event.target.value; jobFocusId = ''; render(); });
+        const jobRangeFilterInput = document.getElementById('jobRangeFilter');
+        if (jobRangeFilterInput) jobRangeFilterInput.addEventListener('change', event => { jobRangeFilter = event.target.value; jobFocusId = ''; render(); });
+        const jobDateFromInput = document.getElementById('jobDateFrom');
+        if (jobDateFromInput) jobDateFromInput.addEventListener('change', event => { jobDateFrom = event.target.value; jobFocusId = ''; render(); });
+        const jobDateToInput = document.getElementById('jobDateTo');
+        if (jobDateToInput) jobDateToInput.addEventListener('change', event => { jobDateTo = event.target.value; jobFocusId = ''; render(); });
         const customerSearchInput = document.getElementById('customerSearch');
         if (customerSearchInput) customerSearchInput.addEventListener('input', event => { customerSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('customerSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
         const paymentSearchInput = document.getElementById('paymentSearch');
-        if (paymentSearchInput) paymentSearchInput.addEventListener('input', event => { paymentSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('paymentSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        if (paymentSearchInput) paymentSearchInput.addEventListener('input', event => { paymentSearch = event.target.value; paymentFocusId = ''; const cursor = event.target.selectionStart; render(); const again = document.getElementById('paymentSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
         document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => {
           button.closest('.customer-menu')?.removeAttribute('open');
           const action = button.dataset.action;
           if (action === 'add-job') openJobDialog();
+          if (action === 'show-all-jobs' || action === 'clear-job-focus') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'all'; jobDateFrom = ''; jobDateTo = ''; render(); }
+          if (action === 'clear-payment-focus') { paymentFocusId = ''; paymentSearch = ''; render(); }
+          if (action === 'focus-job') { jobFocusId = button.dataset.id; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'all'; jobDateFrom = ''; jobDateTo = ''; setPage('jobs'); }
+          if (action === 'focus-payment') { paymentFocusId = button.dataset.id; paymentSearch = ''; setPage('payments'); }
+          if (action === 'scroll-attention') document.getElementById('overviewAttention')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           if (action === 'add-customer') openCustomerDialog();
           if (action === 'edit-job') openJobDialog(button.dataset.id);
           if (action === 'delete-job') deleteJob(button.dataset.id);
@@ -716,7 +1005,8 @@
           if (action === 'edit-customer-profile') openCustomerEditDialog(button.dataset.id);
           if (action === 'delete-customer-profile') deleteCustomerProfile(button.dataset.id);
           if (action === 'add-payment') openPaymentDialog();
-          if (action === 'go-payments') setPage('payments');
+          if (action === 'go-payments') { paymentFocusId = ''; paymentSearch = ''; setPage('payments'); }
+          if (action === 'go-jobs') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'all'; jobDateFrom = ''; jobDateTo = ''; setPage('jobs'); }
           if (action === 'edit-payment') openPaymentDialog(button.dataset.id);
           if (action === 'unmatch-payment') unmatchPayment(button.dataset.id);
           if (action === 'delete-payment') deletePayment(button.dataset.id);
@@ -731,8 +1021,11 @@
         document.getElementById('customerName').value = job?.customer || defaultCustomer;
         const profile = customerGroups().find(item => item.key === customerKey(job?.customer || defaultCustomer));
         document.getElementById('customerPhone').value = job?.phone || profile?.phone || defaultPhone;
-        document.getElementById('jobDate').value = job?.date || localISO();
+        document.getElementById('jobDate').value = job?.date || '';
+        document.getElementById('jobDueDate').value = job?.dueDate || (job && job.date ? job.date : localISO());
+        document.getElementById('jobWorkflowStatus').value = job ? workStatusFor(job) : 'upcoming';
         document.getElementById('purifierModel').value = job?.model || 'M1';
+        document.getElementById('jobCategory').value = job?.category || '';
         document.getElementById('onTimeExpected').checked = job ? Boolean(job.onTimeExpected) : true;
         document.getElementById('ratingExpected').checked = Boolean(job?.ratingExpected);
         document.getElementById('referralExpected').value = job?.referralExpected || '';
@@ -740,25 +1033,54 @@
         document.getElementById('jobLocality').value = job?.locality || 'local';
         document.getElementById('extraMileExpected').value = job?.extraMileExpected || '';
         updateJobTypeFields();
+        updateJobWorkflowFields();
         document.getElementById('jobDialog').showModal();
+      }
+      function updateJobWorkflowFields() {
+        const completed = document.getElementById('jobWorkflowStatus').value === 'completed';
+        document.getElementById('completedDateField').hidden = !completed;
+        document.getElementById('jobDate').required = completed;
+        document.getElementById('jobDueDateField').hidden = completed;
+        document.getElementById('jobDueDate').required = !completed;
       }
       function updateJobTypeFields() {
         const referralJob = document.getElementById('jobType').value === 'referral';
         document.getElementById('regularJobFields').hidden = referralJob;
-        document.getElementById('referralExpectedLabel').textContent = referralJob ? 'Referral job amount expected (₹)' : 'Referral reward expected (₹)';
+        document.getElementById('jobCategoryField').hidden = referralJob;
+        document.getElementById('jobCategory').required = !referralJob;
+        document.getElementById('jobCategory').disabled = referralJob;
+        updateJobWorkflowFields();
+        document.getElementById('referralExpectedLabel').textContent = referralJob ? 'Referral job payout expected (₹)' : 'Referral bonus expected (₹)';
+        document.getElementById('referralExpectedField').hidden = !referralJob && Number(document.getElementById('referralExpected').value || 0) <= 0;
         document.getElementById('referralExpected').required = referralJob;
         document.getElementById('referralExpected').min = referralJob ? '1' : '0';
         document.getElementById('localityFields').hidden = referralJob;
         updateJobLocalityFields();
         document.getElementById('jobTypeHint').textContent = referralJob
           ? 'Referral jobs include only the amount entered above. No ₹354 net job value, on-time incentive, or 5-star reward is expected.'
-          : 'Regular jobs include the ₹354 net job value. Choose Local or Non-local. Non-local jobs stay pending until an extra-mile payment is recorded.';
+          : 'Regular jobs include the ₹354 net job value after completion. Choose Local or Non-local. Non-local jobs stay pending until an extra-mile payment is recorded.';
       }
       function updateJobLocalityFields() {
         const referralJob = document.getElementById('jobType').value === 'referral';
         const nonLocal = document.getElementById('jobLocality').value === 'nonLocal';
         document.getElementById('extraMileExpectedField').hidden = referralJob || !nonLocal;
         if (!nonLocal || referralJob) document.getElementById('extraMileExpected').value = '';
+      }
+      function setJobWorkflowStatus(jobId, status) {
+        const job = getJob(jobId);
+        if (!job || !['upcoming', 'pending', 'followup'].includes(status)) return;
+        job.workStatus = status;
+        scheduleStatusFilter = status;
+        saveData(); render();
+      }
+      function markJobComplete(jobId) {
+        const job = getJob(jobId);
+        if (!job || jobIsComplete(job)) return;
+        job.workStatus = 'completed';
+        job.date = localISO();
+        if (job.dueDate) job.onTimeExpected = job.date <= job.dueDate;
+        scheduleStatusFilter = 'completed';
+        saveData(); render(); showToast('Job marked as ended');
       }
       function openCustomerDialog() {
         document.getElementById('customerForm').reset();
@@ -790,8 +1112,8 @@
       }
       function populateJobSelect(selectedId = '') {
         const select = document.getElementById('paymentJob');
-        const sorted = [...data.jobs].sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-        select.innerHTML = `<option value="">Choose a job / match later</option>` + sorted.map(job => `<option value="${escapeHtml(job.id)}">${escapeHtml(job.customer)} · ${escapeHtml(jobStatusFor(job))} · ${dateText(job.date, { day: 'numeric', month: 'short' })} · ${escapeHtml(job.model || 'Purifier')} · #${escapeHtml(job.id.slice(0, 5).toUpperCase())}</option>`).join('');
+        const sorted = [...data.jobs].sort((a, b) => (b.date || b.dueDate || '').localeCompare(a.date || a.dueDate || ''));
+        select.innerHTML = `<option value="">Choose a job / match later</option>` + sorted.map(job => `<option value="${escapeHtml(job.id)}">${escapeHtml(job.customer)} · ${escapeHtml(jobStatusFor(job))} · ${dateText(job.date || job.dueDate, { day: 'numeric', month: 'short' })} · ${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.type === 'referral' ? 'Referral' : jobCategoryLabel(job))} · #${escapeHtml(job.id.slice(0, 5).toUpperCase())}</option>`).join('');
         select.value = selectedId || '';
       }
       function refreshPaymentOptionStyles() {
@@ -807,20 +1129,34 @@
         const referralExpected = job ? expectedFor(job, 'referral') : 0;
         document.getElementById('referralPartHint').textContent = referralExpected > 0 ? `₹${referralExpected} expected` : 'Enter amount below if received';
         const nonLocalJob = job?.type !== 'referral' && job?.locality === 'nonLocal';
+        document.getElementById('referralPaymentOption').hidden = Boolean(job && !referralJob && referralExpected <= 0);
         document.getElementById('manualVariableCredits').hidden = referralJob;
         document.getElementById('extraMilePaymentField').hidden = Boolean(job && !nonLocalJob);
+        document.getElementById('commissionPaymentField').hidden = referralJob;
+        const goodwillSelected = document.querySelector('[data-payment-part="goodwill"]').checked;
+        const goodwillAllowed = !job || jobIsComplete(job);
+        const goodwillInput = document.querySelector('[data-payment-part="goodwill"]');
+        goodwillInput.disabled = !goodwillAllowed;
+        goodwillInput.closest('.payment-option').querySelector('[data-amount-label]').textContent = goodwillAllowed ? 'Optional · enter amount' : 'Available after job completion';
+        document.getElementById('goodwillAmountField').hidden = !goodwillSelected || !goodwillAllowed;
+        document.getElementById('goodwillAmount').required = goodwillSelected && goodwillAllowed;
         document.querySelector('.manual-entry-grid').style.gridTemplateColumns = job && !nonLocalJob ? '1fr' : '';
-        document.getElementById('referralAmountLabel').textContent = referralJob ? 'Referral job amount received (₹, if different)' : 'Referral reward (if amount differs)';
+        document.getElementById('referralAmountLabel').textContent = referralJob ? 'Referral job payout received (₹, if amount differs)' : 'Referral bonus received (if amount differs)';
         document.querySelectorAll('#editPaymentComponent option').forEach(option => {
-          option.disabled = Boolean((referralJob && option.value !== 'referral') || (job && option.value === 'extraMile' && !nonLocalJob));
+          option.disabled = Boolean((referralJob && !['referral', 'goodwill'].includes(option.value)) || (job && option.value === 'extraMile' && !nonLocalJob) || (job && option.value === 'goodwill' && !jobIsComplete(job)));
         });
         const nominal = { jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE };
         document.querySelectorAll('[data-payment-part]').forEach(input => {
           const component = input.dataset.paymentPart;
           const received = job ? receivedForExcluding(job.id, component, editingId) : 0;
           const limit = component === 'referral' ? referralExpected : (job ? expectedFor(job, component) : nominal[component]);
-          input.disabled = Boolean(job && (component === 'referral' ? limit > 0 && received >= limit : limit <= 0 || received >= limit));
           const amountLabel = input.closest('.payment-option').querySelector('[data-amount-label]');
+          if (component === 'goodwill') {
+            input.disabled = !goodwillAllowed;
+            amountLabel.textContent = goodwillAllowed ? 'Optional · enter amount' : 'Available after job completion';
+            return;
+          }
+          input.disabled = Boolean(job && (component === 'referral' ? limit > 0 && received >= limit : limit <= 0 || received >= limit));
           if (component === 'referral') {
             amountLabel.textContent = referralExpected > 0 && received < referralExpected ? `${money(referralExpected - received)} pending` : referralExpected > 0 ? 'Already received' : 'Manual amount';
           } else if (job && limit <= 0) {
@@ -832,7 +1168,7 @@
           }
         });
         document.getElementById('jobStatusHint').textContent = job ? `Status: ${jobStatusFor(job)}. Non-local jobs remain pending until an extra-mile payment is recorded.` : 'The status beside each customer shows what is still pending.';
-        document.getElementById('paymentHint').textContent = referralJob ? 'Referral job: only the entered referral reward is expected. Net job value, fixed incentives, extra-mile, and commission are not due.' : job?.locality === 'nonLocal' ? 'Select every payment part received. Enter the extra-mile amount manually; this job stays pending until an extra-mile payment is recorded.' : job ? 'Select every payment part received. Local jobs have no extra-mile amount. Add UC commission manually if received.' : 'For an unmatched payment, enter extra-mile or commission manually if received.';
+        document.getElementById('paymentHint').textContent = referralJob ? 'Referral jobs track only the agreed payout. Goodwill is optional and can be recorded separately if the customer gives an amount.' : job?.locality === 'nonLocal' ? 'Select every payment part received. Enter the extra-mile amount manually; Goodwill is optional.' : job ? 'Select every payment part received. Local jobs have no extra-mile amount. Add UC commission or optional Goodwill if received.' : 'For an unmatched payment, enter the received parts. Goodwill is optional and needs an amount when selected.';
         refreshPaymentOptionStyles();
       }
       function selectKnownPendingParts() {
@@ -854,6 +1190,8 @@
         document.querySelectorAll('[data-payment-part]').forEach(input => { input.checked = false; });
         document.getElementById('extraMileAmount').value = '';
         document.getElementById('commissionAmount').value = '';
+        document.getElementById('goodwillAmount').value = '';
+        document.querySelector('[data-payment-part="goodwill"]').checked = false;
         document.getElementById('referralAmount').value = '';
         updatePaymentPartsHint();
       }
@@ -960,7 +1298,11 @@
         }
       }
 
-      document.querySelectorAll('.nav-item[data-page]').forEach(button => button.addEventListener('click', () => setPage(button.dataset.page)));
+      document.querySelectorAll('.nav-item[data-page]').forEach(button => button.addEventListener('click', () => {
+        if (button.dataset.page === 'jobs') jobFocusId = '';
+        if (button.dataset.page === 'payments') paymentFocusId = '';
+        setPage(button.dataset.page);
+      }));
       document.getElementById('topAddButton').addEventListener('click', () => {
         if (currentPage === 'payments') openPaymentDialog();
         else if (currentPage === 'customers' && !selectedCustomerKey) openCustomerDialog();
@@ -983,10 +1325,14 @@
         const jobId = document.getElementById('jobId').value;
         const oldJob = getJob(jobId);
         const type = document.getElementById('jobType').value;
+        const workStatus = document.getElementById('jobWorkflowStatus').value;
         const job = {
           id: jobId || id(), customer: document.getElementById('customerName').value.trim(),
           phone: document.getElementById('customerPhone').value.trim(),
-          date: document.getElementById('jobDate').value, model: document.getElementById('purifierModel').value.trim() || 'Purifier',
+          date: workStatus === 'completed' ? document.getElementById('jobDate').value : '',
+          dueDate: workStatus === 'completed' ? (oldJob?.dueDate || '') : document.getElementById('jobDueDate').value,
+          workStatus, model: document.getElementById('purifierModel').value.trim() || 'Purifier',
+          category: type === 'referral' ? '' : document.getElementById('jobCategory').value,
           onTimeExpected: type === 'referral' ? false : document.getElementById('onTimeExpected').checked,
           ratingExpected: type === 'referral' ? false : document.getElementById('ratingExpected').checked,
           referralExpected: Number(document.getElementById('referralExpected').value || 0),
@@ -996,10 +1342,15 @@
         };
         if (oldJob) data.jobs = data.jobs.map(item => item.id === jobId ? job : item); else data.jobs.push(job);
         upsertCustomerProfile(job.customer, job.phone);
-        saveData(); document.getElementById('jobDialog').close(); render(); showToast(oldJob ? 'Job updated' : 'Job added');
+        saveData(); document.getElementById('jobDialog').close();
+        if (currentPage === 'schedule') { scheduleStatusFilter = workStatus; render(); }
+        else if (currentPage !== 'customers' && workStatus !== 'completed') { scheduleStatusFilter = workStatus; setPage('schedule'); }
+        else render();
+        showToast(oldJob ? 'Job updated' : 'Job added');
       });
       document.getElementById('jobType').addEventListener('change', updateJobTypeFields);
       document.getElementById('jobLocality').addEventListener('change', updateJobLocalityFields);
+      document.getElementById('jobWorkflowStatus').addEventListener('change', updateJobWorkflowFields);
       document.getElementById('customerForm').addEventListener('submit', event => {
         event.preventDefault();
         const name = document.getElementById('newCustomerName').value.trim();
@@ -1063,7 +1414,8 @@
           const job = getJob(document.getElementById('paymentJob').value);
           if (job && expectedFor(job, 'referral') > 0) document.getElementById('referralAmount').value = Math.max(expectedFor(job, 'referral') - receivedForExcluding(job.id, 'referral', document.getElementById('paymentDialog').dataset.editingId || ''), 0);
         }
-        refreshPaymentOptionStyles();
+        if (input.dataset.paymentPart === 'goodwill') updatePaymentPartsHint();
+        else refreshPaymentOptionStyles();
       }));
       document.getElementById('selectPendingParts').addEventListener('click', selectKnownPendingParts);
       document.getElementById('clearPaymentParts').addEventListener('click', clearPaymentParts);
@@ -1080,7 +1432,8 @@
           const component = document.getElementById('editPaymentComponent').value;
           const amount = Number(document.getElementById('editPaymentAmount').value || 0);
           if (amount <= 0) { showToast('Enter an amount greater than zero'); return; }
-          if (job?.type === 'referral' && component !== 'referral') { showToast('Referral jobs can only have a referral reward payment'); return; }
+          if (job?.type === 'referral' && !['referral', 'goodwill'].includes(component)) { showToast('Referral jobs can only have a referral payout or Goodwill payment'); return; }
+          if (job && component === 'goodwill' && !jobIsComplete(job)) { showToast('Goodwill can be recorded after the job is complete'); return; }
           if (job && component === 'extraMile' && (job.type === 'referral' || job.locality !== 'nonLocal')) { showToast('Extra-mile can only be recorded for non-local jobs'); return; }
           if (jobId && ['jobValue', 'onTime', 'rating'].includes(component) && data.payments.some(item => item.id !== editingId && item.jobId === jobId && item.component === component)) {
             showToast(`This job already has a ${COMPONENT_LABELS[component]} entry`); return;
@@ -1103,6 +1456,12 @@
         if (document.querySelector('[data-payment-part="referral"]').checked) {
           const referralAmount = Number(document.getElementById('referralAmount').value || (job ? Math.max(expectedFor(job, 'referral') - receivedForExcluding(job.id, 'referral', editingId), 0) : 0));
           if (referralAmount > 0) amountEntries.push({ component: 'referral', amount: referralAmount });
+        }
+        if (document.querySelector('[data-payment-part="goodwill"]').checked) {
+          if (job && !jobIsComplete(job)) { showToast('Goodwill can be recorded after the job is complete'); return; }
+          const goodwillAmount = Number(document.getElementById('goodwillAmount').value || 0);
+          if (goodwillAmount <= 0) { showToast('Enter the Goodwill amount received'); return; }
+          amountEntries.push({ component: 'goodwill', amount: goodwillAmount });
         }
         const extraMileAllowed = !job || (job.type !== 'referral' && job.locality === 'nonLocal');
         const extraMileAmount = extraMileAllowed ? Number(document.getElementById('extraMileAmount').value || 0) : 0;

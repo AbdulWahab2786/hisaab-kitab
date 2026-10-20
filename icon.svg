@@ -1,6 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="112" fill="#1d684e"/>
-  <path fill="#fff" d="M145 118h58v112h106V118h58v276h-58V283H203v111h-58z"/>
-  <circle cx="380" cy="380" r="42" fill="#d7f36a"/>
-  <path fill="#174c3b" d="M373 359h14v42h-14zm-13 14h40v14h-40z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Hisaab Kitab logo">
+  <defs>
+    <linearGradient id="navy" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0A2542"/><stop offset="1" stop-color="#142D4E"/></linearGradient>
+    <linearGradient id="greenA" x1=".15" y1="0" x2=".85" y2="1"><stop stop-color="#22D69B"/><stop offset="1" stop-color="#00A879"/></linearGradient>
+    <linearGradient id="greenB" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#17C99A"/><stop offset="1" stop-color="#087F70"/></linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FFD878"/><stop offset="1" stop-color="#F2A92B"/></linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="8"/><feOffset dy="7"/><feComponentTransfer><feFuncA type="linear" slope=".22"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#navy)"/>
+  <g filter="url(#shadow)" stroke-linejoin="round">
+    <path d="M112 204c0-27 13-49 35-63L274 65c14-9 32 1 32 18v101c0 27-12 48-34 63L131 332c-11 7-19 1-19-12z" fill="url(#greenA)"/>
+    <path d="M114 286c-7 22 2 42 20 54l101 66V307l-103-58z" fill="#078F79"/>
+    <path d="M325 132l72 42c20 12 31 29 31 49 0 22-12 40-31 54l-72 51z" fill="url(#greenB)"/>
+    <path d="M325 287c-26 15-53 31-79 47-22 14-35 35-35 58v43c0 16 13 23 27 15l163-95c19-11 28-29 28-49v-61z" fill="url(#greenA)"/>
+    <path d="M211 239c0-11 5-19 14-25l63-40c9-6 18 0 18 10v67c0 11-5 19-14 25l-63 40c-9 6-18 0-18-10z" fill="url(#gold)"/>
+    <path d="M177 266l41-26v74l-41 26c-18 11-38 6-52-7z" fill="#03574C" opacity=".82"/>
+    <path d="M306 184l49 28c12 7 17 17 17 29 0 13-7 24-19 31l-28 18v-92z" fill="#07594F" opacity=".7"/>
+  </g>
 </svg>
