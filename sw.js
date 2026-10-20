@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hisaab-kitab-shell-v2';
-const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
+const CACHE_NAME = 'hisaab-kitab-shell-v3';
+const APP_FILES = ['./', './index.html', './design-tokens.css', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));

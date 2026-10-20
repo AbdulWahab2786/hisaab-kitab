@@ -42,8 +42,6 @@
     .brand-mark { width: 42px; height: 42px; border-radius: 12px; background: white; display: block; object-fit: contain; box-shadow: 0 4px 12px rgba(20,45,78,.12); }
     .brand-name { font-size: 17px; font-weight: 750; letter-spacing: -.5px; }
     .brand-caption { font-size: 10px; color: var(--muted); margin-top: 2px; }
-    .mobile-brand { display: none; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; letter-spacing: -.3px; }
-    .mobile-brand .brand-mark { width: 32px; height: 32px; border-radius: 9px; }
     .nav-label { padding: 0 12px; margin: 3px 0 10px; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 1.15px; text-transform: uppercase; }
     .nav-list { display: grid; gap: 5px; }
     .nav-item { position: relative; border: 0; background: transparent; color: var(--muted); border-radius: 10px; min-height: 45px; width: 100%; text-align: left; display: flex; align-items: center; gap: 12px; padding: 0 12px; font-weight: 620; font-size: 13px; transition: background .15s ease, color .15s ease; }
@@ -62,6 +60,7 @@
     .main-area { min-width: 0; }
     .topbar { height: 76px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.82); display: flex; justify-content: space-between; align-items: center; padding: 0 clamp(20px, 4vw, 54px); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(10px); }
     .topbar-left { display: flex; align-items: center; gap: 13px; }
+    .topbar-logo { display: block; width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; object-fit: contain; }
     .eyebrow { color: var(--muted); font-size: 10px; letter-spacing: .85px; text-transform: uppercase; font-weight: 750; margin-bottom: 3px; }
     .page-heading { margin: 0; font-size: 19px; letter-spacing: -.5px; }
     .top-actions { display: flex; align-items: center; gap: 9px; }
@@ -91,6 +90,39 @@
     .stat-foot { font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
     .dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
     .overview-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
+    .home-screen { display: grid; gap: 16px; max-width: 920px; margin: 0 auto; }
+    .home-balance-card { padding: 22px 24px; border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 16px; background: var(--paper); box-shadow: 0 2px 8px rgba(20,45,78,.05); }
+    .home-balance-main { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px; }
+    .home-balance-amount { color: var(--ink); font-size: clamp(32px, 7vw, 46px) !important; font-weight: 800; letter-spacing: -1.5px; line-height: 1.12; overflow-wrap: anywhere; }
+    .home-balance-suffix { color: var(--amber); font-size: 20px !important; font-weight: 750; }
+    .home-balance-received { margin-top: 10px; color: var(--green-dark); font-weight: 700; }
+    .home-quick-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .home-quick-actions .button { min-height: 52px !important; }
+    .home-today { min-width: 0; }
+    .home-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 9px; }
+    .home-section-heading h2 { margin: 0; color: var(--ink); font-size: 20px; font-weight: 750; }
+    .home-task-list { overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .home-task-row { display: grid; width: 100%; min-width: 0; min-height: 68px !important; grid-template-columns: minmax(0, 1fr) 24px; align-items: center; gap: 10px; padding: 12px 14px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: inherit; text-align: left; cursor: pointer; }
+    .home-task-row:last-child { border-bottom: 0; }
+    .home-task-row:hover { background: var(--canvas); }
+    .home-task-copy { display: grid; min-width: 0; gap: 4px; }
+    .home-task-copy strong { color: var(--ink); overflow-wrap: anywhere; }
+    .home-task-copy span { color: var(--muted); line-height: 1.4; overflow-wrap: anywhere; }
+    .home-task-arrow { color: var(--green-dark); font-size: 24px !important; text-align: center; }
+    .home-task-empty { display: grid; gap: 8px; justify-items: start; padding: 18px; }
+    .home-task-empty p { margin: 0; color: var(--muted); line-height: 1.45; }
+    .home-details { overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .home-details > summary { display: flex; min-height: 56px; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px; color: var(--ink); font-weight: 750; cursor: pointer; }
+    .home-details[open] > summary { border-bottom: 1px solid var(--line); }
+    .home-details-chevron { color: var(--muted); transition: transform .15s ease; }
+    .home-details[open] .home-details-chevron { transform: rotate(180deg); }
+    .home-detail-list { display: grid; padding: 0 16px; }
+    .home-detail-row { display: flex; min-width: 0; min-height: 60px; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); }
+    .home-detail-row:last-child { border-bottom: 0; }
+    .home-detail-label { display: grid; min-width: 0; gap: 3px; }
+    .home-detail-label strong { color: var(--ink); }
+    .home-detail-label span { color: var(--muted); line-height: 1.35; }
+    .home-detail-value { flex: 0 0 auto; color: var(--ink); font-weight: 750; text-align: right; }
     .overview-secondary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
     .overview-secondary-card { min-width: 0; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.78); }
     .overview-secondary-label { color: var(--muted); font-size: 11px; line-height: 1.35; }
@@ -173,7 +205,7 @@
     .customer-menu-panel button { display: flex; width: 100%; justify-content: flex-start; border: 0; background: transparent; text-align: left; }
     .customer-menu-panel button:hover { background: var(--canvas); }
     .customer-menu-panel .button-danger { color: var(--red); }
-    .customer-profile-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; color: var(--muted); font-size: 11px; }
+    .customer-profile-meta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
     .status { display: inline-flex; align-items: center; gap: 5px; border-radius: 18px; padding: 5px 8px; font-size: 9px; font-weight: 700; }
     .status.pending { color: var(--amber); background: var(--amber-soft); }
     .status.paid { color: var(--green); background: var(--green-soft); }
@@ -189,26 +221,33 @@
     .row-actions { display: flex; justify-content: flex-end; align-items: center; gap: 5px; }
     .button-danger { color: var(--red); }
     [hidden] { display: none !important; }
-    .customer-profile-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .customer-profile-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .customer-profile-grid .stat-label { font-size: 14px; }
     .customer-job-list { display: grid; gap: 12px; }
     .customer-job-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 15px; }
     .customer-job-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-    .customer-job-title { font-size: 12px; font-weight: 750; }
-    .customer-job-meta { color: var(--muted); font-size: 10px; margin-top: 4px; }
+    .customer-job-title { font-size: 16px; font-weight: 750; }
+    .customer-job-meta { color: var(--muted); font-size: 14px; margin-top: 4px; }
     .customer-breakdown { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding-top: 12px; }
     .customer-breakdown-item { background: var(--canvas); border: 1px solid var(--line); border-radius: 9px; padding: 10px; }
-    .customer-breakdown-label { color: var(--muted); font-size: 10px; font-weight: 700; }
-    .customer-breakdown-meta { color: var(--muted); font-size: 9px; margin-top: 5px; }
+    .customer-breakdown-label { color: var(--muted); font-size: 14px; font-weight: 700; }
+    .customer-breakdown-meta { color: var(--muted); font-size: 14px; margin-top: 5px; }
+    .customer-job-card .status { font-size: 14px; }
+    .customer-job-card .button-small, .customer-profile-actions .button-small, .customer-profile-meta .button-small { min-height: 44px; font-size: 14px; }
     .customer-history { display: grid; gap: 8px; margin-top: 12px; }
-    .customer-history-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; font-size: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+    .customer-history-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; font-size: 14px; padding: 8px 0; border-top: 1px solid var(--line); }
+    .customer-history-row--button { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; width: 100%; min-height: 44px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; font: inherit; }
+    .customer-history-row--button:hover { background: var(--canvas); }
+    .customer-history-row--button:focus-visible { outline: 3px solid rgba(8,127,91,.28); outline-offset: 2px; border-radius: 6px; }
+    .customer-history-row .button-small { min-height: 44px; }
     .job-count-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 15px; }
     .job-section { margin-bottom: 15px; }
     .job-filter-panel { display: grid; grid-template-columns: minmax(150px, .8fr) minmax(150px, .8fr) minmax(220px, 1.5fr); align-items: end; gap: 10px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 11px; background: var(--canvas); }
     .job-filter-field { display: grid; gap: 5px; min-width: 0; }
-    .job-filter-field label { color: var(--muted); font-size: 10px; font-weight: 750; }
-    .job-filter-field select, .job-filter-field input { width: 100%; min-width: 0; }
+    .job-filter-field label { color: var(--muted); font-size: 14px; font-weight: 750; }
+    .job-filter-field select, .job-filter-field input { width: 100%; min-width: 0; min-height: 44px; font-size: 14px; }
     .job-custom-range { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-    .job-custom-range label { display: grid; gap: 4px; color: var(--muted); font-size: 10px; }
+    .job-custom-range label { display: grid; gap: 4px; color: var(--muted); font-size: 14px; }
     .job-results-summary { color: var(--muted); font-size: 10px; margin: 0 0 12px; }
     .schedule-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0 0 17px; border-bottom: 1px solid var(--line); }
     .schedule-tab { position: relative; display: flex; justify-content: center; align-items: center; gap: 6px; min-height: 43px; padding: 0 8px 9px; border: 0; background: transparent; color: var(--muted); font-size: 11px; font-weight: 650; white-space: nowrap; }
@@ -235,6 +274,105 @@
     .schedule-slide input:focus { box-shadow: none; }
     .schedule-slide-arrow { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 8px; background: var(--green); color: white; font-size: 16px; }
     .schedule-empty { margin-top: 14px; }
+    .jobs-page, .customers-page { display: grid; gap: 12px; min-width: 0; }
+    .jobs-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; }
+    .jobs-toolbar-actions { display: flex; min-width: 0; align-items: center; justify-content: flex-end; gap: 4px; }
+    .jobs-search, .customers-search { position: relative; min-width: 0; }
+    .jobs-search .input, .customers-search .input { width: 100%; min-width: 0; }
+    .customers-search .input { min-height: 44px; font-size: 14px; }
+    .jobs-toolbar .button { min-height: 44px; }
+    .jobs-filter-details { min-width: 0; border: 1px solid var(--line); border-radius: 11px; background: var(--paper); }
+    .jobs-filter-details > summary { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 8px; padding: 0 14px; color: var(--ink); font-weight: 700; cursor: pointer; list-style: none; }
+    .jobs-filter-details > summary, .jobs-filter-count { font-size: 14px; }
+    .jobs-filter-details > summary::-webkit-details-marker { display: none; }
+    .jobs-filter-details[open] > summary { border-bottom: 1px solid var(--line); }
+    .jobs-filter-details[open] > summary::after { content: '−'; }
+    .jobs-filter-details:not([open]) > summary::after { content: '+'; }
+    .jobs-filter-details .job-filter-panel { margin: 0; border: 0; background: transparent; }
+    .jobs-filter-count { margin-left: auto; color: var(--muted); font-weight: 500; }
+    .job-status-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: #EDF2F7; }
+    .job-status-tab { display: flex; min-width: 0; min-height: 56px !important; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 5px 3px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: var(--muted); font-weight: 650; line-height: 1.15; text-align: center; cursor: pointer; }
+    .job-status-tab[aria-pressed="true"] { border-color: var(--line); background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(20,45,78,.08); }
+    .job-status-tab-count { color: var(--muted); font-size: 14px !important; font-weight: 600; }
+    .job-list { display: grid; gap: 10px; min-width: 0; }
+    .job-list-day { display: grid; gap: 8px; }
+    .job-list-day-title { margin: 8px 0 0; color: var(--ink); font-size: 20px !important; font-weight: 750; }
+    .job-list-card { min-width: 0; padding: 4px 12px 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); box-shadow: 0 2px 8px rgba(20,45,78,.04); }
+    .job-list-row { display: grid; width: 100%; min-width: 0 !important; min-height: 74px !important; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 9px 0; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+    .job-list-row:hover .job-list-name { color: var(--green-dark); }
+    .job-list-main { display: grid; min-width: 0; gap: 4px; }
+    .job-list-name { color: var(--ink); font-size: 16px !important; font-weight: 750; line-height: 1.3; overflow-wrap: anywhere; }
+    .job-list-meta { color: var(--muted); font-size: 14px !important; line-height: 1.35; overflow-wrap: anywhere; }
+    .job-model-chip { justify-self: start; max-width: 100%; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--canvas); color: var(--ink); font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
+    .job-work-status { max-width: 118px; white-space: normal; text-align: center; }
+    .job-list-slide { max-width: 100%; margin-top: 2px; }
+    .job-list-slide input { min-height: 44px !important; height: 44px; touch-action: pan-x; }
+    .job-list-slide label { font-size: 14px !important; }
+    .jobs-empty { min-width: 0; padding: 20px 14px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .jobs-empty p, .customers-empty p { margin: 0 0 10px; color: var(--muted); line-height: 1.45; }
+    .customers-search { width: 100%; }
+    .customer-list { display: grid; overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .customer-list-row { display: flex; width: 100%; min-width: 0 !important; min-height: 76px !important; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 13px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
+    .customer-list-row:last-child { border-bottom: 0; }
+    .customer-list-row:hover { background: var(--canvas); }
+    .customer-list-main { display: grid; min-width: 0; gap: 4px; }
+    .customer-list-name { color: var(--ink); font-size: 16px !important; font-weight: 750; line-height: 1.3; overflow-wrap: anywhere; }
+    .customer-list-count { color: var(--muted); font-size: 14px !important; }
+    .customer-list-status { flex: 0 0 auto; max-width: 46%; white-space: normal; text-align: center; }
+    .customer-list-status.hk-status-chip { min-width: 0; white-space: normal !important; overflow-wrap: anywhere; }
+    .customers-empty { padding: 20px 14px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .job-detail-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 14px; }
+    .job-detail-metric { min-width: 0; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--canvas); }
+    .job-detail-metric span { display: block; color: var(--muted); line-height: 1.3; }
+    .job-detail-metric strong { display: block; margin-top: 5px; color: var(--ink); font-size: 16px !important; overflow-wrap: anywhere; }
+    .job-detail-section { margin-top: 16px; }
+    .job-detail-section h4 { margin: 0 0 8px; color: var(--ink); font-size: 16px !important; }
+    .job-detail-payment { display: flex; min-width: 0; min-height: 52px; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .job-detail-payment:last-child { border-bottom: 0; }
+    .job-detail-payment > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+    .job-detail-payment strong { flex: 0 0 auto; color: var(--ink); text-align: right; }
+    .job-detail-topline { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; color: var(--muted); }
+    .job-detail-sub { display: block; margin-top: 3px; color: var(--muted); line-height: 1.35; }
+    .job-detail-note { color: var(--muted); line-height: 1.45; }
+    .job-stage-label { color: var(--muted); font-weight: 650; }
+    .job-detail-id { margin-top: 18px; color: var(--muted); font-size: 14px !important; overflow-wrap: anywhere; }
+    .job-info-wrap { position: relative; }
+    .job-info-wrap .hk-info-tooltip__content { top: calc(100% + 4px); bottom: auto; }
+    .job-info-button { width: 44px; height: 44px; border: 0; border-radius: 50%; background: transparent; color: var(--muted); font-size: 20px !important; cursor: pointer; }
+    .job-info-button:hover { background: var(--green-soft); color: var(--green-dark); }
+    .customer-profile-contact { display: flex; align-items: center; gap: 8px; }
+    .payment-page { display: grid; gap: 14px; min-width: 0; }
+    .payment-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+    .payment-toolbar-actions { display: flex; align-items: center; gap: 4px; }
+    .payment-page .jobs-search .input { min-height: 44px; font-size: 14px; }
+    .payment-focus-note { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 8px; color: var(--muted); }
+    .payment-date-group { overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .payment-date-head { display: flex; min-width: 0; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 15px; border-bottom: 1px solid var(--line); background: #F8FAFC; }
+    .payment-date-title { color: var(--ink); font-weight: 750; }
+    .payment-date-total { color: var(--green-dark); font-weight: 750; white-space: nowrap; }
+    .list-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 0; }
+    .list-pagination .button { min-height: 44px; font-size: 14px; }
+    .list-pagination .button:disabled { cursor: not-allowed; opacity: .5; transform: none; }
+    .list-pagination span { color: var(--muted); font-size: 14px; text-align: center; }
+    .payment-list { display: grid; min-width: 0; }
+    .payment-list-row { display: grid; width: 100%; min-width: 0 !important; min-height: 72px !important; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 11px 14px; border: 0; border-bottom: 1px solid var(--line); background: var(--paper); color: var(--ink); text-align: left; cursor: pointer; }
+    .payment-list-row:last-child { border-bottom: 0; }
+    .payment-list-row:hover { background: var(--canvas); }
+    .payment-list-main { display: grid; min-width: 0; gap: 4px; }
+    .payment-list-row__title { overflow-wrap: anywhere; font-size: 16px !important; font-weight: 750; line-height: 1.3; }
+    .payment-list-row__subtitle { color: var(--muted); line-height: 1.4; overflow-wrap: anywhere; }
+    .payment-list-row__amount { color: var(--ink); font-size: 16px !important; font-weight: 750; text-align: right; white-space: nowrap; }
+    .payment-detail-grid { display: grid; gap: 0; margin: 0; }
+    .payment-detail-row { display: flex; min-width: 0; min-height: 52px; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
+    .payment-detail-row dt { color: var(--muted); }
+    .payment-detail-row dd { margin: 0; color: var(--ink); font-weight: 650; text-align: right; overflow-wrap: anywhere; }
+    .payment-detail-row--amount dd { font-size: 22px !important; font-weight: 800; }
+    .payment-detail-actions { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 8px; padding: 0 21px 20px; }
+    .payment-detail-actions .hk-button--destructive { grid-column: 1 / -1; justify-self: start; }
+    .payment-info-wrap { position: relative; }
+    .payment-info-wrap .hk-info-tooltip__content { top: calc(100% + 4px); bottom: auto; }
+    .payment-empty { padding: 20px 14px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .payment-empty p { margin: 0 0 10px; color: var(--muted); line-height: 1.45; }
     .notice { display: flex; gap: 10px; align-items: flex-start; background: var(--green-soft); color: #365B4A; border-radius: 9px; padding: 11px 12px; font-size: 11px; line-height: 1.5; margin-bottom: 15px; }
     .notice-icon { font-size: 14px; color: var(--green); }
     .mobile-nav { display: none; }
@@ -251,7 +389,8 @@
     .field label { color: var(--muted); font-size: 11px; font-weight: 700; }
     .field small { color: var(--muted); font-size: 10px; line-height: 1.45; }
     .field input, .field select { width: 100%; }
-    .check-field { min-height: 42px; display: flex; align-items: center; gap: 9px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 11px; color: var(--muted); }
+    .check-field { min-height: 48px; display: flex; align-items: center; gap: 9px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; color: var(--muted); cursor: pointer; }
+    .field-group-label { color: var(--muted); font-size: 14px; font-weight: 700; }
     .check-field input { min-height: auto; accent-color: var(--green); }
     .form-hint { background: var(--canvas); border-radius: 8px; padding: 10px 11px; color: var(--muted); font-size: 10px; line-height: 1.5; }
     .quick-pick { display: flex; gap: 8px; margin: 2px 0 9px; }
@@ -271,26 +410,61 @@
     .toast.show { opacity: 1; transform: translate(-50%, 0); }
     .money-muted { color: var(--muted); }
     .storage-warning { padding: 11px clamp(18px, 4vw, 54px); background: var(--gold-soft); color: #69470A; border-bottom: 1px solid var(--gold); font-size: 12px; line-height: 1.5; }
-    .backup-menu { position: relative; }
-    .backup-menu > summary { list-style: none; }
-    .backup-menu > summary::-webkit-details-marker { display: none; }
-    .backup-menu-panel { position: absolute; z-index: 20; top: calc(100% + 7px); right: 0; min-width: 180px; padding: 5px; border: 1px solid var(--line); border-radius: 10px; background: white; box-shadow: 0 12px 32px rgba(20,39,28,.14); }
-    .backup-menu-panel button { display: flex; width: 100%; justify-content: flex-start; border: 0; background: transparent; text-align: left; }
-    .backup-menu-panel button:hover { background: var(--canvas); }
+    .profile-menu { position: relative; }
+    .profile-menu > summary { list-style: none; }
+    .profile-menu > summary::-webkit-details-marker { display: none; }
+    .profile-trigger { display: flex; min-height: 44px; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--line); border-radius: 10px; background: white; color: var(--ink); font-weight: 650; cursor: pointer; }
+    .profile-avatar { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: var(--green-soft); color: var(--green-dark); font-size: 12px; font-weight: 800; }
+    .profile-menu-panel { position: absolute; z-index: 20; top: calc(100% + 8px); right: 0; display: grid; min-width: 220px; gap: 5px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: white; box-shadow: 0 8px 24px rgba(20,45,78,.12); }
+    .profile-menu-panel > button { width: 100%; justify-content: flex-start; }
+    .profile-menu-heading { display: grid; gap: 2px; padding: 8px 10px 10px; border-bottom: 1px solid var(--line); margin-bottom: 3px; }
+    .profile-menu-heading span { color: var(--muted); }
+    .backup-preview-body { display: grid; gap: 14px; max-height: min(48vh, 440px); }
+    #backupPreviewDialog .modal-head p { font-size: 14px; line-height: 1.4; }
+    #backupPreviewDialog .icon-button { width: 44px; height: 44px; }
+    .backup-preview-warning { border: 1px solid #E6C46B; border-radius: 10px; padding: 12px; background: var(--gold-soft); color: #69470A; font-size: 14px; line-height: 1.5; }
+    .backup-preview-meta { display: grid; gap: 5px; margin: 0; }
+    .backup-preview-meta div, .backup-preview-counts div { display: flex; min-width: 0; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .backup-preview-meta div:last-child, .backup-preview-counts div:last-child { border-bottom: 0; }
+    .backup-preview-meta dt, .backup-preview-counts dt { color: var(--muted); font-size: 14px; }
+    .backup-preview-meta dd, .backup-preview-counts dd { max-width: 62%; margin: 0; color: var(--ink); font-size: 14px; font-weight: 700; text-align: right; overflow-wrap: anywhere; }
+    .backup-preview-counts { margin: 0; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); }
+    .backup-preview-counts h4 { margin: 0 0 4px; font-size: 16px; }
+    .backup-preview-counts dl { margin: 0; }
+    .backup-preview-help { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .backup-preview-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 21px 20px; }
+    .backup-preview-actions .button { min-height: 46px; font-size: 14px; }
+    .backup-preview-actions .button:disabled { cursor: not-allowed; opacity: .55; }
+    .backup-preview-actions .backup-replace-button { grid-column: 1 / -1; }
+    .backup-replace-button { border-color: var(--red); background: var(--red); color: white; }
+    .backup-replace-button:hover { border-color: #8F1C13; background: #8F1C13; }
+    @media (max-width: 420px) {
+      .jobs-page .jobs-toolbar, .payment-page .payment-toolbar { grid-template-columns: minmax(0, 1fr); }
+      .jobs-page .jobs-toolbar-actions, .payment-page .payment-toolbar-actions { justify-content: space-between; }
+      .job-detail-summary { grid-template-columns: 1fr; }
+      .backup-preview-actions { grid-template-columns: 1fr; }
+      .backup-preview-actions .backup-replace-button { grid-column: auto; }
+    }
+    .quick-add-fab { display: none; }
+    .quick-add-options { display: grid; gap: 8px; }
+    .quick-add-option { width: 100%; justify-content: flex-start; min-height: 56px !important; border-radius: 12px; text-align: left; }
+    .quick-add-option > span:last-child { margin-left: auto; color: var(--muted); }
+    .quick-add-option-icon { display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; border-radius: 9px; background: var(--green-soft); color: var(--green-dark); font-weight: 800; }
     @media (max-width: 1000px) {
       .app-shell { grid-template-columns: 210px minmax(0, 1fr); }
       .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .dashboard-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 680px) {
-      .app-shell { display: block; padding-bottom: 67px; }
+      .app-shell { display: block; padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
       .sidebar { display: none; }
       .topbar { height: 62px; padding: 0 16px; }
       .topbar .eyebrow { display: none; }
-      .mobile-brand { display: flex; }
       .page-heading { font-size: 13px; }
-      .top-actions .button { min-height: 40px; padding: 0 10px; font-size: 10px; }
-      .top-actions #topAddButton span { display: none; }
+      .topbar-logo { width: 32px; height: 32px; flex-basis: 32px; }
+      .top-actions { gap: 0; }
+      .profile-trigger-label { display: none; }
+      .profile-trigger { gap: 5px; padding: 0 7px; }
       .content { padding: 20px 15px 30px; }
       .welcome-row { align-items: flex-start; flex-direction: column; margin-bottom: 17px; }
       .welcome-row h2 { font-size: 22px; }
@@ -298,6 +472,11 @@
       .welcome-row > .button { display: none; }
       .overview-actions { width: 100%; }
       .overview-actions .button { flex: 1; min-height: 42px; }
+      .home-screen { gap: 12px; }
+      .home-balance-card { padding: 18px; }
+      .home-quick-actions { gap: 7px; }
+      .home-quick-actions .button { min-width: 0 !important; padding: 0 8px; }
+      .home-task-row { padding: 11px 12px; }
       .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-bottom: 11px; }
       .stat-card { min-height: 96px; padding: 12px; }
       .stat-value { font-size: 20px; margin-top: 10px; }
@@ -327,9 +506,23 @@
       .job-filter-field.search-filter .search-box input { width: 100%; }
       .schedule-tab { gap: 3px; padding-right: 2px; padding-left: 2px; font-size: 9px; }
       .schedule-tab-count { min-width: 16px; padding: 2px 4px; }
-    .mobile-nav { position: fixed; z-index: 10; display: grid; grid-template-columns: repeat(5, 1fr); left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.96); border-top: 1px solid var(--line); padding: 6px 10px max(7px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }
-      .mobile-nav .nav-item { min-height: 48px; flex-direction: column; justify-content: center; gap: 3px; padding: 2px; font-size: 9px; }
+      .jobs-toolbar { grid-template-columns: minmax(0, 1fr) auto auto; gap: 5px; }
+      .jobs-toolbar .button { padding: 0 9px; }
+      .job-list-card { padding: 3px 10px 11px; }
+      .job-list-row { grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
+      .job-work-status { max-width: 105px; }
+      .customer-list-row { padding: 10px; }
+      .customer-list-status { max-width: 48%; }
+      .payment-toolbar { grid-template-columns: minmax(0, 1fr) auto; }
+      .payment-toolbar-actions .button { padding: 0 9px; }
+      .payment-list-row { padding: 10px; gap: 8px; }
+      .job-custom-range { grid-template-columns: 1fr; }
+      .list-pagination { display: grid; grid-template-columns: 1fr 1fr; }
+      .list-pagination span { grid-column: 1 / -1; grid-row: 1; }
+    .mobile-nav { position: fixed; z-index: 10; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.96); border-top: 1px solid var(--line); padding: 6px 8px max(7px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }
+      .mobile-nav .nav-item { min-width: 0; min-height: 48px; flex-direction: column; justify-content: center; gap: 3px; padding: 2px; font-size: 9px; }
       .mobile-nav .nav-icon { font-size: 15px; }
+      .mobile-nav .quick-add-fab { position: absolute; top: -28px; left: 50%; z-index: 1; display: grid; width: 52px; height: 52px; min-width: 52px; min-height: 52px; place-self: auto; margin: 0; padding: 0; transform: translateX(-50%); border: 4px solid white; border-radius: 50%; background: var(--green); color: white; box-shadow: 0 4px 12px rgba(8,127,91,.22); font-size: 28px; font-weight: 500; line-height: 1; }
       .form-grid { grid-template-columns: 1fr; }
       .field.full { grid-column: auto; }
       .customer-profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -346,6 +539,7 @@
       .stat-icon { width: 27px; height: 27px; }
     }
   </style>
+  <link rel="stylesheet" href="./design-tokens.css">
 </head>
 <body>
   <div class="app-shell">
@@ -353,10 +547,9 @@
       <div class="brand"><img class="brand-mark" src="./icon.svg" alt="Hisaab Kitab logo"><div><div class="brand-name">Hisaab Kitab</div><div class="brand-caption">PARTNER EARNINGS WORKSPACE</div></div></div>
       <div class="nav-label">Workspace</div>
       <nav class="nav-list" aria-label="Main navigation">
-        <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Overview</button>
-        <button class="nav-item" data-page="schedule"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h6"/></svg></span>My Schedule</button>
-        <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
+        <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Home</button>
         <button class="nav-item" data-page="jobs"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span>Jobs</button>
+        <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
         <button class="nav-item" data-page="payments"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Payments</button>
       </nav>
       <div class="sidebar-bottom">
@@ -367,23 +560,44 @@
     <main class="main-area">
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
-      <div class="topbar-left"><div class="mobile-brand"><img class="brand-mark" src="./icon.svg" alt=""><span>Hisaab Kitab</span></div><div><div class="eyebrow">Partner earnings workspace</div><h1 class="page-heading" id="topTitle">Overview</h1></div></div>
-        <div class="top-actions"><details class="backup-menu" id="backupMenu"><summary class="button" aria-label="Backup options">↓ <span>Backup</span></summary><div class="backup-menu-panel"><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden><button class="button button-primary" id="topAddButton">＋ <span>Add a job</span></button></div>
+        <div class="topbar-left"><img class="topbar-logo" src="./icon.svg" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
+        <div class="top-actions"><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Private to this device</span></div><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
   </div>
   <nav class="mobile-nav" aria-label="Mobile navigation">
-    <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Overview</button>
-    <button class="nav-item" data-page="schedule"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18M8 14h3M8 17h6"/></svg></span>Schedule</button>
-    <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
+    <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Home</button>
     <button class="nav-item" data-page="jobs"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span>Jobs</button>
+    <button type="button" class="quick-add-fab" data-open-quick-add aria-label="Add a job, payment, or customer" aria-haspopup="dialog" aria-controls="quickAddSheet"><span aria-hidden="true">+</span></button>
+    <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
     <button class="nav-item" data-page="payments"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Payments</button>
   </nav>
 
-  <dialog id="jobDialog">
+  <dialog id="quickAddSheet" class="hk-bottom-sheet" aria-labelledby="quickAddTitle">
+    <div class="modal-head"><div><h3 id="quickAddTitle">What would you like to add?</h3><p>Choose one action to continue.</p></div><button type="button" class="icon-button" data-close="quickAddSheet" aria-label="Close">×</button></div>
+    <div class="modal-body quick-add-options">
+      <button type="button" class="button quick-add-option" data-quick-add="job"><span class="quick-add-option-icon" aria-hidden="true">▣</span><span>Add job</span><span aria-hidden="true">→</span></button>
+      <button type="button" class="button quick-add-option" data-quick-add="payment"><span class="quick-add-option-icon" aria-hidden="true">↗</span><span>Record payment</span><span aria-hidden="true">→</span></button>
+      <button type="button" class="button quick-add-option" data-quick-add="customer"><span class="quick-add-option-icon" aria-hidden="true">♙</span><span>Add a customer</span><span aria-hidden="true">→</span></button>
+    </div>
+  </dialog>
+
+  <dialog id="jobDetailDialog" aria-labelledby="jobDetailTitle">
+    <div class="modal-head"><div><h3 id="jobDetailTitle">Job details</h3><p id="jobDetailSubtitle">Customer and payment details</p></div><button type="button" class="icon-button" data-close="jobDetailDialog" aria-label="Close job details">×</button></div>
+    <div class="modal-body" id="jobDetailContent"></div>
+    <div class="modal-actions" style="padding:0 21px 20px;margin-top:0"><button type="button" class="button button-danger" id="jobDetailDelete">Delete</button><button type="button" class="button button-primary" id="jobDetailEdit">Edit job</button></div>
+  </dialog>
+
+  <dialog id="paymentDetailSheet" class="hk-bottom-sheet" aria-labelledby="paymentDetailTitle">
+    <div class="modal-head"><div><h3 id="paymentDetailTitle">Payment details</h3><p id="paymentDetailSubtitle">Received payment information</p></div><button type="button" class="icon-button" data-close="paymentDetailSheet" aria-label="Close payment details">×</button></div>
+    <div class="modal-body" id="paymentDetailContent"></div>
+    <div class="payment-detail-actions"><button type="button" class="button" id="paymentDetailEdit">Edit payment</button><button type="button" class="button" id="paymentDetailUnmatch">Unmatch</button><button type="button" class="hk-button--destructive" id="paymentDetailDelete">Delete payment</button></div>
+  </dialog>
+
+  <dialog id="jobDialog" aria-labelledby="jobDialogTitle">
     <form id="jobForm">
-      <div class="modal-head"><div><h3 id="jobDialogTitle">Add a job</h3><p>Track the customer and expected payment parts.</p></div><button type="button" class="icon-button" data-close="jobDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="jobDialogTitle">Add a job</h3><p>Track the customer and expected payments.</p></div><button type="button" class="icon-button" data-close="jobDialog" aria-label="Close">×</button></div>
       <div class="modal-body">
         <input type="hidden" id="jobId">
         <div class="form-grid">
@@ -395,7 +609,7 @@
           <div class="field"><label for="purifierModel">Purifier / model</label><input id="purifierModel" maxlength="50" value="M1" placeholder="e.g. M1"></div>
           <div class="field"><label for="jobType">Job type</label><select id="jobType"><option value="regular">Regular job</option><option value="referral">Referral job</option></select></div>
           <div class="field" id="jobCategoryField"><label for="jobCategory">Regular job category</label><select id="jobCategory" required><option value="">Choose category</option><option value="installation">Installation</option><option value="repair">Repair</option><option value="refresh">Refresh install</option></select></div>
-          <div id="regularJobFields" class="field full"><div class="check-field"><input id="onTimeExpected" type="checkbox" checked><label for="onTimeExpected">Expect on-time incentive <strong>₹250</strong></label></div><div class="check-field"><input id="ratingExpected" type="checkbox"><label for="ratingExpected">Expect 5-star rating reward <strong>₹150</strong></label></div></div>
+          <div id="regularJobFields" class="field full"><label class="check-field" for="onTimeExpected"><input id="onTimeExpected" type="checkbox" checked><span>Expect on-time incentive <strong>₹250</strong></span></label><label class="check-field" for="ratingExpected"><input id="ratingExpected" type="checkbox"><span>Expect 5-star rating reward <strong>₹150</strong></span></label></div>
           <div id="localityFields" class="field full"><label for="jobLocality">Job location type</label><select id="jobLocality"><option value="local">Local job</option><option value="nonLocal">Non-local job</option></select></div>
           <div id="extraMileExpectedField" class="field full" hidden><label for="extraMileExpected">Expected extra-mile amount (₹, if known)</label><input id="extraMileExpected" type="number" min="0" step="1" placeholder="Leave blank if not known"><small>Non-local jobs stay pending until an extra-mile payment is recorded.</small></div>
           <div class="field" id="referralExpectedField"><label id="referralExpectedLabel" for="referralExpected">Referral payout expected (₹)</label><input id="referralExpected" type="number" min="0" step="1" placeholder="0"></div>
@@ -406,18 +620,18 @@
     </form>
   </dialog>
 
-  <dialog id="paymentDialog">
+  <dialog id="paymentDialog" aria-labelledby="paymentDialogTitle">
     <form id="paymentForm">
-      <div class="modal-head"><div><h3 id="paymentDialogTitle">Record payments</h3><p id="paymentDialogCopy">Select every payment part received for this job on this date.</p></div><button type="button" class="icon-button" data-close="paymentDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="paymentDialogTitle">Record payments</h3><p id="paymentDialogCopy">Select every payment type received for this job on this date.</p></div><button type="button" class="icon-button" data-close="paymentDialog" aria-label="Close">×</button></div>
       <div class="modal-body">
         <div class="form-grid">
           <div class="field full"><label for="paymentDate">Received date</label><input id="paymentDate" type="date" required></div>
           <div class="field full"><label for="paymentJob">Select a job</label><select id="paymentJob"><option value="">Choose a job</option></select><small id="jobStatusHint">Each job shows its status. Payments already recorded cannot be selected again.</small></div>
-          <div class="field full"><label for="paymentCustomer">Customer name from UC (if unmatched)</label><input id="paymentCustomer" maxlength="80" placeholder="Leave blank when a job is selected"></div>
+          <div class="field full"><label for="paymentCustomer">Customer name from UC (if no job is linked)</label><input id="paymentCustomer" maxlength="80" placeholder="Leave blank when a job is selected"></div>
           <div id="paymentBatchFields" class="field full">
-            <label>Payment parts received</label>
+            <div class="field-group-label" id="paymentPartsLabel">Payments received</div>
             <div class="quick-pick"><button type="button" id="selectPendingParts">Select known pending</button><button type="button" id="clearPaymentParts">Clear selection</button></div>
-            <div class="payment-options">
+            <div class="payment-options" role="group" aria-labelledby="paymentPartsLabel">
               <label class="payment-option"><input type="checkbox" data-payment-part="jobValue"><span><strong>Net job value</strong><small data-amount-label>₹354</small></span></label>
               <label class="payment-option"><input type="checkbox" data-payment-part="onTime"><span><strong>On-time incentive</strong><small data-amount-label>₹250</small></span></label>
               <label class="payment-option"><input type="checkbox" data-payment-part="rating"><span><strong>5-star rating reward</strong><small data-amount-label>₹150</small></span></label>
@@ -425,8 +639,8 @@
               <label class="payment-option"><input type="checkbox" data-payment-part="goodwill"><span><strong>Goodwill</strong><small data-amount-label>Optional · enter amount</small></span></label>
             </div>
           <div class="field full" id="goodwillAmountField" hidden><label for="goodwillAmount">Goodwill received (₹)</label><input id="goodwillAmount" type="number" min="1" step="1" placeholder="Enter amount given by customer"><small>Enter the amount the customer gave after the job.</small></div>
-          <div id="manualVariableCredits" class="field full"><label>Manual credits (₹)</label>
-            <div class="manual-entry-grid">
+          <div id="manualVariableCredits" class="field full"><div class="field-group-label" id="manualCreditsLabel">Other credits received (₹)</div>
+            <div class="manual-entry-grid" role="group" aria-labelledby="manualCreditsLabel">
               <div id="extraMilePaymentField" class="field"><label for="extraMileAmount">Extra-mile incentive</label><input id="extraMileAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
               <div class="field" id="commissionPaymentField"><label for="commissionAmount">UC commission</label><input id="commissionAmount" type="number" min="0" step="1" placeholder="Enter amount"></div>
             </div>
@@ -437,9 +651,9 @@
           </div>
           <div id="paymentEditFields" class="field full" hidden>
             <div class="form-grid">
-              <div class="field full"><label for="editPaymentComponent">Payment part</label><select id="editPaymentComponent"><option value="jobValue">Net job value</option><option value="onTime">On-time incentive</option><option value="rating">5-star rating reward</option><option value="extraMile">Extra-mile incentive</option><option value="referral">Referral job payout</option><option value="goodwill">Goodwill</option><option value="commission">UC commission</option></select></div>
+              <div class="field full"><label for="editPaymentComponent">What was this payment for?</label><select id="editPaymentComponent"><option value="jobValue">Net job value</option><option value="onTime">On-time incentive</option><option value="rating">5-star rating reward</option><option value="extraMile">Extra-mile incentive</option><option value="referral">Referral job payout</option><option value="goodwill">Goodwill</option><option value="commission">UC commission</option></select></div>
               <div class="field full"><label for="editPaymentAmount">Amount received (₹)</label><input id="editPaymentAmount" type="number" min="1" step="1"></div>
-              <div class="field full"><div class="form-hint">Choose the correct job above, or leave it unmatched and enter the customer name.</div></div>
+              <div class="field full"><div class="form-hint">Choose the correct job above, or leave the job unlinked and enter the customer name.</div></div>
             </div>
           </div>
         </div>
@@ -447,15 +661,15 @@
       </div>
     </form>
   </dialog>
-  <dialog id="customerDialog">
+  <dialog id="customerDialog" aria-labelledby="customerDialogTitle">
     <form id="customerForm">
-      <div class="modal-head"><div><h3>Add a customer</h3><p>A Customer ID is assigned automatically and can be changed from profile options.</p></div><button type="button" class="icon-button" data-close="customerDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="customerDialogTitle">Add a customer</h3><p>A Customer ID is assigned automatically and can be changed from profile options.</p></div><button type="button" class="icon-button" data-close="customerDialog" aria-label="Close">×</button></div>
       <div class="modal-body"><div class="form-grid"><div class="field full"><label for="newCustomerName">Customer name</label><input id="newCustomerName" maxlength="80" required placeholder="Enter customer name"></div><div class="field full"><label for="newCustomerPhone">Mobile number</label><input id="newCustomerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div></div><div class="modal-actions"><button type="button" class="button" data-close="customerDialog">Cancel</button><button type="submit" class="button button-primary">Create profile</button></div></div>
     </form>
   </dialog>
-  <dialog id="editCustomerDialog">
+  <dialog id="editCustomerDialog" aria-labelledby="editCustomerDialogTitle">
     <form id="editCustomerForm">
-      <div class="modal-head"><div><h3>Edit customer profile</h3><p>Update contact details and your editable customer reference ID.</p></div><button type="button" class="icon-button" data-close="editCustomerDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="editCustomerDialogTitle">Edit customer profile</h3><p>Update contact details and your editable customer reference ID.</p></div><button type="button" class="icon-button" data-close="editCustomerDialog" aria-label="Close">×</button></div>
       <div class="modal-body">
         <input type="hidden" id="editCustomerKey">
         <div class="form-grid">
@@ -467,6 +681,33 @@
       </div>
     </form>
   </dialog>
+  <dialog id="backupPreviewDialog" aria-labelledby="backupPreviewTitle">
+    <div class="modal-head"><div><h3 id="backupPreviewTitle">Review backup</h3><p>Check what will be restored before replacing this device’s records.</p></div><button type="button" class="icon-button" data-close="backupPreviewDialog" aria-label="Close backup preview">×</button></div>
+    <div class="modal-body backup-preview-body">
+      <div class="backup-preview-warning" role="note">Restoring replaces all jobs, payments, and customer profiles currently saved in this browser. It does not merge records. Export your current data first if you may need it.</div>
+      <dl class="backup-preview-meta">
+        <div><dt>Backup file</dt><dd id="backupPreviewFilename"></dd></div>
+        <div><dt>Created</dt><dd id="backupPreviewDate"></dd></div>
+      </dl>
+      <section class="backup-preview-counts" aria-label="Records in backup">
+        <h4>In this backup</h4>
+        <dl><div><dt>Jobs</dt><dd id="backupPreviewJobs"></dd></div>
+        <div><dt>Payments</dt><dd id="backupPreviewPayments"></dd></div>
+        <div><dt>Customer profiles</dt><dd id="backupPreviewCustomers"></dd></div>
+        <div><dt>Hidden profiles</dt><dd id="backupPreviewHiddenCustomers"></dd></div></dl>
+      </section>
+      <section class="backup-preview-counts" aria-label="Records currently on this device">
+        <h4>Currently on this device</h4>
+        <dl><div><dt>Jobs</dt><dd id="backupCurrentJobs"></dd></div>
+        <div><dt>Payments</dt><dd id="backupCurrentPayments"></dd></div>
+        <div><dt>Customer profiles</dt><dd id="backupCurrentCustomers"></dd></div>
+        <div><dt>Hidden profiles</dt><dd id="backupCurrentHiddenCustomers"></dd></div></dl>
+      </section>
+      <p class="backup-preview-help" id="backupCurrentReadWarning" role="status" hidden>Saved data could not be read, so the current counts may be incomplete. Exporting current data from this screen is disabled.</p>
+      <p class="backup-preview-help">Required fields and repeated IDs in jobs, payments, and customer profiles are checked before restore. Your records change only after you choose “Replace records.”</p>
+    </div>
+    <div class="backup-preview-actions"><button type="button" class="button" id="backupPreviewCancel" data-close="backupPreviewDialog">Cancel</button><button type="button" class="button" id="backupPreviewExport">Export current backup</button><button type="button" class="button backup-replace-button" id="backupPreviewConfirm">Replace records</button></div>
+  </dialog>
   <div class="toast" id="toast" role="status"></div>
 
   <script>
@@ -475,6 +716,7 @@
       const BASE_JOB_VALUE = 354;
       const ON_TIME_VALUE = 250;
       const RATING_VALUE = 150;
+      const RECORDS_PER_PAGE = 50;
       let storageLoadError = '';
       const KNOWN_COMPONENTS = ['jobValue', 'onTime', 'rating', 'referral'];
       const COMPONENT_LABELS = {
@@ -485,23 +727,33 @@
         jobValue: 'Job payments', onTime: 'Incentive payments', rating: 'Incentive payments',
         extraMile: 'Incentive payments', referral: 'Referral job payments', goodwill: 'Manual additions', commission: 'Manual additions'
       };
-      const pageTitles = { overview: 'Overview', schedule: 'My Schedule', customers: 'Customers', jobs: 'Jobs', payments: 'Payments' };
+      const pageTitles = { overview: 'Home', schedule: 'Jobs', customers: 'Customers', jobs: 'Jobs', payments: 'Payments' };
       let data = loadData();
       let currentPage = 'overview';
       let scheduleStatusFilter = 'upcoming';
+      let jobsStatusChosen = false;
       let scheduleSearch = '';
       let jobSearch = '';
       let jobTypeFilter = 'regular';
       let jobRangeFilter = 'last30';
+      let jobSortOrder = 'recommended';
+      let jobFiltersOpen = false;
+      let jobPage = 1;
       let jobDateFrom = '';
       let jobDateTo = '';
       let customerSearch = '';
       let selectedCustomerKey = '';
       let paymentSearch = '';
+      let paymentStatusFilter = 'all';
+      let paymentRangeFilter = 'all';
+      let paymentSortOrder = 'newest';
+      let paymentDateFrom = '';
+      let paymentDateTo = '';
+      let paymentFiltersOpen = false;
+      let paymentPage = 1;
       let paymentFocusId = '';
       let jobFocusId = '';
-      let overviewSearch = '';
-      let overviewDateRange = 'last30';
+      let pendingBackupImport = null;
 
       function loadData() {
         try {
@@ -665,25 +917,6 @@
       function otherCredits() { return data.payments.filter(item => ['extraMile', 'commission'].includes(item.component)).reduce((sum, item) => sum + Number(item.amount || 0), 0); }
       function totalGoodwill() { return data.payments.filter(item => item.component === 'goodwill').reduce((sum, item) => sum + Number(item.amount || 0), 0); }
       function percentage(credited, expected) { return expected > 0 ? Math.min(100, Math.round(credited / expected * 100)) : 0; }
-      function overviewDateMatches(value) {
-        if (overviewDateRange === 'all') return true;
-        if (!value) return false;
-        const days = Number(overviewDateRange.replace('last', ''));
-        const itemDate = new Date(`${String(value).slice(0, 10)}T00:00:00`);
-        const todayDate = new Date(`${localISO()}T00:00:00`);
-        if (Number.isNaN(itemDate.getTime())) return false;
-        if (!days) return true;
-        const startDate = new Date(todayDate);
-        startDate.setDate(startDate.getDate() - (days - 1));
-        return itemDate >= startDate && itemDate <= todayDate;
-      }
-      function overviewJobEntryDate(job) {
-        if (job.createdAt) {
-          const createdAt = new Date(job.createdAt);
-          if (!Number.isNaN(createdAt.getTime())) return localISO(createdAt);
-        }
-        return job.date || job.dueDate || '';
-      }
       function needsAttentionItems() {
         const today = localISO();
         const items = [];
@@ -692,7 +925,7 @@
           if (jobIsComplete(job)) {
             const pending = pendingPartsFor(job).filter(part => part !== 'extra-mile payment');
             const amountPending = knownPendingFor(job);
-            if (amountPending > 0) reasons.push(`${pending.join(', ') || 'Known payment parts'} pending · ${money(amountPending)}`);
+            if (amountPending > 0) reasons.push(`${pending.join(', ') || 'Expected payments'} pending · ${money(amountPending)}`);
             const extraMileUnpriced = job.type !== 'referral' && job.locality === 'nonLocal'
               && expectedFor(job, 'extraMile') <= 0 && receivedFor(job.id, 'extraMile') <= 0;
             if (extraMileUnpriced) reasons.push('Extra-mile amount not entered');
@@ -702,98 +935,61 @@
           if (reasons.length) items.push({ type: 'job', id: job.id, name: job.customer, detail: reasons.join(' · '), date: jobIsComplete(job) ? job.date : job.dueDate || '' });
         });
         data.payments.filter(payment => !getJob(payment.jobId)).forEach(payment => {
-          items.push({ type: 'payment', id: payment.id, name: payment.customerName || 'Unmatched payment', detail: `${COMPONENT_LABELS[payment.component] || 'Payment'} · ${money(payment.amount)} · Match to a job`, date: payment.date || '' });
+          items.push({ type: 'payment', id: payment.id, name: payment.customerName || 'Payment not linked to a job', detail: `${COMPONENT_LABELS[payment.component] || 'Payment'} · ${money(payment.amount)} · Link to a job`, date: payment.date || '' });
         });
         return items;
       }
       function setPage(page) {
+        if (page === 'schedule') page = 'jobs';
         currentPage = page;
         if (page === 'customers') selectedCustomerKey = '';
-        document.querySelectorAll('.nav-item[data-page]').forEach(button => button.classList.toggle('active', button.dataset.page === page));
+        const activePage = page;
+        document.querySelectorAll('.nav-item[data-page]').forEach(button => button.classList.toggle('active', button.dataset.page === activePage));
         document.getElementById('topTitle').textContent = pageTitles[page];
         render();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       }
       function render() {
         const root = document.getElementById('pageContent');
         if (currentPage === 'overview') root.innerHTML = renderOverview();
-        if (currentPage === 'schedule') root.innerHTML = renderSchedule();
         if (currentPage === 'customers') root.innerHTML = renderCustomers();
         if (currentPage === 'jobs') root.innerHTML = renderJobs();
         if (currentPage === 'payments') root.innerHTML = renderPayments();
-        const addLabel = currentPage === 'payments' ? 'Add a payment' : currentPage === 'customers' ? (selectedCustomerKey ? 'Add a job' : 'Add a customer') : 'Add a job';
-        const topAddButton = document.getElementById('topAddButton');
-        topAddButton.innerHTML = `＋ <span>${addLabel}</span>`;
-        topAddButton.setAttribute('aria-label', addLabel);
         bindPageEvents();
       }
       function renderOverview() {
         const expected = totalKnownExpected();
-        const knownReceived = totalKnownReceived();
-        const allReceived = totalReceived();
-        const knownPending = totalKnownPending();
-        const completedJobs = data.jobs.filter(jobIsComplete);
-        const percent = percentage(knownReceived, expected);
-        const attention = needsAttentionItems();
-        const query = overviewSearch.trim().toLowerCase();
-        const recentJobs = [...data.jobs]
-          .filter(job => overviewDateMatches(overviewJobEntryDate(job)))
-          .filter(job => !query || `${job.customer} ${job.model || ''} ${jobCategoryLabel(job)} ${job.type || 'regular'} ${job.id}`.toLowerCase().includes(query))
-          .sort((a, b) => overviewJobEntryDate(b).localeCompare(overviewJobEntryDate(a)) || (b.createdAt || '').localeCompare(a.createdAt || ''))
-          .slice(0, 5);
-        const recentPayments = [...data.payments]
-          .filter(item => overviewDateMatches(item.date))
-          .filter(item => {
-            const job = getJob(item.jobId);
-            const name = job ? job.customer : item.customerName || 'Unmatched payment';
-            return !query || `${name} ${COMPONENT_LABELS[item.component] || 'Payment'} ${item.amount} ${item.date || ''}`.toLowerCase().includes(query);
-          })
-          .sort((a, b) => (b.date || '').localeCompare(a.date || '') || (b.createdAt || '').localeCompare(a.createdAt || ''))
-          .slice(0, 5);
-        const breakdown = KNOWN_COMPONENTS.map(component => {
-          const exp = data.jobs.reduce((sum, job) => sum + expectedFor(job, component), 0);
-          const got = data.jobs.reduce((sum, job) => sum + receivedFor(job.id, component), 0);
-          return `<div class="component-row"><div class="component-label">${COMPONENT_LABELS[component]}</div><div class="track"><div class="fill" style="width:${percentage(got, exp)}%"></div></div><div class="component-amount"><strong>${money(got)}</strong> / ${money(exp)}</div></div>`;
-        }).join('') + (() => {
-          const exp = data.jobs.reduce((sum, job) => sum + expectedFor(job, 'extraMile'), 0);
-          if (!exp) return '';
-          const got = data.jobs.filter(job => job.locality === 'nonLocal').reduce((sum, job) => sum + receivedFor(job.id, 'extraMile'), 0);
-          return `<div class="component-row"><div class="component-label">Extra-mile incentive</div><div class="track"><div class="fill" style="width:${percentage(got, exp)}%"></div></div><div class="component-amount"><strong>${money(got)}</strong> / ${money(exp)}</div></div>`;
-        })();
-        const recentPaymentsHtml = recentPayments.length ? `<div class="activity-list">${recentPayments.map(item => {
-          const job = getJob(item.jobId);
-          const name = job ? job.customer : (item.customerName || 'Unmatched payment');
-          return `<button type="button" class="activity-item activity-button" data-action="focus-payment" data-id="${escapeHtml(item.id)}"><span class="activity-dot" aria-hidden="true">↗</span><span><span class="activity-title">${escapeHtml(name)} · ${escapeHtml(COMPONENT_LABELS[item.component] || 'Payment')}</span><span class="activity-meta">${dateText(item.date)} · ${escapeHtml(COMPONENT_SECTION[item.component] || 'Manual entry')}${job ? '' : ' · Unmatched'}</span></span><span class="activity-amount">+${money(item.amount)}</span></button>`;
-        }).join('')}</div>` : `<div class="empty-state"><div class="empty-icon">↗</div><strong>${data.payments.length && (query || overviewDateRange !== 'all') ? 'No payments match these filters' : 'No payments logged yet'}</strong><p>${data.payments.length && (query || overviewDateRange !== 'all') ? 'Try a different search or activity period.' : 'When a credit appears in the UC Money section, add it here and match it to a job.'}</p>${!query && !data.payments.length ? '<button class="button button-small" data-action="add-payment">＋ Add payment</button>' : ''}</div>`;
-        const recentJobsHtml = recentJobs.length ? `<div class="activity-list">${recentJobs.map(job => {
-          const dateLabel = jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `Due ${dateText(job.dueDate)}`;
-          const kind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'}`;
-          const status = jobIsComplete(job) ? jobStatusFor(job) : workStatusLabel(workStatusFor(job));
-          return `<button type="button" class="activity-item activity-button" data-action="focus-job" data-id="${escapeHtml(job.id)}"><span class="activity-dot" aria-hidden="true">▣</span><span><span class="activity-title">${escapeHtml(job.customer)}</span><span class="activity-meta">${dateLabel} · ${escapeHtml(kind)} · ${escapeHtml(status)}</span></span><span class="activity-amount">${escapeHtml(job.model || 'Purifier')}</span></button>`;
-        }).join('')}</div>` : `<div class="empty-state"><div class="empty-icon">▣</div><strong>${data.jobs.length && (query || overviewDateRange !== 'all') ? 'No jobs match these filters' : 'No jobs added yet'}</strong><p>${data.jobs.length && (query || overviewDateRange !== 'all') ? 'Try a different search or activity period.' : 'Add a job to keep its details and payments together.'}</p>${!query && !data.jobs.length ? '<button class="button button-small button-primary" data-action="add-job">＋ Add first job</button>' : ''}</div>`;
-        const attentionHtml = attention.length ? `<div class="attention-list">${attention.map(item => `<div class="attention-item"><div class="attention-copy"><div class="attention-name">${escapeHtml(item.name)}</div><div class="attention-detail">${escapeHtml(item.detail)}${item.date ? ` · ${dateText(item.date, { day: 'numeric', month: 'short' })}` : ''}</div></div><button type="button" class="button button-small" data-action="${item.type === 'job' ? 'focus-job' : 'focus-payment'}" data-id="${escapeHtml(item.id)}">${item.type === 'job' ? 'Open job' : 'Open payment'}</button></div>`).join('')}</div>` : `<div class="empty-state overview-empty"><div class="empty-icon">✓</div><strong>You’re all caught up</strong><p>Jobs with unpaid known amounts, overdue deadlines, unpriced extra-mile, and unmatched payments will appear here.</p></div>`;
-        const rangeOptions = [['last7','Last 7 days'],['last30','Last 30 days'],['last90','Last 90 days'],['all','All dates']].map(([value, label]) => `<option value="${value}" ${overviewDateRange === value ? 'selected' : ''}>${label}</option>`).join('');
-        return `<div class="welcome-row"><div><h2>Your earnings at a glance</h2><p>See your jobs, received payments, and outstanding balances.</p></div><div class="overview-actions"><button class="button button-primary" data-action="add-job">＋ Add Job</button><button class="button" data-action="add-payment">＋ Record Payment</button></div></div>
-          <div class="stat-grid">
-            <div class="stat-card"><div class="stat-top"><span class="stat-label">Total jobs</span><span class="stat-icon">▣</span></div><div class="stat-value">${data.jobs.length}</div><div class="stat-foot">All regular and referral jobs</div></div>
-            <div class="stat-card"><div class="stat-top"><span class="stat-label">Received</span><span class="stat-icon">↗</span></div><div class="stat-value">${money(allReceived)}</div><div class="stat-foot">All credits entered in Hisaab Kitab</div></div>
-            <div class="stat-card"><div class="stat-top"><span class="stat-label">Outstanding</span><span class="stat-icon">◷</span></div><div class="stat-value">${money(knownPending)}</div><div class="stat-foot">Known amounts due; unpriced extra-mile excluded</div></div>
-            <button type="button" class="stat-card stat-card-button" data-action="scroll-attention"><span class="stat-top"><span class="stat-label">Needs attention</span><span class="stat-icon">!</span></span><span class="stat-value">${attention.length}</span><span class="stat-foot">Jobs and payments to review</span></button>
-          </div>
-          <section class="overview-secondary" aria-label="Earnings breakdown">
-            <div class="overview-secondary-card"><div><div class="overview-secondary-label">Expected</div><div class="overview-secondary-note">Known amounts for completed jobs</div></div><div class="overview-secondary-value">${money(expected)}</div></div>
-            <div class="overview-secondary-card"><div><div class="overview-secondary-label">Goodwill</div><div class="overview-secondary-note">Customer-given amount received</div></div><div class="overview-secondary-value">${money(totalGoodwill())}</div></div>
-            <div class="overview-secondary-card"><div><div class="overview-secondary-label">Extra-mile + commission</div><div class="overview-secondary-note">Partner credits recorded</div></div><div class="overview-secondary-value">${money(otherCredits())}</div></div>
+        const received = totalReceived();
+        const outstanding = totalKnownPending();
+        const today = localISO();
+        const todayJobs = data.jobs.filter(job => !jobIsComplete(job) && job.dueDate === today).map(job => ({
+          type: 'job', id: job.id, name: job.customer,
+          detail: `Due today · ${workStatusLabel(workStatusFor(job))}`,
+          date: job.dueDate, todayTask: true
+        }));
+        const attention = [...todayJobs, ...needsAttentionItems()]
+          .sort((a, b) => Number(Boolean(b.todayTask)) - Number(Boolean(a.todayTask)) || (a.date || '').localeCompare(b.date || ''));
+        const attentionRows = attention.length ? attention.map(item => {
+          const action = item.type === 'job' ? 'focus-job' : 'focus-payment';
+          const dateHint = item.date && !item.todayTask && !item.detail.includes(dateText(item.date)) ? ` · ${dateText(item.date, { day: 'numeric', month: 'short' })}` : '';
+          return `<button type="button" class="home-task-row" data-action="${action}" data-id="${escapeHtml(item.id)}" aria-label="Open ${item.type === 'job' ? 'job' : 'payment'} for ${escapeHtml(item.name)}"><span class="home-task-copy"><strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.detail)}${dateHint}</span></span><span class="home-task-arrow" aria-hidden="true">›</span></button>`;
+        }).join('') : `<div class="home-task-empty"><p>No job due today or payment follow-up.</p><button type="button" class="button button-secondary" data-action="go-jobs">View jobs</button></div>`;
+        return `<div class="home-screen">
+          <section class="home-balance-card" aria-label="Pending balance">
+            <div class="home-balance-main"><span class="home-balance-amount">${money(outstanding)}</span><span class="home-balance-suffix">pending</span></div>
+            <div class="home-balance-received">${money(received)} received</div>
           </section>
-          <section class="panel" id="overviewAttention"><div class="panel-head"><div><h3 class="panel-title">Needs attention</h3><div class="panel-subtitle">Pending amounts, overdue jobs, unpriced extra-mile, and unmatched payments</div></div><span class="attention-summary">${attention.length} ${attention.length === 1 ? 'item' : 'items'}</span></div><div class="panel-body">${attentionHtml}</div></section>
-          <div class="overview-activity-tools" aria-label="Filter recent activity"><div class="field"><label for="overviewSearch">Search jobs and payments</label><input class="input" id="overviewSearch" type="search" value="${escapeHtml(overviewSearch)}" placeholder="Customer, job type, payment or amount"></div><div class="field range-field"><label for="overviewDateRange">Activity period</label><select id="overviewDateRange">${rangeOptions}</select></div></div>
-          <div class="dashboard-grid">
-            <section class="panel overview-panel"><div class="panel-head"><div><h3 class="panel-title">Recent jobs</h3><div class="panel-subtitle">Latest jobs added within this period</div></div><button class="button button-quiet button-small" data-action="go-jobs">View all →</button></div><div class="panel-body">${recentJobsHtml}</div></section>
-            <section class="panel overview-panel"><div class="panel-head"><div><h3 class="panel-title">Recent payments</h3><div class="panel-subtitle">Credits recorded within this period</div></div><button class="button button-quiet button-small" data-action="go-payments">View all →</button></div><div class="panel-body">${recentPaymentsHtml}</div></section>
-          </div>
-          <section class="panel" style="margin-top:16px"><div class="panel-head"><div><h3 class="panel-title">Payment progress</h3><div class="panel-subtitle">Matched job payments compared with expected amounts</div></div><span class="progress-pill">${percent}% received</span></div><div class="panel-body"><div class="progress-overview"><div><div class="progress-amount">${money(knownReceived)} <span class="money-muted" style="font-size:14px;font-weight:500">of ${money(expected)}</span></div><div class="progress-caption">Goodwill and unmatched payments are not included in job progress.</div></div><div class="progress-pill">${completedJobs.length} ${completedJobs.length === 1 ? 'completed job' : 'completed jobs'}</div></div><div class="component-list">${completedJobs.length ? breakdown : `<div class="empty-state"><div class="empty-icon">▣</div><strong>${data.jobs.length ? 'Finish a scheduled job to track payments' : 'Add your first job'}</strong><p>Payment progress appears after a job is marked complete.</p><button class="button button-small button-primary" data-action="add-job">＋ Add a job</button></div>`}</div></div></section>`;
+          <div class="home-quick-actions" role="group" aria-label="Quick actions"><button type="button" class="button button-primary" data-action="add-job">＋ Add job</button><button type="button" class="button" data-action="add-payment">＋ Record payment</button></div>
+          <section class="home-today" aria-labelledby="homeTodayTitle"><div class="home-section-heading"><h2 id="homeTodayTitle">Needs attention (${attention.length})</h2></div><div class="home-task-list">${attentionRows}</div></section>
+          <details class="home-details"><summary><span>View details</span><span class="home-details-chevron" aria-hidden="true">⌄</span></summary><div class="home-detail-list">
+            <div class="home-detail-row"><div class="home-detail-label"><strong>Expected</strong><span>Known amounts for completed jobs</span></div><span class="home-detail-value">${money(expected)}</span></div>
+            <div class="home-detail-row"><div class="home-detail-label"><strong>Goodwill</strong><span>Amount voluntarily given by the customer</span></div><span class="home-detail-value">${money(totalGoodwill())}</span></div>
+            <div class="home-detail-row"><div class="home-detail-label"><strong>Extra-mile + commission</strong><span>Received credits</span></div><span class="home-detail-value">${money(otherCredits())}</span></div>
+            <div class="home-detail-row"><div class="home-detail-label"><strong>Total jobs</strong><span>Regular and referral jobs</span></div><span class="home-detail-value">${data.jobs.length}</span></div>
+          </div></details>
+        </div>`;
       }
-      function renderSchedule() {
+      function renderScheduleLegacy() {
         const statuses = ['upcoming', 'pending', 'followup', 'completed'];
         const counts = Object.fromEntries(statuses.map(status => [status, data.jobs.filter(job => workStatusFor(job) === status).length]));
         const jobs = data.jobs.filter(job => workStatusFor(job) === scheduleStatusFilter)
@@ -828,10 +1024,10 @@
           }).join('');
           return `<section class="schedule-day-group"><h3 class="schedule-day-title">${escapeHtml(heading)}</h3><div class="schedule-card-list">${cards}</div></section>`;
         }).join('');
-        const tabs = statuses.map(status => `<button type="button" class="schedule-tab ${scheduleStatusFilter === status ? 'active' : ''}" data-schedule-status="${status}">${workStatusLabel(status)} <span class="schedule-tab-count">${counts[status]}</span></button>`).join('');
-        return `<div class="welcome-row"><div><h2>My Schedule</h2><p>See the jobs to finish by each date. Reschedule or slide a job to mark it ended.</p></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div><div class="schedule-tabs" role="tablist" aria-label="Job status">${tabs}</div><div class="job-filter-panel" style="grid-template-columns:minmax(200px,1fr)"><div class="job-filter-field"><label for="scheduleSearch">Search customer or model</label><input class="input" id="scheduleSearch" value="${escapeHtml(scheduleSearch)}" placeholder="Enter customer or model"></div></div>${groupsHtml || `<section class="panel schedule-empty"><div class="empty-state"><div class="empty-icon">▣</div><strong>${scheduleSearch ? 'No matching jobs' : `No ${workStatusLabel(scheduleStatusFilter).toLowerCase()} jobs`}</strong><p>${scheduleStatusFilter === 'completed' ? 'Jobs marked as ended will appear here.' : 'Add a job with a completion deadline to see it here.'}</p><button class="button button-small button-primary" data-action="add-job">＋ Add a job</button></div></section>`}`;
+        const tabs = statuses.map(status => `<button type="button" class="schedule-tab ${scheduleStatusFilter === status ? 'active' : ''}" aria-pressed="${scheduleStatusFilter === status}" data-schedule-status="${status}">${workStatusLabel(status)} <span class="schedule-tab-count">${counts[status]}</span></button>`).join('');
+        return `<div class="welcome-row"><div><h2>My Schedule</h2><p>See the jobs to finish by each date. Reschedule or slide a job to mark it ended.</p></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div><div class="schedule-tabs" role="group" aria-label="Job status">${tabs}</div><div class="job-filter-panel" style="grid-template-columns:minmax(200px,1fr)"><div class="job-filter-field"><label for="scheduleSearch">Search customer or model</label><input class="input" id="scheduleSearch" value="${escapeHtml(scheduleSearch)}" placeholder="Enter customer or model"></div></div>${groupsHtml || `<section class="panel schedule-empty"><div class="empty-state"><div class="empty-icon">▣</div><strong>${scheduleSearch ? 'No matching jobs' : `No ${workStatusLabel(scheduleStatusFilter).toLowerCase()} jobs`}</strong><p>${scheduleStatusFilter === 'completed' ? 'Jobs marked as ended will appear here.' : 'Add a job with a completion deadline to see it here.'}</p><button class="button button-small button-primary" data-action="add-job">＋ Add a job</button></div></section>`}`;
       }
-      function renderJobs() {
+      function renderJobsLegacy() {
         const today = new Date(); today.setHours(0, 0, 0, 0);
         const days = ({ last7: 7, last15: 15 })[jobRangeFilter];
         const monthAgo = new Date(today); const monthDay = monthAgo.getDate(); monthAgo.setDate(1); monthAgo.setMonth(monthAgo.getMonth() - 1); monthAgo.setDate(Math.min(monthDay, new Date(monthAgo.getFullYear(), monthAgo.getMonth() + 1, 0).getDate()));
@@ -866,12 +1062,122 @@
         const rangeOptions = [['last7','Last 7 days'],['last15','Last 15 days'],['last30','Last 1 month'],['all','All dates'],['custom','Choose dates']].map(([value,label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
         const customDates = jobRangeFilter === 'custom' ? `<div class="job-custom-range"><label for="jobDateFrom">From<input id="jobDateFrom" type="date" value="${escapeHtml(jobDateFrom)}"></label><label for="jobDateTo">To<input id="jobDateTo" type="date" value="${escapeHtml(jobDateTo)}"></label></div>` : '';
         const countCards = jobTypeFilter === 'all' ? `<div class="job-count-grid"><div class="stat-card"><div class="stat-label">Regular jobs</div><div class="stat-value">${regularJobs.length}</div><div class="stat-foot">In this date range</div></div><div class="stat-card"><div class="stat-label">Referral jobs</div><div class="stat-value">${referralJobs.length}</div><div class="stat-foot">In this date range</div></div></div>` : `<div class="job-count-grid"><div class="stat-card"><div class="stat-label">${typeLabel}</div><div class="stat-value">${filteredCount}</div><div class="stat-foot">${rangeLabel}</div></div></div>`;
-        return `<div class="welcome-row"><div><h2>My jobs</h2><p>Each customer and completion date gets its own tracker record.</p></div><button class="button button-primary" data-action="add-job">＋ Add a job</button></div>
-          ${focusNotice}<div class="notice"><span class="notice-icon">ⓘ</span><span>Customer name is used to match UC payment lines. If the same customer has multiple jobs, use the job date and purifier model to choose the right one. Deleting a job keeps its payment records as unmatched payments.</span></div>
+        return `<div class="welcome-row"><div><p>Each customer and completion date gets its own tracker record.</p></div><div class="overview-actions"><button class="button" data-action="go-schedule">My schedule</button><button class="button button-primary" data-action="add-job">＋ Add a job</button></div></div>
+          ${focusNotice}<div class="notice"><span class="notice-icon">ⓘ</span><span>Customer name is used to link UC payment lines. If the same customer has multiple jobs, use the job date and purifier model to choose the right one. Deleting a job keeps its payment records without a job link.</span></div>
           <div class="job-filter-panel"><div class="job-filter-field"><label for="jobTypeFilter">Job type</label><select id="jobTypeFilter">${typeOptions}</select></div><div class="job-filter-field"><label for="jobRangeFilter">Date range</label><select id="jobRangeFilter">${rangeOptions}</select></div>${jobRangeFilter === 'custom' ? `<div class="job-filter-field"><label>Choose dates</label>${customDates}</div>` : ''}<div class="job-filter-field search-filter"><label for="jobSearch">Search jobs</label><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="jobSearch" value="${escapeHtml(jobSearch)}" placeholder="Customer, model, category"></div></div></div>
           <div class="job-results-summary">Showing ${filteredCount} ${filteredCount === 1 ? 'job' : 'jobs'} · ${typeLabel} · ${rangeLabel}</div>
           ${countCards}
           ${sections || `<section class="panel"><div class="empty-state"><div class="empty-icon">▣</div><strong>${data.jobs.length ? (jobSearch ? 'No matching jobs' : 'No jobs in this selection') : 'No jobs added yet'}</strong><p>${data.jobs.length ? 'Change the job type or date range to see more jobs.' : 'Add a completed job to start tracking its payment parts.'}</p>${data.jobs.length && emptyIsFiltered ? '<button class="button button-small" data-action="show-all-jobs">Show all jobs</button>' : !data.jobs.length ? '<button class="button button-small button-primary" data-action="add-job">＋ Add first job</button>' : ''}</div></section>`}`;
+      }
+      function renderCustomersLegacy() {
+        const groups = customerGroups().filter(item => !(data.hiddenCustomers || []).includes(item.key));
+        const profile = groups.find(item => item.key === selectedCustomerKey);
+        if (selectedCustomerKey && !profile) selectedCustomerKey = '';
+        if (profile) return renderCustomerProfile(profile);
+        const searchText = customerSearch.trim().toLowerCase();
+        const customers = groups.filter(item => [item.name, item.phone, customerCodeFor(item)].some(value => String(value || '').toLowerCase().includes(searchText)));
+        const rows = customers.map(customer => {
+          const expected = customer.jobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
+          const received = customer.jobs.reduce((sum, job) => sum + knownReceivedFor(job), 0);
+          const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
+          const unmatched = customer.unmatchedPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+          const contact = customer.phone ? `<a href="tel:${escapeHtml(phoneHref(customer.phone))}">Call ${escapeHtml(customer.phone)}</a>` : 'No mobile number';
+          const settlement = customerSettlement(customer);
+          const dotLabel = settlement === 'settled' ? 'All completed job payments settled' : settlement === 'pending' ? 'Payment pending or a payment without a job link needs review' : settlement === 'scheduled' ? 'Job not completed yet' : 'No jobs recorded yet';
+          const dotClass = settlement === 'scheduled' ? 'unknown' : settlement;
+          const statusLabel = settlement === 'settled' ? '<span class="status paid">Settled</span>' : settlement === 'pending' ? (pending ? `<span class="status pending">${money(pending)} pending</span>` : customer.unmatchedPayments.length ? '<span class="status unmatched">Needs a job link</span>' : '<span class="status pending">Payment pending</span>') : settlement === 'scheduled' ? '<span class="status unmatched">Job not completed</span>' : '<span class="status unmatched">No job yet</span>';
+          return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer.name)}</div><div><strong>${escapeHtml(customer.name)} <span class="settlement-dot ${dotClass}" role="img" aria-label="${escapeHtml(dotLabel)}" title="${escapeHtml(dotLabel)}"></span></strong><span class="subcell">ID ${escapeHtml(customerCodeFor(customer))} · ${contact} · ${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'}</span></div></div></td><td>${money(received)}<span class="subcell">${customer.jobs.length ? `of ${money(expected)} known expected` : 'No linked jobs'}</span></td><td>${statusLabel}</td><td>${unmatched ? `<span class="status unmatched">${money(unmatched)} without a job link</span>` : '—'}</td><td><button class="button button-small" data-action="view-customer" data-id="${escapeHtml(customer.key)}">View profile</button></td></tr>`;
+        }).join('');
+        return `<div class="welcome-row"><div><p>Create customer profiles and review their job and payment history.</p></div><button class="button button-primary" data-action="add-customer">＋ Add a customer</button></div>
+          <div class="notice"><span class="notice-icon">ⓘ</span><span>Green dot means completed-job payments are settled. Breathing red means a payment is pending or needs matching. Grey means there is no completed job to check yet. Open a customer profile to see the payment details.</span></div>
+          <div class="page-toolbar"><div class="toolbar-left"><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="customerSearch" value="${escapeHtml(customerSearch)}" placeholder="Search customer"></div></div><button class="button button-primary" data-action="add-customer">＋ Add a customer</button></div>
+          <section class="panel"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Received</th><th>Known pending</th><th>Payments not linked to a job</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">♙</div><strong>${customerSearch ? 'No matching customers' : 'No customer profiles yet'}</strong><p>${customerSearch ? 'Try another name.' : 'Create a customer profile, add a job, or enter a named payment not linked to a job.'}</p>${!customerSearch ? '<button class="button button-small button-primary" data-action="add-customer">＋ Add a customer</button>' : ''}</div></td></tr>`}</tbody></table></div></section>`;
+      }
+      function jobStatusChip(job) {
+        const status = workStatusFor(job);
+        const kind = status === 'completed' ? 'settled' : status === 'upcoming' ? 'neutral' : 'pending';
+        const label = status === 'completed' ? 'Done' : workStatusLabel(status);
+        return `<span class="hk-status-chip hk-status-chip--${kind}">${label}</span>`;
+      }
+      function renderJobs() {
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const days = ({ last7: 7, last15: 15 })[jobRangeFilter];
+        const monthAgo = new Date(today); const monthDay = monthAgo.getDate(); monthAgo.setDate(1); monthAgo.setMonth(monthAgo.getMonth() - 1); monthAgo.setDate(Math.min(monthDay, new Date(monthAgo.getFullYear(), monthAgo.getMonth() + 1, 0).getDate()));
+        const fromPreset = jobRangeFilter === 'last30' ? localISO(monthAgo) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
+        const fromDate = jobRangeFilter === 'custom' ? jobDateFrom : fromPreset;
+        const toDate = jobRangeFilter === 'custom' ? jobDateTo : jobRangeFilter === 'all' ? '' : localISO(today);
+        const jobs = [...data.jobs]
+          .filter(job => jobTypeFilter === 'all' || (jobTypeFilter === 'referral' ? job.type === 'referral' : job.type !== 'referral'))
+          .filter(job => !fromDate || (job.date || job.dueDate || '') >= fromDate)
+          .filter(job => !toDate || (job.date || job.dueDate || '') <= toDate)
+          .filter(job => `${job.customer} ${job.model} ${job.date} ${job.dueDate} ${jobCategoryLabel(job)} ${job.type || 'regular'}`.toLowerCase().includes(jobSearch.toLowerCase()));
+        const statuses = ['upcoming', 'pending', 'followup', 'completed'];
+        const counts = Object.fromEntries(statuses.map(status => [status, jobs.filter(job => workStatusFor(job) === status).length]));
+        if (!jobsStatusChosen) {
+          scheduleStatusFilter = statuses.find(status => counts[status] > 0) || 'upcoming';
+          jobsStatusChosen = true;
+        }
+        const activeJobs = jobs.filter(job => workStatusFor(job) === scheduleStatusFilter).sort((a, b) => {
+          const dateA = jobIsComplete(a) ? a.date || a.dueDate || '' : a.dueDate || '';
+          const dateB = jobIsComplete(b) ? b.date || b.dueDate || '' : b.dueDate || '';
+          const direction = jobSortOrder === 'recommended' ? (scheduleStatusFilter === 'completed' ? 'newest' : 'oldest') : jobSortOrder;
+          if (!dateA) return dateB ? 1 : 0;
+          if (!dateB) return -1;
+          return direction === 'newest' ? dateB.localeCompare(dateA) : dateA.localeCompare(dateB);
+        });
+        const jobPageCount = Math.max(1, Math.ceil(activeJobs.length / RECORDS_PER_PAGE));
+        jobPage = Math.min(jobPage, jobPageCount);
+        const firstJobIndex = (jobPage - 1) * RECORDS_PER_PAGE;
+        const pageJobs = activeJobs.slice(firstJobIndex, firstJobIndex + RECORDS_PER_PAGE);
+        const todayISO = localISO();
+        const tomorrowDate = new Date(); tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+        const tomorrowISO = localISO(tomorrowDate);
+        const grouped = new Map();
+        pageJobs.forEach(job => {
+          const date = jobIsComplete(job) ? job.date : job.dueDate;
+          const key = date || 'not-set';
+          if (!grouped.has(key)) grouped.set(key, []);
+          grouped.get(key).push(job);
+        });
+        const groupHtml = [...grouped.entries()].map(([date, group]) => {
+          const overdue = scheduleStatusFilter !== 'completed' && date !== 'not-set' && date < todayISO;
+          const heading = date === 'not-set' ? 'Date not set' : date === todayISO ? 'Today' : date === tomorrowISO ? 'Tomorrow' : `${overdue ? 'Past due · ' : ''}${dateText(date)}`;
+          const cards = group.map(job => {
+            const profile = customerGroups().find(customer => customer.key === customerKey(job.customer));
+            const phone = job.phone || profile?.phone || '';
+            const dueDate = jobIsComplete(job) ? job.date : job.dueDate;
+            const jobKind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`;
+            const call = phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}" aria-label="Call ${escapeHtml(job.customer)}">Call</a>` : '';
+            const stageOptions = ['upcoming', 'pending', 'followup'].map(status => `<option value="${status}" ${workStatusFor(job) === status ? 'selected' : ''}>${workStatusLabel(status)}</option>`).join('');
+            const progressControl = !jobIsComplete(job) ? `<div class="schedule-slide job-list-slide"><div><label for="complete-${escapeHtml(job.id)}">Slide to mark job complete</label><input id="complete-${escapeHtml(job.id)}" type="range" min="0" max="100" value="0" aria-label="Slide to mark ${escapeHtml(job.customer)} job complete" data-complete-job="${escapeHtml(job.id)}"></div><span class="schedule-slide-arrow" aria-hidden="true">→</span></div>` : '';
+            const workflow = !jobIsComplete(job) ? `<label class="job-stage-label" for="stage-${escapeHtml(job.id)}">Status</label><select class="schedule-stage-select" id="stage-${escapeHtml(job.id)}" aria-label="Change ${escapeHtml(job.customer)} job status" data-job-stage="${escapeHtml(job.id)}">${stageOptions}</select>` : '';
+            return `<article class="job-list-card"><button type="button" class="job-list-row" data-action="view-job" data-id="${escapeHtml(job.id)}" aria-label="View job for ${escapeHtml(job.customer)}"><span class="job-list-main"><strong class="job-list-name">${escapeHtml(job.customer)}</strong><span class="job-list-meta">${escapeHtml(jobKind)} · ${jobIsComplete(job) ? 'Completed' : 'Complete by'} ${dateText(dueDate)}</span><span class="job-model-chip">${escapeHtml(job.model || 'Purifier')}</span></span>${jobStatusChip(job)}</button><div class="schedule-card-actions">${call}${workflow}<button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">${jobIsComplete(job) ? 'Edit job' : 'Reschedule / edit'}</button></div>${progressControl}</article>`;
+          }).join('');
+          return `<section class="job-list-day"><h2 class="job-list-day-title">${escapeHtml(heading)}</h2>${cards}</section>`;
+        }).join('');
+        const tabs = statuses.map(status => {
+          const label = status === 'completed' ? 'Done' : workStatusLabel(status);
+          return `<button type="button" class="job-status-tab" aria-pressed="${scheduleStatusFilter === status}" data-schedule-status="${status}"><span>${label}</span><span class="job-status-tab-count">${counts[status]}</span></button>`;
+        }).join('');
+        const typeOptions = `<option value="regular" ${jobTypeFilter === 'regular' ? 'selected' : ''}>Regular jobs</option><option value="referral" ${jobTypeFilter === 'referral' ? 'selected' : ''}>Referral jobs</option><option value="all" ${jobTypeFilter === 'all' ? 'selected' : ''}>All job types</option>`;
+        const rangeOptions = [['last7', 'Last 7 days'], ['last15', 'Last 15 days'], ['last30', 'Last 1 month'], ['all', 'All dates'], ['custom', 'Choose dates']].map(([value, label]) => `<option value="${value}" ${jobRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const sortOptions = [['recommended', 'Recommended'], ['newest', 'Newest first'], ['oldest', 'Oldest first']].map(([value, label]) => `<option value="${value}" ${jobSortOrder === value ? 'selected' : ''}>${label}</option>`).join('');
+        const customDates = jobRangeFilter === 'custom' ? `<div class="job-filter-field"><div class="job-custom-range" role="group" aria-label="Job date range"><label for="jobDateFrom">From<input id="jobDateFrom" type="date" value="${escapeHtml(jobDateFrom)}"></label><label for="jobDateTo">To<input id="jobDateTo" type="date" value="${escapeHtml(jobDateTo)}"></label></div></div>` : '';
+        const typeLabel = ({ regular: 'Regular jobs', referral: 'Referral jobs', all: 'All job types' })[jobTypeFilter];
+        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', last30: 'Last 1 month', all: 'All dates', custom: 'Custom date range' })[jobRangeFilter];
+        const sortLabel = ({ recommended: 'Recommended order', newest: 'Newest first', oldest: 'Oldest first' })[jobSortOrder];
+        const help = `<span class="job-info-wrap"><button type="button" class="hk-info-tooltip__trigger job-info-button" data-action="toggle-job-help" aria-expanded="false" aria-controls="jobHelpText" aria-label="About job statuses">ⓘ</button><span id="jobHelpText" class="hk-info-tooltip__content" data-open="false">Schedule jobs by their status. Payment status is shown inside each job’s details.</span></span>`;
+        const search = data.jobs.length ? `<label class="jobs-search"><span class="sr-only">Search jobs</span><input class="input" id="jobSearch" value="${escapeHtml(jobSearch)}" placeholder="Search customer or model" autocomplete="off"></label>` : '';
+        let empty = '';
+        if (!data.jobs.length) empty = `<div class="jobs-empty"><p>No jobs yet. Add your first job to start tracking your schedule.</p><button type="button" class="button button-primary" data-action="add-job">Add a job</button></div>`;
+        else if (!jobs.length) empty = `<div class="jobs-empty"><p>No jobs match these filters.</p><button type="button" class="button" data-action="show-all-jobs">Clear filters</button></div>`;
+        else if (jobSearch && !activeJobs.length) empty = `<div class="jobs-empty"><p>No matching jobs in this status.</p><button type="button" class="button" data-action="clear-job-search">Clear search</button></div>`;
+        else if (!activeJobs.length) {
+          const nextStatus = statuses.find(status => counts[status] > 0);
+          empty = `<div class="jobs-empty"><p>No ${scheduleStatusFilter === 'completed' ? 'done' : workStatusLabel(scheduleStatusFilter).toLowerCase()} jobs.</p>${nextStatus ? `<button type="button" class="button" data-action="show-first-job-status" data-status="${nextStatus}">Show ${nextStatus === 'completed' ? 'done' : workStatusLabel(nextStatus).toLowerCase()} jobs</button>` : ''}</div>`;
+        }
+        const pagination = activeJobs.length > RECORDS_PER_PAGE ? `<nav class="list-pagination" aria-label="Job pages"><button type="button" class="button" data-action="previous-job-page" ${jobPage <= 1 ? 'disabled' : ''}>Previous</button><span id="jobPageStatus" tabindex="-1" aria-live="polite">Showing ${firstJobIndex + 1}–${Math.min(firstJobIndex + RECORDS_PER_PAGE, activeJobs.length)} of ${activeJobs.length} jobs</span><button type="button" class="button" data-action="next-job-page" ${jobPage >= jobPageCount ? 'disabled' : ''}>Next</button></nav>` : '';
+        return `<div class="jobs-page"><div class="jobs-toolbar">${search}<div class="jobs-toolbar-actions">${help}${data.jobs.length ? '<button type="button" class="button button-primary" data-action="add-job">Add job</button>' : ''}</div></div>${data.jobs.length ? `<details id="jobFilters" class="jobs-filter-details" ${jobFiltersOpen ? 'open' : ''}><summary><span>Filters</span><span class="jobs-filter-count">${typeLabel} · ${rangeLabel} · ${sortLabel}</span></summary><div class="job-filter-panel"><div class="job-filter-field"><label for="jobTypeFilter">Job type</label><select id="jobTypeFilter">${typeOptions}</select></div><div class="job-filter-field"><label for="jobRangeFilter">Date range</label><select id="jobRangeFilter">${rangeOptions}</select></div><div class="job-filter-field"><label for="jobSortOrder">Sort jobs</label><select id="jobSortOrder">${sortOptions}</select></div>${customDates}</div></details>` : ''}<div class="job-status-tabs" role="group" aria-label="Schedule status">${tabs}</div>${groupHtml || empty}${pagination}</div>`;
       }
       function renderCustomers() {
         const groups = customerGroups().filter(item => !(data.hiddenCustomers || []).includes(item.key));
@@ -880,27 +1186,62 @@
         if (profile) return renderCustomerProfile(profile);
         const customers = groups.filter(item => item.name.toLowerCase().includes(customerSearch.toLowerCase()));
         const rows = customers.map(customer => {
-          const expected = customer.jobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
-          const received = customer.jobs.reduce((sum, job) => sum + knownReceivedFor(job), 0);
           const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
-          const unmatched = customer.unmatchedPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
-          const contact = customer.phone ? `<a href="tel:${escapeHtml(phoneHref(customer.phone))}">Call ${escapeHtml(customer.phone)}</a>` : 'No mobile number';
           const settlement = customerSettlement(customer);
-          const dotLabel = settlement === 'settled' ? 'All completed job payments settled' : settlement === 'pending' ? 'Payment pending or unmatched payment needs review' : settlement === 'scheduled' ? 'Job not completed yet' : 'No jobs recorded yet';
-          const dotClass = settlement === 'scheduled' ? 'unknown' : settlement;
-          const statusLabel = settlement === 'settled' ? '<span class="status paid">Settled</span>' : settlement === 'pending' ? (pending ? `<span class="status pending">${money(pending)} pending</span>` : customer.unmatchedPayments.length ? '<span class="status unmatched">Needs matching</span>' : '<span class="status pending">Payment pending</span>') : settlement === 'scheduled' ? '<span class="status unmatched">Job not completed</span>' : '<span class="status unmatched">No job yet</span>';
-          return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer.name)}</div><div><strong>${escapeHtml(customer.name)} <span class="settlement-dot ${dotClass}" role="img" aria-label="${escapeHtml(dotLabel)}" title="${escapeHtml(dotLabel)}"></span></strong><span class="subcell">ID ${escapeHtml(customerCodeFor(customer))} · ${contact} · ${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'}</span></div></div></td><td>${money(received)}<span class="subcell">${customer.jobs.length ? `of ${money(expected)} known expected` : 'No linked jobs'}</span></td><td>${statusLabel}</td><td>${unmatched ? `<span class="status unmatched">${money(unmatched)} unmatched</span>` : '—'}</td><td><button class="button button-small" data-action="view-customer" data-id="${escapeHtml(customer.key)}">View profile</button></td></tr>`;
+          const hasIncompleteJobs = customer.jobs.some(job => !jobIsComplete(job));
+          let label = 'No job yet', kind = 'neutral';
+          if (customer.unmatchedPayments.length) { label = 'Match payment'; kind = 'problem'; }
+          else if (pending > 0) { label = `${money(pending)} pending`; kind = 'pending'; }
+          else if (customer.jobs.some(job => pendingPartsFor(job).includes('extra-mile payment'))) { label = 'Extra-mile pending'; kind = 'pending'; }
+          else if (settlement === 'pending') { label = 'Payment pending'; kind = 'pending'; }
+          else if (hasIncompleteJobs || settlement === 'scheduled') { label = 'Job pending'; kind = 'neutral'; }
+          else if (settlement === 'settled') { label = 'Settled'; kind = 'settled'; }
+          return `<button type="button" class="customer-list-row" data-action="view-customer" data-id="${escapeHtml(customer.key)}"><span class="customer-list-main"><strong class="customer-list-name">${escapeHtml(customer.name)}</strong><span class="customer-list-count">${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'}</span></span><span class="hk-status-chip hk-status-chip--${kind} customer-list-status">${escapeHtml(label)}</span></button>`;
         }).join('');
-        return `<div class="welcome-row"><div><h2>Customers</h2><p>Create customer profiles and review their job and payment history.</p></div><button class="button button-primary" data-action="add-customer">＋ Add a customer</button></div>
-          <div class="notice"><span class="notice-icon">ⓘ</span><span>Green dot means completed-job payments are settled. Breathing red means a payment is pending or needs matching. Grey means there is no completed job to check yet. Open a customer profile to see the payment details.</span></div>
-          <div class="page-toolbar"><div class="toolbar-left"><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="customerSearch" value="${escapeHtml(customerSearch)}" placeholder="Search customer"></div></div><button class="button button-primary" data-action="add-customer">＋ Add a customer</button></div>
-          <section class="panel"><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Received</th><th>Known pending</th><th>Unmatched credits</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="5"><div class="empty-state"><div class="empty-icon">♙</div><strong>${customerSearch ? 'No matching customers' : 'No customer profiles yet'}</strong><p>${customerSearch ? 'Try another name.' : 'Create a customer profile, add a job, or enter a named unmatched payment.'}</p>${!customerSearch ? '<button class="button button-small button-primary" data-action="add-customer">＋ Add a customer</button>' : ''}</div></td></tr>`}</tbody></table></div></section>`;
+        const search = groups.length ? `<label class="customers-search"><span class="sr-only">Search by customer name, phone, or customer ID</span><input class="input" id="customerSearch" value="${escapeHtml(customerSearch)}" placeholder="Search name, phone, or customer ID" autocomplete="off"></label>` : '';
+        const empty = groups.length ? `<div class="customers-empty"><p>No matching customers. Try a name, phone number, or customer ID.</p><button type="button" class="button" data-action="clear-customer-search">Clear search</button></div>` : `<div class="customers-empty"><p>No customer profiles yet. Add a customer or create a job to get started.</p><button type="button" class="button button-primary" data-action="add-customer">Add a customer</button></div>`;
+        return `<div class="customers-page">${search}${rows ? `<div class="customer-list">${rows}</div>` : empty}</div>`;
+      }
+      function openJobDetails(jobId) {
+        const job = getJob(jobId);
+        if (!job) return;
+        const profile = customerGroups().find(customer => customer.key === customerKey(job.customer));
+        const phone = job.phone || profile?.phone || '';
+        const expected = knownExpectedFor(job);
+        const received = knownReceivedFor(job);
+        const pending = knownPendingFor(job);
+        const paymentRows = paymentsFor(job.id).slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(payment => `<div class="job-detail-payment"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)}</span><strong>+${money(payment.amount)}</strong></div>`).join('');
+        const componentRows = ['jobValue', 'onTime', 'rating', 'referral', ...(job.type !== 'referral' && job.locality === 'nonLocal' ? ['extraMile'] : [])].map(component => {
+          const amountExpected = expectedFor(job, component);
+          const amountReceived = receivedFor(job.id, component);
+          const needsManualExpected = (component === 'extraMile' && job.locality === 'nonLocal') || (component === 'referral' && job.type === 'referral');
+          if (amountExpected <= 0 && amountReceived <= 0 && !needsManualExpected) return '';
+          if (amountExpected <= 0 && amountReceived <= 0 && needsManualExpected) return `<div class="job-detail-payment"><span>${escapeHtml(COMPONENT_LABELS[component])}<small class="job-detail-sub">Expected amount not set</small></span><span class="hk-status-chip hk-status-chip--pending">Amount not set</span></div>`;
+          const balance = Math.max(amountExpected - amountReceived, 0);
+          const state = amountExpected <= 0 ? 'Received' : balance > 0 ? `${money(balance)} pending` : 'Settled';
+          const kind = balance > 0 ? 'pending' : 'settled';
+          return `<div class="job-detail-payment"><span>${escapeHtml(COMPONENT_LABELS[component])}<small class="job-detail-sub">Expected ${money(amountExpected)} · Received ${money(amountReceived)}</small></span><span class="hk-status-chip hk-status-chip--${kind}">${escapeHtml(state)}</span></div>`;
+        }).join('');
+        const manualRows = ['goodwill', 'commission'].map(component => {
+          const amount = receivedFor(job.id, component);
+          return amount > 0 ? `<div class="job-detail-payment"><span>${escapeHtml(COMPONENT_LABELS[component])} received</span><strong>+${money(amount)}</strong></div>` : '';
+        }).join('');
+        const detailDate = jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `Complete by ${dateText(job.dueDate)}`;
+        const jobKind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`;
+        document.getElementById('jobDetailTitle').textContent = job.customer;
+        document.getElementById('jobDetailSubtitle').textContent = `${job.model || 'Purifier'} · ${jobKind}`;
+        document.getElementById('jobDetailContent').innerHTML = `<div class="job-detail-topline">${jobStatusChip(job)}<span>${escapeHtml(detailDate)}</span></div>${phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}">Call ${escapeHtml(job.customer)}</a>` : ''}<div class="job-detail-summary"><div class="job-detail-metric"><span>Expected</span><strong>${money(expected)}</strong></div><div class="job-detail-metric"><span>Received toward expected</span><strong>${money(received)}</strong></div><div class="job-detail-metric"><span>Pending</span><strong>${money(pending)}</strong></div></div>${jobIsComplete(job) ? `<section class="job-detail-section"><h4>Payment breakdown</h4>${componentRows || '<p>No expected payments are set for this job.</p>'}</section>` : '<p class="job-detail-note">Payment amounts are tracked after the job is marked complete.</p>'}${manualRows ? `<section class="job-detail-section"><h4>Other credits received</h4>${manualRows}</section>` : ''}<section class="job-detail-section"><h4>Payment history</h4>${paymentRows || '<p>No payments recorded for this job yet.</p>'}</section><p class="job-detail-id">Job reference: ${escapeHtml(job.id)}</p>`;
+        document.getElementById('jobDetailEdit').dataset.id = job.id;
+        document.getElementById('jobDetailDelete').dataset.id = job.id;
+        document.getElementById('jobDetailDialog').showModal();
       }
       function renderCustomerProfile(customer) {
         const expected = customer.jobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
         const received = customer.jobs.reduce((sum, job) => sum + knownReceivedFor(job), 0);
         const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
-        const manual = customer.jobs.flatMap(job => paymentsFor(job.id)).filter(payment => payment.component === 'commission').reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+        const customerPayments = [...customer.jobs.flatMap(job => paymentsFor(job.id)), ...customer.unmatchedPayments];
+        const goodwill = customerPayments.filter(payment => payment.component === 'goodwill').reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+        const manual = customerPayments.filter(payment => payment.component === 'commission').reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
         const jobCards = customer.jobs.map(job => {
           const parts = jobIsComplete(job) ? KNOWN_COMPONENTS.filter(component => expectedFor(job, component) > 0 || receivedFor(job.id, component) > 0).map(component => {
             const partExpected = expectedFor(job, component);
@@ -913,100 +1254,176 @@
           const extraReceived = receivedFor(job.id, 'extraMile');
           const extraPending = Math.max(extraExpected - extraReceived, 0);
           const extraPart = jobIsComplete(job) && job.type !== 'referral' && job.locality === 'nonLocal' ? `<div class="customer-breakdown-item"><div class="customer-breakdown-label">Extra-mile incentive</div><span class="status ${extraExpected > extraReceived || extraReceived <= 0 ? 'pending' : 'paid'}">${extraExpected > 0 ? extraPending ? `${money(extraPending)} pending` : 'Settled' : extraReceived > 0 ? 'Received' : 'Payment pending'}</span><div class="customer-breakdown-meta">Received ${money(extraReceived)} · ${extraExpected > 0 ? `Expected ${money(extraExpected)}` : 'Expected amount not set'}</div></div>` : '';
-          const history = paymentsFor(job.id).sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(payment => `<div class="customer-history-row"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)}</span><strong>+${money(payment.amount)}</strong></div>`).join('');
+          const history = paymentsFor(job.id).slice().sort((a, b) => (b.date || '').localeCompare(a.date || '')).map(payment => `<button type="button" class="customer-history-row customer-history-row--button" data-action="view-payment" data-id="${escapeHtml(payment.id)}" aria-label="View ${escapeHtml(COMPONENT_LABELS[payment.component] || 'payment')} of ${money(payment.amount)} received ${dateText(payment.date)}"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)}</span><strong>+${money(payment.amount)}</strong></button>`).join('');
           const pendingParts = pendingPartsFor(job);
           const referralAmountMissing = job.type === 'referral' && expectedFor(job, 'referral') <= 0;
           const commission = receivedFor(job.id, 'commission');
-        const progressSummary = jobIsComplete(job) ? `${referralAmountMissing ? 'Referral payout not set' : pendingParts.length ? `Pending parts: ${escapeHtml(pendingParts.join(', '))}` : 'All payment parts are settled'} · UC commission received: ${money(commission)}` : `Status: ${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}. Payment tracking starts when the job is complete.`;
-          return `<article class="customer-job-card"><div class="customer-job-head"><div><div class="customer-job-title">${escapeHtml(job.model || 'Purifier')} · ${job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`}</div><div class="customer-job-meta">${jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}`} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</div></div><div class="row-actions"><button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit job</button><button class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></div>${jobIsComplete(job) ? `<div class="customer-breakdown">${parts}${extraPart}</div>` : ''}<div class="customer-job-meta">${progressSummary}</div><div class="customer-history"><strong class="customer-breakdown-label">Payments received</strong>${history || '<span class="customer-job-meta">No payments recorded for this job yet.</span>'}</div></article>`;
+        const progressSummary = jobIsComplete(job) ? `${referralAmountMissing ? 'Referral payout not set' : pendingParts.length ? `Pending payments: ${escapeHtml(pendingParts.join(', '))}` : 'All expected payments are settled'} · UC commission received: ${money(commission)}` : `Status: ${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}. Payment tracking starts when the job is complete.`;
+          return `<article class="customer-job-card"><div class="customer-job-head"><div><div class="customer-job-title">${escapeHtml(job.model || 'Purifier')} · ${job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`}</div><div class="customer-job-meta">${jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}`} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</div></div><div class="row-actions"><button type="button" class="button button-small" data-action="view-job" data-id="${escapeHtml(job.id)}">View job</button><button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit job</button><button type="button" class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></div>${jobIsComplete(job) ? `<div class="customer-breakdown">${parts}${extraPart}</div>` : ''}<div class="customer-job-meta">${progressSummary}</div><div class="customer-history"><strong class="customer-breakdown-label">Payments received</strong>${history || '<span class="customer-job-meta">No payments recorded for this job yet.</span>'}</div></article>`;
         }).join('');
-        const unmatchedRows = customer.unmatchedPayments.map(payment => `<div class="customer-history-row"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)} <span class="status unmatched">Unmatched</span></span><span><strong>+${money(payment.amount)}</strong> <button class="button button-small" data-action="edit-payment" data-id="${escapeHtml(payment.id)}">Edit / match</button></span></div>`).join('');
+        const unmatchedRows = customer.unmatchedPayments.map(payment => `<div class="customer-history-row"><button type="button" class="customer-history-row--button" data-action="view-payment" data-id="${escapeHtml(payment.id)}" aria-label="View ${escapeHtml(COMPONENT_LABELS[payment.component] || 'payment')} of ${money(payment.amount)} received ${dateText(payment.date)}"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)} · Not linked to a job</span><strong>+${money(payment.amount)}</strong></button><button type="button" class="button button-small" data-action="edit-payment" data-id="${escapeHtml(payment.id)}">Edit / link to a job</button></div>`).join('');
         const noJobsTitle = customer.unmatchedPayments.length ? 'No job linked yet' : 'No jobs yet';
-        const noJobsCopy = customer.unmatchedPayments.length ? 'This profile has unmatched payment entries. Add a job to track expected and pending amounts.' : 'Add a job to start tracking this customer’s expected, received, and pending amounts.';
-        const contact = customer.phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(customer.phone))}">Call ${escapeHtml(customer.phone)}</a>` : '<span class="customer-job-meta">No mobile number saved</span>';
+        const noJobsCopy = customer.unmatchedPayments.length ? 'This profile has payments without a job link. Add a job to track expected and pending amounts.' : 'Add a job to start tracking this customer’s expected, received, and pending amounts.';
+        const contact = customer.phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(customer.phone))}">Call ${escapeHtml(customer.phone)}</a>` : `<button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">Add phone number</button>`;
         const hasUnpricedPending = customer.jobs.some(job => pendingPartsFor(job).length && knownPendingFor(job) === 0);
         return `<div class="welcome-row"><div><button class="button button-small" data-action="back-customers">← Customers</button><h2 style="margin-top:10px">${escapeHtml(customer.name)}</h2><p class="customer-profile-meta"><span>Customer ID: <strong>${escapeHtml(customerCodeFor(customer))}</strong></span>${contact}<span>${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'} in this profile</span>${hasUnpricedPending ? '<span class="status pending">Extra-mile payment pending</span>' : ''}</p></div><div class="customer-profile-actions"><button class="button button-primary" data-action="add-customer-job" data-id="${escapeHtml(customer.key)}">＋ Add a job</button><details class="customer-menu"><summary class="button button-small" aria-label="Customer options" title="Customer options">⋮</summary><div class="customer-menu-panel"><button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">Edit profile</button><button type="button" class="button button-small button-danger" data-action="delete-customer-profile" data-id="${escapeHtml(customer.key)}">Delete profile</button></div></details></div></div>
-          <div class="customer-profile-grid"><div class="stat-card"><div class="stat-label">Known expected</div><div class="stat-value">${money(expected)}</div></div><div class="stat-card"><div class="stat-label">Known received</div><div class="stat-value">${money(received)}</div></div><div class="stat-card"><div class="stat-label">Known pending</div><div class="stat-value">${money(pending)}</div></div><div class="stat-card"><div class="stat-label">UC commission received</div><div class="stat-value">${money(manual)}</div></div></div>
+          <div class="customer-profile-grid"><div class="stat-card"><div class="stat-label">Expected payments</div><div class="stat-value">${money(expected)}</div></div><div class="stat-card"><div class="stat-label">Received toward expected</div><div class="stat-value">${money(received)}</div></div><div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value">${money(pending)}</div></div><div class="stat-card"><div class="stat-label">Goodwill received</div><div class="stat-value">${money(goodwill)}</div></div><div class="stat-card"><div class="stat-label">UC commission received</div><div class="stat-value">${money(manual)}</div></div></div>
           <div class="customer-job-list">${jobCards || `<section class="panel"><div class="empty-state"><div class="empty-icon">▣</div><strong>${noJobsTitle}</strong><p>${noJobsCopy}</p><button class="button button-small button-primary" data-action="add-customer-job" data-id="${escapeHtml(customer.key)}">＋ Add a job</button></div></section>`}</div>
-          ${unmatchedRows ? `<section class="panel" style="margin-top:14px"><div class="panel-head"><div><h3 class="panel-title">Unmatched credits</h3><div class="panel-subtitle">These payments have this customer name but are not linked to a job.</div></div></div><div class="panel-body">${unmatchedRows}</div></section>` : ''}`;
+          ${unmatchedRows ? `<section class="panel" style="margin-top:14px"><div class="panel-head"><div><h3 class="panel-title">Payments not linked to a job</h3><div class="panel-subtitle">These payments have this customer name but are not linked to a job.</div></div></div><div class="panel-body">${unmatchedRows}</div></section>` : ''}`;
+      }
+      function openPaymentDetails(paymentId) {
+        const payment = data.payments.find(item => item.id === paymentId);
+        if (!payment) return;
+        const job = getJob(payment.jobId);
+        const customer = job?.customer || payment.customerName || 'Payment not linked to a job';
+        const profile = job ? customerGroups().find(item => item.key === customerKey(job.customer)) : null;
+        const phone = job?.phone || profile?.phone || '';
+        const paymentType = COMPONENT_LABELS[payment.component] || 'Payment';
+        const matchState = job ? 'Matched to a job' : 'Not linked to a job';
+        const jobDetails = job ? `<dl class="payment-detail-grid"><div class="payment-detail-row"><dt>Job</dt><dd>${escapeHtml(job.customer)}</dd></div><div class="payment-detail-row"><dt>Job status</dt><dd>${escapeHtml(jobStatusFor(job))}</dd></div><div class="payment-detail-row"><dt>Purifier</dt><dd>${escapeHtml(job.model || 'Purifier')}</dd></div><div class="payment-detail-row"><dt>Job date</dt><dd>${jobIsComplete(job) ? dateText(job.date) : `Complete by ${dateText(job.dueDate)}`}</dd></div></dl><p class="job-detail-id">Job reference: ${escapeHtml(job.id)}</p>` : `<dl class="payment-detail-grid"><div class="payment-detail-row"><dt>Job match</dt><dd>No job linked. Edit this payment to match a job.</dd></div></dl>`;
+        document.getElementById('paymentDetailTitle').textContent = customer;
+        document.getElementById('paymentDetailSubtitle').textContent = paymentType;
+        document.getElementById('paymentDetailContent').innerHTML = `<dl class="payment-detail-grid"><div class="payment-detail-row payment-detail-row--amount"><dt>Amount received</dt><dd>${money(payment.amount)}</dd></div><div class="payment-detail-row"><dt>Received date</dt><dd>${dateText(payment.date)}</dd></div><div class="payment-detail-row"><dt>Payment type</dt><dd>${escapeHtml(paymentType)}</dd></div><div class="payment-detail-row"><dt>Status</dt><dd>${escapeHtml(matchState)}</dd></div></dl>${jobDetails}${phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}">Call ${escapeHtml(customer)}</a>` : ''}<p class="job-detail-id">Payment reference: ${escapeHtml(payment.id)}</p>`;
+        document.getElementById('paymentDetailEdit').dataset.id = payment.id;
+        document.getElementById('paymentDetailUnmatch').dataset.id = payment.id;
+        document.getElementById('paymentDetailUnmatch').hidden = !payment.jobId;
+        document.getElementById('paymentDetailDelete').dataset.id = payment.id;
+        document.getElementById('paymentDetailSheet').showModal();
       }
       function renderPayments() {
-        const filtered = [...data.payments].sort((a, b) => (b.date || '').localeCompare(a.date || '')).filter(item => !paymentFocusId || item.id === paymentFocusId).filter(item => {
-          const job = getJob(item.jobId);
-          return `${job ? job.customer : item.customerName || ''} ${COMPONENT_LABELS[item.component] || ''} ${item.amount}`.toLowerCase().includes(paymentSearch.toLowerCase());
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        const days = ({ last7: 7, last15: 15 })[paymentRangeFilter];
+        const monthAgo = new Date(today); const monthDay = monthAgo.getDate(); monthAgo.setDate(1); monthAgo.setMonth(monthAgo.getMonth() - 1); monthAgo.setDate(Math.min(monthDay, new Date(monthAgo.getFullYear(), monthAgo.getMonth() + 1, 0).getDate()));
+        const fromPreset = paymentRangeFilter === 'last30' ? localISO(monthAgo) : days ? localISO(new Date(today.getTime() - (days - 1) * 86400000)) : '';
+        const fromDate = paymentRangeFilter === 'custom' ? paymentDateFrom : fromPreset;
+        const toDate = paymentRangeFilter === 'custom' ? paymentDateTo : paymentRangeFilter === 'all' ? '' : localISO(today);
+        const sortLabel = ({ newest: 'Newest first', oldest: 'Oldest first' })[paymentSortOrder];
+        const statusLabel = ({ all: 'All payments', matched: 'Matched to a job', unmatched: 'Not linked to a job' })[paymentStatusFilter];
+        const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', last30: 'Last 1 month', all: 'All dates', custom: 'Custom date range' })[paymentRangeFilter];
+        const filtered = [...data.payments]
+          .sort((a, b) => paymentSortOrder === 'oldest' ? (a.date || '').localeCompare(b.date || '') : (b.date || '').localeCompare(a.date || ''))
+          .filter(item => {
+            if (paymentFocusId) return item.id === paymentFocusId;
+            const job = getJob(item.jobId);
+            const isMatched = Boolean(job);
+            if (paymentStatusFilter === 'matched' && !isMatched) return false;
+            if (paymentStatusFilter === 'unmatched' && isMatched) return false;
+            if (fromDate && (item.date || '') < fromDate) return false;
+            if (toDate && (item.date || '') > toDate) return false;
+            const customer = job ? job.customer : item.customerName || '';
+            return `${customer} ${COMPONENT_LABELS[item.component] || ''} ${item.amount} ${item.date || ''}`.toLowerCase().includes(paymentSearch.trim().toLowerCase());
+          });
+        const paymentPageCount = Math.max(1, Math.ceil(filtered.length / RECORDS_PER_PAGE));
+        paymentPage = Math.min(paymentPage, paymentPageCount);
+        const firstPaymentIndex = (paymentPage - 1) * RECORDS_PER_PAGE;
+        const pagePayments = filtered.slice(firstPaymentIndex, firstPaymentIndex + RECORDS_PER_PAGE);
+        const dateTotals = new Map();
+        filtered.forEach(item => {
+          const key = `Received ${dateText(item.date)}`;
+          dateTotals.set(key, (dateTotals.get(key) || 0) + Number(item.amount || 0));
         });
         const batches = new Map();
-        filtered.forEach(item => {
+        pagePayments.forEach(item => {
           const key = `Received ${dateText(item.date)}`;
           if (!batches.has(key)) batches.set(key, []);
           batches.get(key).push(item);
         });
         const batchHtml = [...batches.entries()].map(([label, items]) => {
-          const total = items.reduce((sum, item) => sum + Number(item.amount || 0), 0);
-          const sections = ['Job payments', 'Incentive payments', 'Manual additions'].map(section => {
-            const sectionItems = items.filter(item => COMPONENT_SECTION[item.component] === section);
-            if (!sectionItems.length) return '';
-            return `<div class="batch-section-label">${section}</div><div class="table-wrap"><table class="batch-table"><thead><tr><th>Customer / job</th><th>Payment part</th><th>Received date</th><th>Amount</th><th></th></tr></thead><tbody>${sectionItems.map(item => {
-              const job = getJob(item.jobId);
-              const customer = job ? job.customer : item.customerName || 'Unmatched payment';
-              return `<tr><td><div class="customer-cell"><div class="customer-avatar">${initial(customer)}</div><div><strong>${escapeHtml(customer)}</strong><span class="subcell">${job ? `${jobIsComplete(job) ? dateText(job.date) : `Due ${dateText(job.dueDate)}`} · ${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}` : '<span class="status unmatched">Unmatched</span>'}</span></div></div></td><td>${COMPONENT_LABELS[item.component] || 'Payment'}</td><td>${dateText(item.date)}</td><td><strong>${money(item.amount)}</strong></td><td><div class="row-actions"><button class="button button-small" data-action="edit-payment" data-id="${escapeHtml(item.id)}">${job ? 'Edit' : 'Match / edit'}</button>${job ? `<button class="button button-small" data-action="unmatch-payment" data-id="${escapeHtml(item.id)}">Unmatch</button>` : ''}<button class="button button-small button-danger" data-action="delete-payment" data-id="${escapeHtml(item.id)}">Delete</button></div></td></tr>`;
-            }).join('')}</tbody></table></div>`;
+          const total = dateTotals.get(label) || 0;
+          const rows = items.map(item => {
+            const job = getJob(item.jobId);
+            const customer = job ? job.customer : item.customerName || 'Payment not linked to a job';
+            const context = job ? `Matched to a job · ${escapeHtml(job.model || 'Purifier')} · ${jobIsComplete(job) ? 'Completed job' : workStatusLabel(workStatusFor(job))}` : 'Not linked to a job';
+            return `<button type="button" class="payment-list-row hk-list-row" data-action="view-payment" data-id="${escapeHtml(item.id)}" aria-label="View ${escapeHtml(COMPONENT_LABELS[item.component] || 'payment')} for ${escapeHtml(customer)}, ${money(item.amount)}"><span class="payment-list-main"><strong class="payment-list-row__title hk-list-row__title">${escapeHtml(customer)}</strong><span class="payment-list-row__subtitle hk-list-row__subtitle">${escapeHtml(COMPONENT_LABELS[item.component] || 'Payment')} · ${context}</span></span><span class="payment-list-row__amount hk-list-row__amount">${money(item.amount)}</span></button>`;
           }).join('');
-          return `<section class="panel batch-block"><div class="batch-head"><div><div class="batch-title">${escapeHtml(label)}</div><div class="batch-meta">${items.length} ${items.length === 1 ? 'payment entry' : 'payment entries'}</div></div><div class="batch-sum">${money(total)}</div></div>${sections}</section>`;
+          return `<section class="payment-date-group"><div class="payment-date-head"><span class="payment-date-title">${escapeHtml(label)}</span><span class="payment-date-total">${money(total)}</span></div><div class="payment-list">${rows}</div></section>`;
         }).join('');
         const focusedPayment = data.payments.find(item => item.id === paymentFocusId);
-        const focusedJob = focusedPayment ? getJob(focusedPayment.jobId) : null;
-        const focusNotice = paymentFocusId ? `<div class="notice"><span class="notice-icon">⌕</span><span>Showing the selected payment${focusedPayment ? `: ${escapeHtml(focusedJob?.customer || focusedPayment.customerName || 'Unmatched payment')} · ${escapeHtml(COMPONENT_LABELS[focusedPayment.component] || 'Payment')} · ${money(focusedPayment.amount)}` : ''}.</span><button type="button" class="button button-small" data-action="clear-payment-focus">Show all payments</button></div>` : '';
-        return `<div class="welcome-row"><div><h2>Payments</h2><p>Record each line from UC Money with its payment date and matched job.</p></div><button class="button button-primary" data-action="add-payment">＋ Add a payment</button></div>
-          ${focusNotice}
-          <div class="notice"><span class="notice-icon">ⓘ</span><span>Use Edit to correct a payment or its job match, Unmatch to keep it for later, or Delete to remove it from Hisaab Kitab.</span></div>
-          <div class="page-toolbar"><div class="toolbar-left"><div class="search-box"><span class="search-glyph">⌕</span><input class="input" id="paymentSearch" value="${escapeHtml(paymentSearch)}" placeholder="Search customer, date or payment"></div></div><button class="button button-primary" data-action="add-payment">＋ Add a payment</button></div>
-          ${batchHtml || `<section class="panel"><div class="empty-state"><div class="empty-icon">↔</div><strong>${paymentSearch ? 'No matching payments' : 'No payments recorded yet'}</strong><p>${paymentSearch ? 'Try another search.' : 'When a credit appears in the UC Money section, add it here and match it to a job.'}</p>${!paymentSearch ? '<button class="button button-small button-primary" data-action="add-payment">＋ Add first payment</button>' : ''}</div></section>`}`;
+        const focusNotice = paymentFocusId ? `<div class="payment-focus-note"><span>${focusedPayment ? 'Showing one payment.' : 'The selected payment is no longer available.'}</span><button type="button" class="button button-small" data-action="clear-payment-focus">Show all payments</button></div>` : '';
+        const search = data.payments.length ? `<label class="jobs-search"><span class="sr-only">Search payments</span><input class="input" id="paymentSearch" value="${escapeHtml(paymentSearch)}" placeholder="Search customer, type, amount, or date" autocomplete="off"></label>` : '';
+        const statusOptions = [['all', 'All payments'], ['matched', 'Matched to a job'], ['unmatched', 'Not linked to a job']].map(([value, label]) => `<option value="${value}" ${paymentStatusFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const rangeOptions = [['last7', 'Last 7 days'], ['last15', 'Last 15 days'], ['last30', 'Last 1 month'], ['all', 'All dates'], ['custom', 'Choose dates']].map(([value, label]) => `<option value="${value}" ${paymentRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const sortOptions = [['newest', 'Newest first'], ['oldest', 'Oldest first']].map(([value, label]) => `<option value="${value}" ${paymentSortOrder === value ? 'selected' : ''}>${label}</option>`).join('');
+        const customDates = paymentRangeFilter === 'custom' ? `<div class="job-filter-field"><div class="job-custom-range" role="group" aria-label="Payment received date range"><label for="paymentDateFrom">From<input id="paymentDateFrom" type="date" value="${escapeHtml(paymentDateFrom)}"></label><label for="paymentDateTo">To<input id="paymentDateTo" type="date" value="${escapeHtml(paymentDateTo)}"></label></div></div>` : '';
+        const help = `<span class="payment-info-wrap hk-info-tooltip"><button type="button" class="hk-info-tooltip__trigger" data-action="toggle-payment-help" aria-expanded="false" aria-controls="paymentHelpText" aria-label="About payment actions">ⓘ</button><span id="paymentHelpText" class="hk-info-tooltip__content" data-open="false">Use Edit to correct a payment or its job match, Unmatch to keep it for later, or Delete to remove it from Hisaab Kitab.</span></span>`;
+        let empty = '';
+        if (!data.payments.length) empty = `<div class="payment-empty"><p>No payments recorded yet. Add a payment when it appears in UC Money.</p><button type="button" class="button button-primary" data-action="add-payment">Record a payment</button></div>`;
+        else if (!filtered.length) empty = `<div class="payment-empty"><p>No payments match this search and filter selection.</p><button type="button" class="button" data-action="clear-payment-filters">Clear search and filters</button></div>`;
+        const pagination = filtered.length > RECORDS_PER_PAGE ? `<nav class="list-pagination" aria-label="Payment pages"><button type="button" class="button" data-action="previous-payment-page" ${paymentPage <= 1 ? 'disabled' : ''}>Previous</button><span id="paymentPageStatus" tabindex="-1" aria-live="polite">Showing ${firstPaymentIndex + 1}–${Math.min(firstPaymentIndex + RECORDS_PER_PAGE, filtered.length)} of ${filtered.length} payments</span><button type="button" class="button" data-action="next-payment-page" ${paymentPage >= paymentPageCount ? 'disabled' : ''}>Next</button></nav>` : '';
+        return `<div class="payment-page"><div class="payment-toolbar">${search}<div class="payment-toolbar-actions">${help}${data.payments.length ? '<button type="button" class="button button-primary" data-action="add-payment">Record payment</button>' : ''}</div></div>${data.payments.length ? `<details id="paymentFilters" class="jobs-filter-details payment-filter-details" ${paymentFiltersOpen ? 'open' : ''}><summary><span>Filters</span><span class="jobs-filter-count">${statusLabel} · ${rangeLabel} · ${sortLabel}</span></summary><div class="job-filter-panel"><div class="job-filter-field"><label for="paymentStatusFilter">Payment status</label><select id="paymentStatusFilter">${statusOptions}</select></div><div class="job-filter-field"><label for="paymentRangeFilter">Date received</label><select id="paymentRangeFilter">${rangeOptions}</select></div><div class="job-filter-field"><label for="paymentSortOrder">Sort payments</label><select id="paymentSortOrder">${sortOptions}</select></div>${customDates}</div></details>` : ''}${focusNotice}${batchHtml || empty}${pagination}</div>`;
+      }
+      function renderKeepingFocus(id) {
+        render();
+        document.getElementById(id)?.focus();
       }
       function bindPageEvents() {
-        const overviewSearchInput = document.getElementById('overviewSearch');
-        if (overviewSearchInput) overviewSearchInput.addEventListener('input', event => { overviewSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('overviewSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
-        const overviewRangeInput = document.getElementById('overviewDateRange');
-        if (overviewRangeInput) overviewRangeInput.addEventListener('change', event => { overviewDateRange = event.target.value; render(); });
         const jobSearchInput = document.getElementById('jobSearch');
-        if (jobSearchInput) jobSearchInput.addEventListener('input', event => { jobSearch = event.target.value; jobFocusId = ''; const cursor = event.target.selectionStart; render(); const again = document.getElementById('jobSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
-        document.querySelectorAll('[data-schedule-status]').forEach(button => button.addEventListener('click', () => { scheduleStatusFilter = button.dataset.scheduleStatus; render(); }));
+        if (jobSearchInput) jobSearchInput.addEventListener('input', event => { jobSearch = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; const cursor = event.target.selectionStart; render(); const again = document.getElementById('jobSearch'); again?.focus(); again?.setSelectionRange(cursor, cursor); });
+        const jobFilters = document.getElementById('jobFilters');
+        if (jobFilters) jobFilters.addEventListener('toggle', () => { jobFiltersOpen = jobFilters.open; });
+        document.querySelectorAll('[data-schedule-status]').forEach(button => button.addEventListener('click', () => { scheduleStatusFilter = button.dataset.scheduleStatus; jobPage = 1; jobsStatusChosen = true; render(); }));
         const scheduleSearchInput = document.getElementById('scheduleSearch');
         if (scheduleSearchInput) scheduleSearchInput.addEventListener('input', event => { scheduleSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('scheduleSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
         document.querySelectorAll('[data-job-stage]').forEach(select => select.addEventListener('change', () => setJobWorkflowStatus(select.dataset.jobStage, select.value)));
         document.querySelectorAll('[data-complete-job]').forEach(slider => slider.addEventListener('input', () => { if (Number(slider.value) >= 95) markJobComplete(slider.dataset.completeJob); }));
         const jobTypeFilterInput = document.getElementById('jobTypeFilter');
-        if (jobTypeFilterInput) jobTypeFilterInput.addEventListener('change', event => { jobTypeFilter = event.target.value; jobFocusId = ''; render(); });
+        if (jobTypeFilterInput) jobTypeFilterInput.addEventListener('change', event => { jobTypeFilter = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; renderKeepingFocus('jobTypeFilter'); });
         const jobRangeFilterInput = document.getElementById('jobRangeFilter');
-        if (jobRangeFilterInput) jobRangeFilterInput.addEventListener('change', event => { jobRangeFilter = event.target.value; jobFocusId = ''; render(); });
+        if (jobRangeFilterInput) jobRangeFilterInput.addEventListener('change', event => { jobRangeFilter = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; renderKeepingFocus('jobRangeFilter'); });
         const jobDateFromInput = document.getElementById('jobDateFrom');
-        if (jobDateFromInput) jobDateFromInput.addEventListener('change', event => { jobDateFrom = event.target.value; jobFocusId = ''; render(); });
+        if (jobDateFromInput) jobDateFromInput.addEventListener('change', event => { jobDateFrom = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; renderKeepingFocus('jobDateFrom'); });
         const jobDateToInput = document.getElementById('jobDateTo');
-        if (jobDateToInput) jobDateToInput.addEventListener('change', event => { jobDateTo = event.target.value; jobFocusId = ''; render(); });
+        if (jobDateToInput) jobDateToInput.addEventListener('change', event => { jobDateTo = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; renderKeepingFocus('jobDateTo'); });
+        const jobSortOrderInput = document.getElementById('jobSortOrder');
+        if (jobSortOrderInput) jobSortOrderInput.addEventListener('change', event => { jobSortOrder = event.target.value; jobPage = 1; renderKeepingFocus('jobSortOrder'); });
         const customerSearchInput = document.getElementById('customerSearch');
-        if (customerSearchInput) customerSearchInput.addEventListener('input', event => { customerSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('customerSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        if (customerSearchInput) customerSearchInput.addEventListener('input', event => { customerSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('customerSearch'); again?.focus(); again?.setSelectionRange(cursor, cursor); });
         const paymentSearchInput = document.getElementById('paymentSearch');
-        if (paymentSearchInput) paymentSearchInput.addEventListener('input', event => { paymentSearch = event.target.value; paymentFocusId = ''; const cursor = event.target.selectionStart; render(); const again = document.getElementById('paymentSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
+        if (paymentSearchInput) paymentSearchInput.addEventListener('input', event => { paymentSearch = event.target.value; paymentFocusId = ''; paymentPage = 1; const cursor = event.target.selectionStart; render(); const again = document.getElementById('paymentSearch'); again?.focus(); again?.setSelectionRange(cursor, cursor); });
+        const paymentFilters = document.getElementById('paymentFilters');
+        if (paymentFilters) paymentFilters.addEventListener('toggle', () => { paymentFiltersOpen = paymentFilters.open; });
+        const paymentStatusInput = document.getElementById('paymentStatusFilter');
+        if (paymentStatusInput) paymentStatusInput.addEventListener('change', event => { paymentStatusFilter = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentStatusFilter'); });
+        const paymentRangeInput = document.getElementById('paymentRangeFilter');
+        if (paymentRangeInput) paymentRangeInput.addEventListener('change', event => { paymentRangeFilter = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentRangeFilter'); });
+        const paymentDateFromInput = document.getElementById('paymentDateFrom');
+        if (paymentDateFromInput) paymentDateFromInput.addEventListener('change', event => { paymentDateFrom = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentDateFrom'); });
+        const paymentDateToInput = document.getElementById('paymentDateTo');
+        if (paymentDateToInput) paymentDateToInput.addEventListener('change', event => { paymentDateTo = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentDateTo'); });
+        const paymentSortInput = document.getElementById('paymentSortOrder');
+        if (paymentSortInput) paymentSortInput.addEventListener('change', event => { paymentSortOrder = event.target.value; paymentPage = 1; renderKeepingFocus('paymentSortOrder'); });
         document.querySelectorAll('[data-action]').forEach(button => button.addEventListener('click', () => {
           button.closest('.customer-menu')?.removeAttribute('open');
           const action = button.dataset.action;
+          if (action === 'go-schedule') setPage('schedule');
           if (action === 'add-job') openJobDialog();
-          if (action === 'show-all-jobs' || action === 'clear-job-focus') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'all'; jobDateFrom = ''; jobDateTo = ''; render(); }
+          if (action === 'show-all-jobs' || action === 'clear-job-focus') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'regular'; jobRangeFilter = 'last30'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; jobsStatusChosen = false; render(); }
+          if (action === 'show-first-job-status') { scheduleStatusFilter = button.dataset.status; jobsStatusChosen = true; render(); }
+          if (action === 'clear-job-search') { jobSearch = ''; jobPage = 1; jobsStatusChosen = false; render(); }
+          if (action === 'clear-customer-search') { customerSearch = ''; render(); }
+          if (action === 'toggle-job-help') { const content = document.getElementById('jobHelpText'); const opened = content?.dataset.open !== 'true'; if (content) content.dataset.open = String(opened); button.setAttribute('aria-expanded', String(opened)); }
+          if (action === 'toggle-payment-help') { const content = document.getElementById('paymentHelpText'); const opened = content?.dataset.open !== 'true'; if (content) content.dataset.open = String(opened); button.setAttribute('aria-expanded', String(opened)); }
+          if (action === 'view-job') openJobDetails(button.dataset.id);
           if (action === 'clear-payment-focus') { paymentFocusId = ''; paymentSearch = ''; render(); }
-          if (action === 'focus-job') { jobFocusId = button.dataset.id; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'all'; jobDateFrom = ''; jobDateTo = ''; setPage('jobs'); }
-          if (action === 'focus-payment') { paymentFocusId = button.dataset.id; paymentSearch = ''; setPage('payments'); }
-          if (action === 'scroll-attention') document.getElementById('overviewAttention')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (action === 'clear-payment-filters') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; render(); }
+          if (action === 'focus-job') openJobDetails(button.dataset.id);
+          if (action === 'focus-payment') { paymentFocusId = button.dataset.id; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
+          if (action === 'view-payment') openPaymentDetails(button.dataset.id);
           if (action === 'add-customer') openCustomerDialog();
-          if (action === 'edit-job') openJobDialog(button.dataset.id);
-          if (action === 'delete-job') deleteJob(button.dataset.id);
+          if (action === 'edit-job') { if (document.getElementById('jobDetailDialog').open) document.getElementById('jobDetailDialog').close(); openJobDialog(button.dataset.id); }
+          if (action === 'delete-job') { if (document.getElementById('jobDetailDialog').open) document.getElementById('jobDetailDialog').close(); deleteJob(button.dataset.id); }
           if (action === 'view-customer') { selectedCustomerKey = button.dataset.id; render(); }
           if (action === 'back-customers') { selectedCustomerKey = ''; render(); }
           if (action === 'add-customer-job') { const customer = customerGroups().find(item => item.key === button.dataset.id); openJobDialog('', customer?.name || '', customer?.phone || ''); }
           if (action === 'edit-customer-profile') openCustomerEditDialog(button.dataset.id);
           if (action === 'delete-customer-profile') deleteCustomerProfile(button.dataset.id);
           if (action === 'add-payment') openPaymentDialog();
-          if (action === 'go-payments') { paymentFocusId = ''; paymentSearch = ''; setPage('payments'); }
-          if (action === 'go-jobs') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'all'; jobDateFrom = ''; jobDateTo = ''; setPage('jobs'); }
+          if (action === 'go-payments') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
+          if (action === 'go-jobs') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'regular'; jobRangeFilter = 'last30'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; setPage('jobs'); }
+          if (action === 'previous-job-page' && jobPage > 1) { jobPage--; renderKeepingFocus('jobPageStatus'); }
+          if (action === 'next-job-page') { jobPage++; renderKeepingFocus('jobPageStatus'); }
+          if (action === 'previous-payment-page' && paymentPage > 1) { paymentPage--; renderKeepingFocus('paymentPageStatus'); }
+          if (action === 'next-payment-page') { paymentPage++; renderKeepingFocus('paymentPageStatus'); }
           if (action === 'edit-payment') openPaymentDialog(button.dataset.id);
           if (action === 'unmatch-payment') unmatchPayment(button.dataset.id);
           if (action === 'delete-payment') deletePayment(button.dataset.id);
@@ -1071,6 +1488,8 @@
         if (!job || !['upcoming', 'pending', 'followup'].includes(status)) return;
         job.workStatus = status;
         scheduleStatusFilter = status;
+        jobPage = 1;
+        jobsStatusChosen = true;
         saveData(); render();
       }
       function markJobComplete(jobId) {
@@ -1080,6 +1499,8 @@
         job.date = localISO();
         if (job.dueDate) job.onTimeExpected = job.date <= job.dueDate;
         scheduleStatusFilter = 'completed';
+        jobPage = 1;
+        jobsStatusChosen = true;
         saveData(); render(); showToast('Job marked as ended');
       }
       function openCustomerDialog() {
@@ -1112,8 +1533,21 @@
       }
       function populateJobSelect(selectedId = '') {
         const select = document.getElementById('paymentJob');
-        const sorted = [...data.jobs].sort((a, b) => (b.date || b.dueDate || '').localeCompare(a.date || a.dueDate || ''));
-        select.innerHTML = `<option value="">Choose a job / match later</option>` + sorted.map(job => `<option value="${escapeHtml(job.id)}">${escapeHtml(job.customer)} · ${escapeHtml(jobStatusFor(job))} · ${dateText(job.date || job.dueDate, { day: 'numeric', month: 'short' })} · ${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.type === 'referral' ? 'Referral' : jobCategoryLabel(job))} · #${escapeHtml(job.id.slice(0, 5).toUpperCase())}</option>`).join('');
+        const categoryFor = job => !jobIsComplete(job) ? ({ upcoming: 'Upcoming', pending: 'Work pending', followup: 'Follow-up' })[workStatusFor(job)] || 'Upcoming' : jobStatusFor(job) === 'Settled' ? 'Settled' : 'Payment pending';
+        const categoryOrder = ['Payment pending', 'Settled', 'Upcoming', 'Work pending', 'Follow-up'];
+        const options = categoryOrder.map(category => {
+          const jobs = data.jobs.filter(job => categoryFor(job) === category).sort((a, b) => {
+            if (jobIsComplete(a) && jobIsComplete(b)) return (b.date || '').localeCompare(a.date || '');
+            const aDate = jobIsComplete(a) ? a.date : a.dueDate || '';
+            const bDate = jobIsComplete(b) ? b.date : b.dueDate || '';
+            return (aDate || '9999').localeCompare(bDate || '9999');
+          });
+          if (!jobs.length) return '';
+          const optionsHtml = jobs.map(job => `<option value="${escapeHtml(job.id)}">${escapeHtml(job.customer)} · ${escapeHtml(jobStatusFor(job))} · ${dateText(job.date || job.dueDate, { day: 'numeric', month: 'short' })} · ${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.type === 'referral' ? 'Referral' : jobCategoryLabel(job))} · #${escapeHtml(job.id.slice(0, 5).toUpperCase())}</option>`).join('');
+          const groupLabel = category === 'Payment pending' ? `Pending payments (${jobs.length})` : category === 'Upcoming' ? `Upcoming (${jobs.length})` : category === 'Work pending' ? `Work pending (${jobs.length})` : category === 'Follow-up' ? `Follow-up (${jobs.length})` : `Settled (${jobs.length})`;
+          return `<optgroup label="${groupLabel}">${optionsHtml}</optgroup>`;
+        }).join('');
+        select.innerHTML = `<option value="">Choose a job / link later</option>${options}`;
         select.value = selectedId || '';
       }
       function refreshPaymentOptionStyles() {
@@ -1168,7 +1602,7 @@
           }
         });
         document.getElementById('jobStatusHint').textContent = job ? `Status: ${jobStatusFor(job)}. Non-local jobs remain pending until an extra-mile payment is recorded.` : 'The status beside each customer shows what is still pending.';
-        document.getElementById('paymentHint').textContent = referralJob ? 'Referral jobs track only the agreed payout. Goodwill is optional and can be recorded separately if the customer gives an amount.' : job?.locality === 'nonLocal' ? 'Select every payment part received. Enter the extra-mile amount manually; Goodwill is optional.' : job ? 'Select every payment part received. Local jobs have no extra-mile amount. Add UC commission or optional Goodwill if received.' : 'For an unmatched payment, enter the received parts. Goodwill is optional and needs an amount when selected.';
+        document.getElementById('paymentHint').textContent = referralJob ? 'Referral jobs track only the agreed payout. Goodwill is optional and can be recorded separately if the customer gives an amount.' : job?.locality === 'nonLocal' ? 'Select each payment type received. Enter the extra-mile amount manually; Goodwill is optional.' : job ? 'Select each payment type received. Local jobs have no extra-mile amount. Add UC commission or optional Goodwill if received.' : 'If no job is linked, select each payment type received. Goodwill is optional and needs an amount when selected.';
         refreshPaymentOptionStyles();
       }
       function selectKnownPendingParts() {
@@ -1200,7 +1634,7 @@
         const payment = paymentId ? data.payments.find(item => item.id === paymentId) : null;
         const editing = Boolean(payment);
         document.getElementById('paymentDialogTitle').textContent = editing ? 'Edit payment' : 'Record payments';
-        document.getElementById('paymentDialogCopy').textContent = editing ? 'Correct the amount, payment part, date, or job match.' : 'Select every payment part received for this job on this date.';
+        document.getElementById('paymentDialogCopy').textContent = editing ? 'Correct the amount, payment type, date, or job link.' : 'Select every payment type received for this job on this date.';
         document.getElementById('paymentBatchFields').hidden = editing;
         document.getElementById('paymentEditFields').hidden = !editing;
         document.getElementById('paymentSubmitButton').textContent = editing ? 'Save changes' : 'Save payment';
@@ -1227,34 +1661,83 @@
         if (!payment || !payment.jobId) return;
         const job = getJob(payment.jobId);
         const customerName = job?.customer || payment.customerName || 'this job';
-        if (!window.confirm(`Unmatch this payment from ${customerName}? It will remain in Hisaab Kitab as an unmatched payment.`)) return;
+        if (!window.confirm(`Remove this payment’s job link from ${customerName}? The payment will remain in Hisaab Kitab without a job link.`)) return;
         data.payments = data.payments.map(item => item.id === paymentId ? { ...item, jobId: null, customerName } : item);
-        saveData(); render(); showToast('Payment unmatched; record kept');
+        paymentPage = 1;
+        saveData(); render(); showToast('Job link removed; payment record kept');
       }
       function deletePayment(paymentId) {
         const payment = data.payments.find(item => item.id === paymentId);
         if (!payment) return;
         const job = getJob(payment.jobId);
-        const customerName = job?.customer || payment.customerName || 'unmatched payment';
+        const customerName = job?.customer || payment.customerName || 'payment without a job link';
         const label = COMPONENT_LABELS[payment.component] || 'Payment';
         if (!window.confirm(`Delete ${label} of ${money(payment.amount)} for ${customerName}? This removes it from Hisaab Kitab.`)) return;
         data.payments = data.payments.filter(item => item.id !== paymentId);
+        paymentPage = 1;
         saveData(); render(); showToast('Payment removed from record');
       }
       function deleteJob(jobId) {
         const job = getJob(jobId);
         if (!job) return;
         const linkedCount = data.payments.filter(item => item.jobId === jobId).length;
-        const paymentNote = linkedCount ? ` ${linkedCount} linked ${linkedCount === 1 ? 'payment will' : 'payments will'} stay in Hisaab Kitab as unmatched entries with the customer name.` : '';
+        const paymentNote = linkedCount ? ` ${linkedCount} linked ${linkedCount === 1 ? 'payment will' : 'payments will'} stay in Hisaab Kitab without a job link, with the customer name.` : '';
         if (!window.confirm(`Delete the job for ${job.customer}?${paymentNote}`)) return;
         data.jobs = data.jobs.filter(item => item.id !== jobId);
         data.payments = data.payments.map(item => item.jobId === jobId ? { ...item, jobId: null, customerName: job.customer } : item);
+        jobPage = 1;
         saveData(); render(); showToast('Job deleted; payment records kept');
       }
       function exportBackup() {
         const blob = new Blob([JSON.stringify({ app: 'Hisaab Kitab', exportedAt: new Date().toISOString(), ...data }, null, 2)], { type: 'application/json' });
         const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `hisaab-kitab-backup-${localISO()}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
         showToast('Backup downloaded');
+      }
+      function backupCounts(recordData) {
+        return {
+          jobs: Array.isArray(recordData?.jobs) ? recordData.jobs.length : 0,
+          payments: Array.isArray(recordData?.payments) ? recordData.payments.length : 0,
+          customers: Array.isArray(recordData?.customers) ? recordData.customers.length : 0,
+          hiddenCustomers: Array.isArray(recordData?.hiddenCustomers) ? recordData.hiddenCustomers.length : 0
+        };
+      }
+      function showBackupPreview(imported, file) {
+        pendingBackupImport = imported;
+        const importedCounts = backupCounts(imported);
+        const currentCounts = backupCounts(data);
+        const currentDataUnavailable = Boolean(storageLoadError);
+        const date = imported.exportedAt ? new Date(imported.exportedAt) : null;
+        document.getElementById('backupPreviewFilename').textContent = file.name || 'Selected backup file';
+        document.getElementById('backupPreviewDate').textContent = date && Number.isFinite(date.getTime()) ? new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(date) : 'Not available';
+        document.getElementById('backupPreviewJobs').textContent = importedCounts.jobs;
+        document.getElementById('backupPreviewPayments').textContent = importedCounts.payments;
+        document.getElementById('backupPreviewCustomers').textContent = importedCounts.customers;
+        document.getElementById('backupPreviewHiddenCustomers').textContent = importedCounts.hiddenCustomers;
+        document.getElementById('backupCurrentJobs').textContent = currentDataUnavailable ? 'Unavailable' : currentCounts.jobs;
+        document.getElementById('backupCurrentPayments').textContent = currentDataUnavailable ? 'Unavailable' : currentCounts.payments;
+        document.getElementById('backupCurrentCustomers').textContent = currentDataUnavailable ? 'Unavailable' : currentCounts.customers;
+        document.getElementById('backupCurrentHiddenCustomers').textContent = currentDataUnavailable ? 'Unavailable' : currentCounts.hiddenCustomers;
+        document.getElementById('backupCurrentReadWarning').hidden = !currentDataUnavailable;
+        const exportCurrentButton = document.getElementById('backupPreviewExport');
+        exportCurrentButton.disabled = currentDataUnavailable;
+        if (currentDataUnavailable) exportCurrentButton.setAttribute('aria-describedby', 'backupCurrentReadWarning');
+        else exportCurrentButton.removeAttribute('aria-describedby');
+        document.getElementById('backupPreviewDialog').showModal();
+      }
+      function restorePendingBackup() {
+        if (!pendingBackupImport) return;
+        const imported = pendingBackupImport;
+        if (!persistData(imported)) {
+          showToast('Backup could not be restored. Your current records were not replaced.');
+          return;
+        }
+        data = imported;
+        pendingBackupImport = null;
+        storageLoadError = '';
+        selectedCustomerKey = '';
+        document.getElementById('backupPreviewDialog').close();
+        render();
+        showToast('Backup restored');
       }
       function validateBackup(payload) {
         if (!payload || typeof payload !== 'object' || !Array.isArray(payload.jobs) || !Array.isArray(payload.payments)) {
@@ -1285,14 +1768,7 @@
       async function importBackup(file) {
         try {
           const imported = validateBackup(JSON.parse(await file.text()));
-          const summary = `${imported.jobs.length} jobs, ${imported.payments.length} payments, and ${imported.customers.length} customer profiles`;
-          if (!window.confirm(`Replace the records on this device with the backup containing ${summary}? Export your current records first if you may need them.`)) return;
-          if (!persistData(imported)) return;
-          data = imported;
-          storageLoadError = '';
-          selectedCustomerKey = '';
-          render();
-          showToast('Backup restored');
+          showBackupPreview(imported, file);
         } catch (error) {
           showToast(error?.message || 'This backup could not be imported');
         }
@@ -1303,20 +1779,24 @@
         if (button.dataset.page === 'payments') paymentFocusId = '';
         setPage(button.dataset.page);
       }));
-      document.getElementById('topAddButton').addEventListener('click', () => {
-        if (currentPage === 'payments') openPaymentDialog();
-        else if (currentPage === 'customers' && !selectedCustomerKey) openCustomerDialog();
-        else if (currentPage === 'customers') { const customer = customerGroups().find(item => item.key === selectedCustomerKey); openJobDialog('', customer?.name || '', customer?.phone || ''); }
-        else openJobDialog();
-      });
+      document.querySelector('[data-open-quick-add]').addEventListener('click', () => document.getElementById('quickAddSheet').showModal());
+      document.querySelectorAll('[data-quick-add]').forEach(button => button.addEventListener('click', () => {
+        document.getElementById('quickAddSheet').close();
+        if (button.dataset.quickAdd === 'job') openJobDialog();
+        if (button.dataset.quickAdd === 'payment') openPaymentDialog();
+        if (button.dataset.quickAdd === 'customer') openCustomerDialog();
+      }));
       document.getElementById('exportButton').addEventListener('click', exportBackup);
       document.getElementById('importButton').addEventListener('click', () => document.getElementById('backupFile').click());
+      document.getElementById('backupPreviewExport').addEventListener('click', exportBackup);
+      document.getElementById('backupPreviewConfirm').addEventListener('click', restorePendingBackup);
+      document.getElementById('backupPreviewDialog').addEventListener('close', () => { pendingBackupImport = null; });
       document.getElementById('backupFile').addEventListener('change', async event => {
         const file = event.target.files?.[0];
         if (file) await importBackup(file);
         event.target.value = '';
       });
-      document.getElementById('backupMenu').addEventListener('click', event => {
+      document.getElementById('profileMenu').addEventListener('click', event => {
         if (event.target.closest('button')) event.currentTarget.removeAttribute('open');
       });
       document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.close).close()));
@@ -1342,9 +1822,10 @@
         };
         if (oldJob) data.jobs = data.jobs.map(item => item.id === jobId ? job : item); else data.jobs.push(job);
         upsertCustomerProfile(job.customer, job.phone);
+        jobPage = 1;
         saveData(); document.getElementById('jobDialog').close();
-        if (currentPage === 'schedule') { scheduleStatusFilter = workStatus; render(); }
-        else if (currentPage !== 'customers' && workStatus !== 'completed') { scheduleStatusFilter = workStatus; setPage('schedule'); }
+        if (currentPage === 'jobs') { scheduleStatusFilter = workStatus; jobsStatusChosen = true; render(); }
+        else if (currentPage !== 'customers' && workStatus !== 'completed') { scheduleStatusFilter = workStatus; jobsStatusChosen = true; setPage('jobs'); }
         else render();
         showToast(oldJob ? 'Job updated' : 'Job added');
       });
@@ -1442,6 +1923,7 @@
             ...item, jobId, customerName, date: document.getElementById('paymentDate').value,
             component, amount, section: COMPONENT_SECTION[component]
           } : item);
+          paymentPage = 1;
           saveData(); dialog.close(); render(); showToast('Payment updated'); return;
         }
         const amountEntries = [];
@@ -1468,11 +1950,37 @@
         const commissionAmount = job?.type === 'referral' ? 0 : Number(document.getElementById('commissionAmount').value || 0);
         if (extraMileAmount > 0) amountEntries.push({ component: 'extraMile', amount: extraMileAmount });
         if (commissionAmount > 0) amountEntries.push({ component: 'commission', amount: commissionAmount });
-        if (!amountEntries.length) { showToast('Select a payment part or enter an amount'); return; }
+        if (!amountEntries.length) { showToast('Select a payment type or enter an amount'); return; }
         const baseEntry = { jobId, customerName, date: document.getElementById('paymentDate').value, createdAt: new Date().toISOString() };
         const newEntries = amountEntries.map(entry => ({ ...baseEntry, id: id(), component: entry.component, amount: entry.amount, section: COMPONENT_SECTION[entry.component] }));
         data.payments.push(...newEntries);
+        paymentPage = 1;
         saveData(); dialog.close(); render(); showToast(editingId ? 'Payment updated' : `${newEntries.length} payment ${newEntries.length === 1 ? 'part' : 'parts'} recorded`);
+      });
+      document.getElementById('jobDetailEdit').addEventListener('click', event => {
+        const jobId = event.currentTarget.dataset.id;
+        document.getElementById('jobDetailDialog').close();
+        openJobDialog(jobId);
+      });
+      document.getElementById('jobDetailDelete').addEventListener('click', event => {
+        const jobId = event.currentTarget.dataset.id;
+        document.getElementById('jobDetailDialog').close();
+        deleteJob(jobId);
+      });
+      document.getElementById('paymentDetailEdit').addEventListener('click', event => {
+        const paymentId = event.currentTarget.dataset.id;
+        document.getElementById('paymentDetailSheet').close();
+        openPaymentDialog(paymentId);
+      });
+      document.getElementById('paymentDetailUnmatch').addEventListener('click', event => {
+        const paymentId = event.currentTarget.dataset.id;
+        document.getElementById('paymentDetailSheet').close();
+        unmatchPayment(paymentId);
+      });
+      document.getElementById('paymentDetailDelete').addEventListener('click', event => {
+        const paymentId = event.currentTarget.dataset.id;
+        document.getElementById('paymentDetailSheet').close();
+        deletePayment(paymentId);
       });
       render();
       if (storageLoadError) showStorageWarning(storageLoadError);
