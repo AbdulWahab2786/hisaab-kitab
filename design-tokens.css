@@ -16,6 +16,7 @@
   --hk-color-surface: #FFFFFF;
   --hk-color-background: #F5F7FA;
   --hk-color-accent: #F2B84B;
+  --hk-font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   /* Existing names remain as aliases so current screens keep their behavior. */
   --green: var(--hk-color-primary);
@@ -23,6 +24,7 @@
   --green-soft: var(--hk-color-primary-soft);
   --amber: var(--hk-color-pending);
   --amber-soft: var(--hk-color-pending-soft);
+  --gold-soft: var(--hk-color-pending-soft);
   --red: var(--hk-color-problem);
   --ink: var(--hk-color-text);
   --muted: var(--hk-color-text-muted);
@@ -30,6 +32,13 @@
   --paper: var(--hk-color-surface);
   --canvas: var(--hk-color-background);
   --gold: var(--hk-color-accent);
+  --shadow: 0 12px 34px rgba(20, 45, 78, .08);
+
+  font-family: var(--hk-font-family);
+  color: var(--hk-color-text);
+  background: var(--hk-color-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
 
   /* 8pt spacing scale, plus a 4px micro spacing for icon gaps. */
   --hk-space-micro: 4px;

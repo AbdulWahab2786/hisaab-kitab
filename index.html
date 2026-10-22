@@ -6,32 +6,13 @@
   <meta name="theme-color" content="#F5F7FA">
   <meta name="description" content="Track Urban Company job payments and incentives in one simple place.">
   <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./design-tokens.css">
   <link rel="icon" href="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" type="image/png">
   <link rel="apple-touch-icon" href="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png">
   <title>Hisaab Kitab — Partner payment tracker</title>
   <style>
-    :root {
-      --ink: #142D4E;
-      --muted: #526579;
-      --line: #DCE4EB;
-      --paper: #ffffff;
-      --canvas: #F5F7FA;
-      --green: #087F5B;
-      --green-dark: #075F48;
-      --green-soft: #E7F3EE;
-      --gold: #F2B84B;
-      --gold-soft: #FFF5DE;
-      --amber: #80580D;
-      --amber-soft: #FFF5DE;
-      --red: #B42318;
-      --shadow: 0 12px 34px rgba(20, 45, 78, .08);
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--ink);
-      background: var(--canvas);
-      font-synthesis: none;
-      text-rendering: optimizeLegibility;
-    }
     * { box-sizing: border-box; }
+    .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
     body { margin: 0; min-width: 320px; background: var(--canvas); }
     button, input, select { font: inherit; }
     button { cursor: pointer; }
@@ -91,6 +72,39 @@
     .dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
     .overview-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
     .home-screen { display: grid; gap: 16px; max-width: 920px; margin: 0 auto; }
+    .dashboard-home { display: grid; max-width: 1040px; gap: 18px; margin: 0 auto; }
+    .dashboard-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+    .dashboard-heading h2 { margin: 0; color: var(--ink); font-size: 24px !important; letter-spacing: -.5px; }
+    .dashboard-heading p { margin: 5px 0 0; color: var(--muted); line-height: 1.45; }
+    .dashboard-period { display: grid; gap: 5px; flex: 0 0 min(190px, 42%); color: var(--muted); font-weight: 650; }
+    .dashboard-period select { width: 100%; }
+    .dashboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .dashboard-actions .button { min-height: 48px !important; }
+    .dashboard-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .dashboard-metric { min-width: 0; min-height: 128px; padding: 16px; border: 1px solid var(--line); border-top: 3px solid var(--green); border-radius: 14px; background: var(--paper); box-shadow: 0 2px 8px rgba(20,45,78,.04); color: inherit; text-align: left; }
+    button.dashboard-metric { width: 100%; cursor: pointer; }
+    button.dashboard-metric:hover { border-color: #AFC2D4; box-shadow: 0 5px 15px rgba(20,45,78,.08); }
+    .dashboard-metric--pending { border-top-color: var(--gold); }
+    .dashboard-metric--goodwill { border-top-color: var(--green); }
+    .dashboard-metric--extra { border-top-color: #436E9A; }
+    .dashboard-metric--commission { border-top-color: #69788A; }
+    .dashboard-metric--jobs { border-top-color: var(--ink); }
+    .dashboard-metric-label { display: block; color: var(--muted); font-weight: 650; line-height: 1.35; }
+    .dashboard-metric-value { display: block; margin-top: 15px; color: var(--ink); font-size: clamp(18px, 2.1vw, 25px) !important; font-weight: 800; letter-spacing: -.45px; overflow-wrap: anywhere; }
+    .dashboard-metric-note { display: block; margin-top: 5px; color: var(--muted); font-size: 14px !important; line-height: 1.35; }
+    .dashboard-section { min-width: 0; }
+    .dashboard-section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 9px; }
+    .dashboard-section-heading h3 { margin: 0; color: var(--ink); font-size: 20px !important; }
+    .dashboard-count { color: var(--muted); }
+    .dashboard-details { overflow: hidden; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
+    .dashboard-details > summary { display: flex; min-height: 52px; align-items: center; justify-content: space-between; gap: 10px; padding: 0 15px; color: var(--ink); font-weight: 700; cursor: pointer; }
+    .dashboard-details[open] > summary { border-bottom: 1px solid var(--line); }
+    .dashboard-detail-list { display: grid; padding: 0 15px; }
+    .dashboard-detail-row { display: flex; min-height: 54px; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); }
+    .dashboard-detail-row:last-child { border-bottom: 0; }
+    .dashboard-detail-row span:first-child { color: var(--muted); }
+    .dashboard-detail-row strong { flex: 0 0 auto; color: var(--ink); text-align: right; }
+    .dashboard-date-note { margin: 0; color: var(--muted); font-size: 14px !important; line-height: 1.45; }
     .home-balance-card { padding: 22px 24px; border: 1px solid var(--line); border-left: 4px solid var(--gold); border-radius: 16px; background: var(--paper); box-shadow: 0 2px 8px rgba(20,45,78,.05); }
     .home-balance-main { display: flex; align-items: baseline; flex-wrap: wrap; gap: 7px; }
     .home-balance-amount { color: var(--ink); font-size: clamp(32px, 7vw, 46px) !important; font-weight: 800; letter-spacing: -1.5px; line-height: 1.12; overflow-wrap: anywhere; }
@@ -397,13 +411,17 @@
     .quick-pick button { border: 0; background: transparent; padding: 3px 0; color: var(--green); font-size: 10px; font-weight: 750; }
     .quick-pick button:hover { text-decoration: underline; }
     .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .payment-option { min-height: 58px; display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 9px; padding: 9px 10px; cursor: pointer; }
+    .payment-option { min-width: 0; min-height: 58px; display: grid; align-content: start; gap: 7px; border: 1px solid var(--line); border-radius: 9px; padding: 9px 10px; }
+    .payment-option-label { min-width: 0; min-height: 32px; display: flex; align-items: center; gap: 9px; cursor: pointer; }
+    .payment-option-amount { width: 100%; min-height: 40px !important; }
     .payment-option.selected { border-color: var(--green); background: var(--green-soft); }
     .payment-option.disabled { opacity: .62; background: var(--canvas); cursor: not-allowed; }
     .payment-option input { width: 16px; height: 16px; min-height: auto; margin: 0; accent-color: var(--green); flex: 0 0 auto; }
     .payment-option span { min-width: 0; }
     .payment-option strong { display: block; font-size: 11px; color: var(--ink); }
     .payment-option small { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; }
+    .payment-total-preview { display: flex; min-height: 52px; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas); color: var(--muted); font-weight: 650; }
+    .payment-total-preview strong { color: var(--ink); font-size: 18px !important; font-weight: 800; }
     .manual-entry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
     .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 17px; }
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 15px); z-index: 20; opacity: 0; pointer-events: none; background: var(--ink); color: white; border-radius: 9px; padding: 11px 15px; font-size: 11px; box-shadow: var(--shadow); transition: .2s; }
@@ -454,6 +472,7 @@
       .app-shell { grid-template-columns: 210px minmax(0, 1fr); }
       .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .dashboard-grid { grid-template-columns: 1fr; }
+      .dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 680px) {
       .app-shell { display: block; padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
@@ -473,6 +492,14 @@
       .overview-actions { width: 100%; }
       .overview-actions .button { flex: 1; min-height: 42px; }
       .home-screen { gap: 12px; }
+      .dashboard-home { gap: 14px; }
+      .dashboard-heading { align-items: stretch; flex-direction: column; gap: 10px; }
+      .dashboard-heading h2 { font-size: 20px !important; }
+      .dashboard-period { max-width: none; flex-basis: auto; }
+      .dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .dashboard-metric { min-height: 118px; padding: 12px; }
+      .dashboard-metric-value { margin-top: 12px; }
+      .dashboard-actions { gap: 8px; }
       .home-balance-card { padding: 18px; }
       .home-quick-actions { gap: 7px; }
       .home-quick-actions .button { min-width: 0 !important; padding: 0 8px; }
@@ -539,7 +566,6 @@
       .stat-icon { width: 27px; height: 27px; }
     }
   </style>
-  <link rel="stylesheet" href="./design-tokens.css">
 </head>
 <body>
   <div class="app-shell">
@@ -601,7 +627,7 @@
       <div class="modal-body">
         <input type="hidden" id="jobId">
         <div class="form-grid">
-          <div class="field full"><label for="customerName">Customer name</label><input id="customerName" required maxlength="80" placeholder="Name as shown in UC payments"></div>
+              <div class="field full"><label for="customerName">Customer name</label><input id="customerName" list="customerNameOptions" required maxlength="80" autocomplete="off" placeholder="Name as shown in UC payments"><datalist id="customerNameOptions"></datalist></div>
           <div class="field full"><label for="customerPhone">Customer mobile number</label><input id="customerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div>
           <div class="field" id="jobDueDateField"><label for="jobDueDate">Complete by</label><input id="jobDueDate" type="date"><small>Last date by which this job should be finished.</small></div>
           <div class="field"><label for="jobWorkflowStatus">Job status</label><select id="jobWorkflowStatus"><option value="upcoming">Upcoming</option><option value="pending">Pending</option><option value="followup">Follow-up</option><option value="completed">Completed</option></select></div>
@@ -627,16 +653,16 @@
         <div class="form-grid">
           <div class="field full"><label for="paymentDate">Received date</label><input id="paymentDate" type="date" required></div>
           <div class="field full"><label for="paymentJob">Select a job</label><select id="paymentJob"><option value="">Choose a job</option></select><small id="jobStatusHint">Each job shows its status. Payments already recorded cannot be selected again.</small></div>
-          <div class="field full"><label for="paymentCustomer">Customer name from UC (if no job is linked)</label><input id="paymentCustomer" maxlength="80" placeholder="Leave blank when a job is selected"></div>
+          <div class="field full"><label for="paymentCustomer">Customer name from UC (required when no job is selected)</label><input id="paymentCustomer" maxlength="80" placeholder="Leave blank when a job is selected"></div>
           <div id="paymentBatchFields" class="field full">
             <div class="field-group-label" id="paymentPartsLabel">Payments received</div>
             <div class="quick-pick"><button type="button" id="selectPendingParts">Select known pending</button><button type="button" id="clearPaymentParts">Clear selection</button></div>
             <div class="payment-options" role="group" aria-labelledby="paymentPartsLabel">
-              <label class="payment-option"><input type="checkbox" data-payment-part="jobValue"><span><strong>Net job value</strong><small data-amount-label>₹354</small></span></label>
-              <label class="payment-option"><input type="checkbox" data-payment-part="onTime"><span><strong>On-time incentive</strong><small data-amount-label>₹250</small></span></label>
-              <label class="payment-option"><input type="checkbox" data-payment-part="rating"><span><strong>5-star rating reward</strong><small data-amount-label>₹150</small></span></label>
+              <div class="payment-option"><label class="payment-option-label" for="paymentPartJobValue"><input id="paymentPartJobValue" type="checkbox" data-payment-part="jobValue"><span><strong>Net job value</strong><small data-amount-label>₹354</small></span></label><div class="payment-option-amount-field" hidden><label class="sr-only" for="jobValueAmount">Net job value received</label><input class="payment-option-amount" id="jobValueAmount" data-component-amount="jobValue" type="number" min="1" step="1" inputmode="numeric" placeholder="Amount received"></div></div>
+              <div class="payment-option"><label class="payment-option-label" for="paymentPartOnTime"><input id="paymentPartOnTime" type="checkbox" data-payment-part="onTime"><span><strong>On-time incentive</strong><small data-amount-label>₹250</small></span></label><div class="payment-option-amount-field" hidden><label class="sr-only" for="onTimeAmount">On-time incentive received</label><input class="payment-option-amount" id="onTimeAmount" data-component-amount="onTime" type="number" min="1" step="1" inputmode="numeric" placeholder="Amount received"></div></div>
+              <div class="payment-option"><label class="payment-option-label" for="paymentPartRating"><input id="paymentPartRating" type="checkbox" data-payment-part="rating"><span><strong>5-star rating reward</strong><small data-amount-label>₹150</small></span></label><div class="payment-option-amount-field" hidden><label class="sr-only" for="ratingAmount">5-star rating reward received</label><input class="payment-option-amount" id="ratingAmount" data-component-amount="rating" type="number" min="1" step="1" inputmode="numeric" placeholder="Amount received"></div></div>
               <label class="payment-option" id="referralPaymentOption"><input type="checkbox" data-payment-part="referral"><span><strong>Referral job payout</strong><small data-amount-label id="referralPartHint">Set on job or enter below</small></span></label>
-              <label class="payment-option"><input type="checkbox" data-payment-part="goodwill"><span><strong>Goodwill</strong><small data-amount-label>Optional · enter amount</small></span></label>
+              <label class="payment-option" id="goodwillPaymentOption"><input type="checkbox" data-payment-part="goodwill"><span><strong>Goodwill</strong><small data-amount-label>Optional · enter amount</small></span></label>
             </div>
           <div class="field full" id="goodwillAmountField" hidden><label for="goodwillAmount">Goodwill received (₹)</label><input id="goodwillAmount" type="number" min="1" step="1" placeholder="Enter amount given by customer"><small>Enter the amount the customer gave after the job.</small></div>
           <div id="manualVariableCredits" class="field full"><div class="field-group-label" id="manualCreditsLabel">Other credits received (₹)</div>
@@ -656,6 +682,7 @@
               <div class="field full"><div class="form-hint">Choose the correct job above, or leave the job unlinked and enter the customer name.</div></div>
             </div>
           </div>
+          <div class="field full payment-total-preview" aria-live="polite"><span>Total to record</span><strong id="paymentTotalPreview">₹0</strong></div>
         </div>
         <div class="modal-actions"><button type="button" class="button" data-close="paymentDialog">Cancel</button><button id="paymentSubmitButton" type="submit" class="button button-primary">Save payment</button></div>
       </div>
@@ -710,6 +737,7 @@
   </dialog>
   <div class="toast" id="toast" role="status"></div>
 
+  <script src="./ledger-core.js"></script>
   <script>
     (() => {
       const STORAGE_KEY = 'hisaab-payment-tracker-v1';
@@ -730,6 +758,7 @@
       const pageTitles = { overview: 'Home', schedule: 'Jobs', customers: 'Customers', jobs: 'Jobs', payments: 'Payments' };
       let data = loadData();
       let currentPage = 'overview';
+      let overviewPeriodFilter = 'thisMonth';
       let scheduleStatusFilter = 'upcoming';
       let jobsStatusChosen = false;
       let scheduleSearch = '';
@@ -745,6 +774,7 @@
       let selectedCustomerKey = '';
       let paymentSearch = '';
       let paymentStatusFilter = 'all';
+      let paymentComponentFilter = 'all';
       let paymentRangeFilter = 'all';
       let paymentSortOrder = 'newest';
       let paymentDateFrom = '';
@@ -814,6 +844,23 @@
         const date = new Date(`${value}T00:00:00`);
         return Number.isNaN(date.getTime()) ? escapeHtml(value) : date.toLocaleDateString('en-IN', options);
       }
+      function overviewWindow() {
+        if (overviewPeriodFilter === 'all') return null;
+        const offset = overviewPeriodFilter === 'lastMonth' ? -1 : 0;
+        const now = new Date();
+        const start = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+        const end = new Date(now.getFullYear(), now.getMonth() + offset + 1, 0);
+        return { start: localISO(start), end: localISO(end) };
+      }
+      function isInOverviewWindow(value, window) {
+        return Boolean(!window || (value && value >= window.start && value <= window.end));
+      }
+      function overviewPeriodLabel() {
+        if (overviewPeriodFilter === 'all') return 'All time';
+        const window = overviewWindow();
+        const month = new Date(`${window.start}T00:00:00`);
+        return month.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+      }
       function initial(name) { return String(name || '?').trim().slice(0, 1).toUpperCase(); }
       function getJob(jobId) { return data.jobs.find(job => job.id === jobId) || null; }
       function customerKey(name) { return String(name || '').trim().toLowerCase(); }
@@ -861,24 +908,19 @@
         return profile?.customerCode || `C-${String(sourceId).replace(/[^a-z0-9]/gi, '').slice(-6).toUpperCase()}`;
       }
       function paymentsFor(jobId, component) {
-        return data.payments.filter(item => item.jobId === jobId && (!component || item.component === component));
+        return HisaabLedger.paymentsFor(data.payments, jobId, component);
       }
-      function receivedFor(jobId, component) { return paymentsFor(jobId, component).reduce((sum, item) => sum + Number(item.amount || 0), 0); }
+      function receivedFor(jobId, component) { return HisaabLedger.receivedFor(data.payments, jobId, component); }
       function expectedFor(job, component) {
-        if (!jobIsComplete(job)) return 0;
-        if (job.type === 'referral') return component === 'referral' ? Number(job.referralExpected || 0) : 0;
-        if (component === 'jobValue') return BASE_JOB_VALUE;
-        if (component === 'onTime') return job.onTimeExpected ? ON_TIME_VALUE : 0;
-        if (component === 'rating') return job.ratingExpected ? RATING_VALUE : 0;
-        if (component === 'referral') return Number(job.referralExpected || 0);
-        if (component === 'extraMile') return job.locality === 'nonLocal' ? Number(job.extraMileExpected || 0) : 0;
-        return 0;
+        return HisaabLedger.expectedFor(job, component, jobIsComplete(job), {
+          jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE
+        });
       }
-      function knownExpectedFor(job) { return KNOWN_COMPONENTS.reduce((sum, component) => sum + expectedFor(job, component), 0) + expectedFor(job, 'extraMile'); }
-      function knownReceivedFor(job) { return KNOWN_COMPONENTS.reduce((sum, component) => sum + receivedFor(job.id, component), 0) + (job.locality === 'nonLocal' ? receivedFor(job.id, 'extraMile') : 0); }
-      function knownPendingFor(job) { return KNOWN_COMPONENTS.reduce((sum, component) => sum + Math.max(expectedFor(job, component) - receivedFor(job.id, component), 0), 0) + Math.max(expectedFor(job, 'extraMile') - receivedFor(job.id, 'extraMile'), 0); }
+      function knownExpectedFor(job) { return HisaabLedger.knownExpectedFor(job, KNOWN_COMPONENTS, expectedFor); }
+      function knownReceivedFor(job) { return HisaabLedger.knownReceivedFor(job, data.payments, KNOWN_COMPONENTS); }
+      function knownPendingFor(job) { return HisaabLedger.knownPendingFor(job, data.payments, KNOWN_COMPONENTS, expectedFor); }
       function receivedForExcluding(jobId, component, excludedId = '') {
-        return data.payments.filter(item => item.jobId === jobId && item.component === component && item.id !== excludedId).reduce((sum, item) => sum + Number(item.amount || 0), 0);
+        return HisaabLedger.receivedFor(data.payments, jobId, component, excludedId);
       }
       function pendingPartsFor(job) {
         if (!jobIsComplete(job)) return [];
@@ -913,9 +955,9 @@
       function totalKnownExpected() { return data.jobs.reduce((sum, job) => sum + knownExpectedFor(job), 0); }
       function totalKnownReceived() { return data.jobs.reduce((sum, job) => sum + knownReceivedFor(job), 0); }
       function totalKnownPending() { return data.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0); }
-      function totalReceived() { return data.payments.reduce((sum, item) => sum + Number(item.amount || 0), 0); }
-      function otherCredits() { return data.payments.filter(item => ['extraMile', 'commission'].includes(item.component)).reduce((sum, item) => sum + Number(item.amount || 0), 0); }
-      function totalGoodwill() { return data.payments.filter(item => item.component === 'goodwill').reduce((sum, item) => sum + Number(item.amount || 0), 0); }
+      function totalReceived() { return HisaabLedger.paymentTotals(data.payments).total; }
+      function otherCredits() { return HisaabLedger.componentTotal(data.payments, 'extraMile') + HisaabLedger.componentTotal(data.payments, 'commission'); }
+      function totalGoodwill() { return HisaabLedger.componentTotal(data.payments, 'goodwill'); }
       function percentage(credited, expected) { return expected > 0 ? Math.min(100, Math.round(credited / expected * 100)) : 0; }
       function needsAttentionItems() {
         const today = localISO();
@@ -958,8 +1000,14 @@
         bindPageEvents();
       }
       function renderOverview() {
-        const expected = totalKnownExpected();
-        const received = totalReceived();
+        const window = overviewWindow();
+        const periodPayments = data.payments.filter(payment => isInOverviewWindow(payment.date, window));
+        const periodJobs = data.jobs.filter(job => jobIsComplete(job) && isInOverviewWindow(job.date, window));
+        const receiptTotals = HisaabLedger.paymentTotals(periodPayments);
+        const expectedInPeriod = periodJobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
+        const unmatchedPayments = periodPayments.filter(payment => !getJob(payment.jobId));
+        const unmatchedTotal = unmatchedPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+        const periodLabel = overviewPeriodLabel();
         const outstanding = totalKnownPending();
         const today = localISO();
         const todayJobs = data.jobs.filter(job => !jobIsComplete(job) && job.dueDate === today).map(job => ({
@@ -974,19 +1022,24 @@
           const dateHint = item.date && !item.todayTask && !item.detail.includes(dateText(item.date)) ? ` · ${dateText(item.date, { day: 'numeric', month: 'short' })}` : '';
           return `<button type="button" class="home-task-row" data-action="${action}" data-id="${escapeHtml(item.id)}" aria-label="Open ${item.type === 'job' ? 'job' : 'payment'} for ${escapeHtml(item.name)}"><span class="home-task-copy"><strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.detail)}${dateHint}</span></span><span class="home-task-arrow" aria-hidden="true">›</span></button>`;
         }).join('') : `<div class="home-task-empty"><p>No job due today or payment follow-up.</p><button type="button" class="button button-secondary" data-action="go-jobs">View jobs</button></div>`;
-        return `<div class="home-screen">
-          <section class="home-balance-card" aria-label="Pending balance">
-            <div class="home-balance-main"><span class="home-balance-amount">${money(outstanding)}</span><span class="home-balance-suffix">pending</span></div>
-            <div class="home-balance-received">${money(received)} received</div>
+        return `<div class="dashboard-home">
+          <header class="dashboard-heading"><div><h2>Your money at a glance</h2><p>${escapeHtml(periodLabel)} · ${periodJobs.length} completed ${periodJobs.length === 1 ? 'job' : 'jobs'}</p></div><label class="dashboard-period" for="overviewPeriod">View period<select id="overviewPeriod" aria-label="Filter dashboard activity by period"><option value="thisMonth" ${overviewPeriodFilter === 'thisMonth' ? 'selected' : ''}>This month</option><option value="lastMonth" ${overviewPeriodFilter === 'lastMonth' ? 'selected' : ''}>Last month</option><option value="all" ${overviewPeriodFilter === 'all' ? 'selected' : ''}>All time</option></select></label></header>
+          <div class="dashboard-actions" role="group" aria-label="Quick actions"><button type="button" class="button button-primary" data-action="add-job">＋ Add job</button><button type="button" class="button" data-action="add-payment">＋ Record payment</button></div>
+          <section class="dashboard-metrics" aria-label="Financial summary">
+            <button type="button" class="dashboard-metric" data-action="go-payments"><span class="dashboard-metric-label">Job-related received</span><strong class="dashboard-metric-value">${money(receiptTotals.jobRelated)}</strong><span class="dashboard-metric-note">Linked job payments · ${escapeHtml(periodLabel)}</span></button>
+            <button type="button" class="dashboard-metric dashboard-metric--pending" data-action="go-jobs"><span class="dashboard-metric-label">Known payments pending</span><strong class="dashboard-metric-value">${money(outstanding)}</strong><span class="dashboard-metric-note">Current total across all jobs</span></button>
+            <article class="dashboard-metric dashboard-metric--goodwill"><span class="dashboard-metric-label">Goodwill received</span><strong class="dashboard-metric-value">${money(HisaabLedger.componentTotal(periodPayments, 'goodwill'))}</strong><span class="dashboard-metric-note">Customer gave voluntarily · ${escapeHtml(periodLabel)}</span></article>
+            <article class="dashboard-metric dashboard-metric--extra"><span class="dashboard-metric-label">Extra-mile received</span><strong class="dashboard-metric-value">${money(HisaabLedger.componentTotal(periodPayments, 'extraMile'))}</strong><span class="dashboard-metric-note">${escapeHtml(periodLabel)}</span></article>
+            <article class="dashboard-metric dashboard-metric--commission"><span class="dashboard-metric-label">Commission received</span><strong class="dashboard-metric-value">${money(HisaabLedger.componentTotal(periodPayments, 'commission'))}</strong><span class="dashboard-metric-note">${escapeHtml(periodLabel)}</span></article>
+            <button type="button" class="dashboard-metric dashboard-metric--jobs" data-action="go-jobs"><span class="dashboard-metric-label">Jobs completed</span><strong class="dashboard-metric-value">${periodJobs.length}</strong><span class="dashboard-metric-note">Completion date · ${escapeHtml(periodLabel)}</span></button>
           </section>
-          <div class="home-quick-actions" role="group" aria-label="Quick actions"><button type="button" class="button button-primary" data-action="add-job">＋ Add job</button><button type="button" class="button" data-action="add-payment">＋ Record payment</button></div>
-          <section class="home-today" aria-labelledby="homeTodayTitle"><div class="home-section-heading"><h2 id="homeTodayTitle">Needs attention (${attention.length})</h2></div><div class="home-task-list">${attentionRows}</div></section>
-          <details class="home-details"><summary><span>View details</span><span class="home-details-chevron" aria-hidden="true">⌄</span></summary><div class="home-detail-list">
-            <div class="home-detail-row"><div class="home-detail-label"><strong>Expected</strong><span>Known amounts for completed jobs</span></div><span class="home-detail-value">${money(expected)}</span></div>
-            <div class="home-detail-row"><div class="home-detail-label"><strong>Goodwill</strong><span>Amount voluntarily given by the customer</span></div><span class="home-detail-value">${money(totalGoodwill())}</span></div>
-            <div class="home-detail-row"><div class="home-detail-label"><strong>Extra-mile + commission</strong><span>Received credits</span></div><span class="home-detail-value">${money(otherCredits())}</span></div>
-            <div class="home-detail-row"><div class="home-detail-label"><strong>Total jobs</strong><span>Regular and referral jobs</span></div><span class="home-detail-value">${data.jobs.length}</span></div>
+          <section class="dashboard-section" aria-labelledby="homeAttentionTitle"><div class="dashboard-section-heading"><h3 id="homeAttentionTitle">Needs attention</h3><span class="dashboard-count">${attention.length}</span></div><div class="home-task-list">${attentionRows}</div></section>
+          <details class="dashboard-details"><summary><span>More details</span><span aria-hidden="true">⌄</span></summary><div class="dashboard-detail-list">
+            <div class="dashboard-detail-row"><span>Known expected for completed jobs</span><strong>${money(expectedInPeriod)}</strong></div>
+            <div class="dashboard-detail-row"><span>All payments received</span><strong>${money(receiptTotals.total)}</strong></div>
+            <div class="dashboard-detail-row"><span>Payments not linked to a job</span><strong>${unmatchedPayments.length} · ${money(unmatchedTotal)}</strong></div>
           </div></details>
+          <p class="dashboard-date-note">Payment totals use the date money arrived. Job counts and expected amounts use the job completion date. Pending stays current across all jobs.</p>
         </div>`;
       }
       function renderScheduleLegacy() {
@@ -1184,7 +1237,8 @@
         const profile = groups.find(item => item.key === selectedCustomerKey);
         if (selectedCustomerKey && !profile) selectedCustomerKey = '';
         if (profile) return renderCustomerProfile(profile);
-        const customers = groups.filter(item => item.name.toLowerCase().includes(customerSearch.toLowerCase()));
+        const searchText = customerSearch.trim().toLowerCase();
+        const customers = groups.filter(item => [item.name, item.phone, customerCodeFor(item)].some(value => String(value || '').toLowerCase().includes(searchText)));
         const rows = customers.map(customer => {
           const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
           const settlement = customerSettlement(customer);
@@ -1299,6 +1353,7 @@
         const toDate = paymentRangeFilter === 'custom' ? paymentDateTo : paymentRangeFilter === 'all' ? '' : localISO(today);
         const sortLabel = ({ newest: 'Newest first', oldest: 'Oldest first' })[paymentSortOrder];
         const statusLabel = ({ all: 'All payments', matched: 'Matched to a job', unmatched: 'Not linked to a job' })[paymentStatusFilter];
+        const componentLabel = paymentComponentFilter === 'all' ? 'All categories' : (COMPONENT_LABELS[paymentComponentFilter] || 'All categories');
         const rangeLabel = ({ last7: 'Last 7 days', last15: 'Last 15 days', last30: 'Last 1 month', all: 'All dates', custom: 'Custom date range' })[paymentRangeFilter];
         const filtered = [...data.payments]
           .sort((a, b) => paymentSortOrder === 'oldest' ? (a.date || '').localeCompare(b.date || '') : (b.date || '').localeCompare(a.date || ''))
@@ -1308,6 +1363,7 @@
             const isMatched = Boolean(job);
             if (paymentStatusFilter === 'matched' && !isMatched) return false;
             if (paymentStatusFilter === 'unmatched' && isMatched) return false;
+            if (paymentComponentFilter !== 'all' && item.component !== paymentComponentFilter) return false;
             if (fromDate && (item.date || '') < fromDate) return false;
             if (toDate && (item.date || '') > toDate) return false;
             const customer = job ? job.customer : item.customerName || '';
@@ -1342,6 +1398,7 @@
         const focusNotice = paymentFocusId ? `<div class="payment-focus-note"><span>${focusedPayment ? 'Showing one payment.' : 'The selected payment is no longer available.'}</span><button type="button" class="button button-small" data-action="clear-payment-focus">Show all payments</button></div>` : '';
         const search = data.payments.length ? `<label class="jobs-search"><span class="sr-only">Search payments</span><input class="input" id="paymentSearch" value="${escapeHtml(paymentSearch)}" placeholder="Search customer, type, amount, or date" autocomplete="off"></label>` : '';
         const statusOptions = [['all', 'All payments'], ['matched', 'Matched to a job'], ['unmatched', 'Not linked to a job']].map(([value, label]) => `<option value="${value}" ${paymentStatusFilter === value ? 'selected' : ''}>${label}</option>`).join('');
+        const componentOptions = [['all', 'All categories'], ...Object.entries(COMPONENT_LABELS).map(([value, label]) => [value, label])].map(([value, label]) => `<option value="${value}" ${paymentComponentFilter === value ? 'selected' : ''}>${escapeHtml(label)}</option>`).join('');
         const rangeOptions = [['last7', 'Last 7 days'], ['last15', 'Last 15 days'], ['last30', 'Last 1 month'], ['all', 'All dates'], ['custom', 'Choose dates']].map(([value, label]) => `<option value="${value}" ${paymentRangeFilter === value ? 'selected' : ''}>${label}</option>`).join('');
         const sortOptions = [['newest', 'Newest first'], ['oldest', 'Oldest first']].map(([value, label]) => `<option value="${value}" ${paymentSortOrder === value ? 'selected' : ''}>${label}</option>`).join('');
         const customDates = paymentRangeFilter === 'custom' ? `<div class="job-filter-field"><div class="job-custom-range" role="group" aria-label="Payment received date range"><label for="paymentDateFrom">From<input id="paymentDateFrom" type="date" value="${escapeHtml(paymentDateFrom)}"></label><label for="paymentDateTo">To<input id="paymentDateTo" type="date" value="${escapeHtml(paymentDateTo)}"></label></div></div>` : '';
@@ -1350,13 +1407,15 @@
         if (!data.payments.length) empty = `<div class="payment-empty"><p>No payments recorded yet. Add a payment when it appears in UC Money.</p><button type="button" class="button button-primary" data-action="add-payment">Record a payment</button></div>`;
         else if (!filtered.length) empty = `<div class="payment-empty"><p>No payments match this search and filter selection.</p><button type="button" class="button" data-action="clear-payment-filters">Clear search and filters</button></div>`;
         const pagination = filtered.length > RECORDS_PER_PAGE ? `<nav class="list-pagination" aria-label="Payment pages"><button type="button" class="button" data-action="previous-payment-page" ${paymentPage <= 1 ? 'disabled' : ''}>Previous</button><span id="paymentPageStatus" tabindex="-1" aria-live="polite">Showing ${firstPaymentIndex + 1}–${Math.min(firstPaymentIndex + RECORDS_PER_PAGE, filtered.length)} of ${filtered.length} payments</span><button type="button" class="button" data-action="next-payment-page" ${paymentPage >= paymentPageCount ? 'disabled' : ''}>Next</button></nav>` : '';
-        return `<div class="payment-page"><div class="payment-toolbar">${search}<div class="payment-toolbar-actions">${help}${data.payments.length ? '<button type="button" class="button button-primary" data-action="add-payment">Record payment</button>' : ''}</div></div>${data.payments.length ? `<details id="paymentFilters" class="jobs-filter-details payment-filter-details" ${paymentFiltersOpen ? 'open' : ''}><summary><span>Filters</span><span class="jobs-filter-count">${statusLabel} · ${rangeLabel} · ${sortLabel}</span></summary><div class="job-filter-panel"><div class="job-filter-field"><label for="paymentStatusFilter">Payment status</label><select id="paymentStatusFilter">${statusOptions}</select></div><div class="job-filter-field"><label for="paymentRangeFilter">Date received</label><select id="paymentRangeFilter">${rangeOptions}</select></div><div class="job-filter-field"><label for="paymentSortOrder">Sort payments</label><select id="paymentSortOrder">${sortOptions}</select></div>${customDates}</div></details>` : ''}${focusNotice}${batchHtml || empty}${pagination}</div>`;
+        return `<div class="payment-page"><div class="payment-toolbar">${search}<div class="payment-toolbar-actions">${help}${data.payments.length ? '<button type="button" class="button button-primary" data-action="add-payment">Record payment</button>' : ''}</div></div>${data.payments.length ? `<details id="paymentFilters" class="jobs-filter-details payment-filter-details" ${paymentFiltersOpen ? 'open' : ''}><summary><span>Filters</span><span class="jobs-filter-count">${componentLabel} · ${statusLabel} · ${rangeLabel} · ${sortLabel}</span></summary><div class="job-filter-panel"><div class="job-filter-field"><label for="paymentComponentFilter">Payment category</label><select id="paymentComponentFilter">${componentOptions}</select></div><div class="job-filter-field"><label for="paymentStatusFilter">Payment status</label><select id="paymentStatusFilter">${statusOptions}</select></div><div class="job-filter-field"><label for="paymentRangeFilter">Date received</label><select id="paymentRangeFilter">${rangeOptions}</select></div><div class="job-filter-field"><label for="paymentSortOrder">Sort payments</label><select id="paymentSortOrder">${sortOptions}</select></div>${customDates}</div></details>` : ''}${focusNotice}${batchHtml || empty}${pagination}</div>`;
       }
       function renderKeepingFocus(id) {
         render();
         document.getElementById(id)?.focus();
       }
       function bindPageEvents() {
+        const overviewPeriodInput = document.getElementById('overviewPeriod');
+        if (overviewPeriodInput) overviewPeriodInput.addEventListener('change', event => { overviewPeriodFilter = event.target.value; renderKeepingFocus('overviewPeriod'); });
         const jobSearchInput = document.getElementById('jobSearch');
         if (jobSearchInput) jobSearchInput.addEventListener('input', event => { jobSearch = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; const cursor = event.target.selectionStart; render(); const again = document.getElementById('jobSearch'); again?.focus(); again?.setSelectionRange(cursor, cursor); });
         const jobFilters = document.getElementById('jobFilters');
@@ -1384,6 +1443,8 @@
         if (paymentFilters) paymentFilters.addEventListener('toggle', () => { paymentFiltersOpen = paymentFilters.open; });
         const paymentStatusInput = document.getElementById('paymentStatusFilter');
         if (paymentStatusInput) paymentStatusInput.addEventListener('change', event => { paymentStatusFilter = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentStatusFilter'); });
+        const paymentComponentInput = document.getElementById('paymentComponentFilter');
+        if (paymentComponentInput) paymentComponentInput.addEventListener('change', event => { paymentComponentFilter = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentComponentFilter'); });
         const paymentRangeInput = document.getElementById('paymentRangeFilter');
         if (paymentRangeInput) paymentRangeInput.addEventListener('change', event => { paymentRangeFilter = event.target.value; paymentFocusId = ''; paymentPage = 1; renderKeepingFocus('paymentRangeFilter'); });
         const paymentDateFromInput = document.getElementById('paymentDateFrom');
@@ -1405,9 +1466,9 @@
           if (action === 'toggle-payment-help') { const content = document.getElementById('paymentHelpText'); const opened = content?.dataset.open !== 'true'; if (content) content.dataset.open = String(opened); button.setAttribute('aria-expanded', String(opened)); }
           if (action === 'view-job') openJobDetails(button.dataset.id);
           if (action === 'clear-payment-focus') { paymentFocusId = ''; paymentSearch = ''; render(); }
-          if (action === 'clear-payment-filters') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; render(); }
+          if (action === 'clear-payment-filters') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentComponentFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; render(); }
           if (action === 'focus-job') openJobDetails(button.dataset.id);
-          if (action === 'focus-payment') { paymentFocusId = button.dataset.id; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
+          if (action === 'focus-payment') { paymentFocusId = button.dataset.id; paymentSearch = ''; paymentStatusFilter = 'all'; paymentComponentFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
           if (action === 'view-payment') openPaymentDetails(button.dataset.id);
           if (action === 'add-customer') openCustomerDialog();
           if (action === 'edit-job') { if (document.getElementById('jobDetailDialog').open) document.getElementById('jobDetailDialog').close(); openJobDialog(button.dataset.id); }
@@ -1418,7 +1479,7 @@
           if (action === 'edit-customer-profile') openCustomerEditDialog(button.dataset.id);
           if (action === 'delete-customer-profile') deleteCustomerProfile(button.dataset.id);
           if (action === 'add-payment') openPaymentDialog();
-          if (action === 'go-payments') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
+          if (action === 'go-payments') { paymentFocusId = ''; paymentSearch = ''; paymentStatusFilter = 'all'; paymentComponentFilter = 'all'; paymentRangeFilter = 'all'; paymentSortOrder = 'newest'; paymentDateFrom = ''; paymentDateTo = ''; paymentPage = 1; setPage('payments'); }
           if (action === 'go-jobs') { jobFocusId = ''; jobSearch = ''; jobTypeFilter = 'all'; jobRangeFilter = 'thisMonth'; jobSortOrder = 'recommended'; jobDateFrom = ''; jobDateTo = ''; jobPage = 1; setPage('jobs'); }
           if (action === 'previous-job-page' && jobPage > 1) { jobPage--; renderKeepingFocus('jobPageStatus'); }
           if (action === 'next-job-page') { jobPage++; renderKeepingFocus('jobPageStatus'); }
@@ -1432,6 +1493,7 @@
       function openJobDialog(jobId = '', defaultCustomer = '', defaultPhone = '') {
         const form = document.getElementById('jobForm');
         form.reset();
+        document.getElementById('customerNameOptions').innerHTML = customerGroups().map(customer => `<option value="${escapeHtml(customer.name)}">`).join('');
         const job = jobId ? getJob(jobId) : null;
         document.getElementById('jobDialogTitle').textContent = job ? 'Edit job' : 'Add a job';
         document.getElementById('jobId').value = job ? job.id : '';
@@ -1552,9 +1614,46 @@
       }
       function refreshPaymentOptionStyles() {
         document.querySelectorAll('[data-payment-part]').forEach(input => {
-          input.closest('.payment-option').classList.toggle('selected', input.checked);
-          input.closest('.payment-option').classList.toggle('disabled', input.disabled);
+          const option = input.closest('.payment-option');
+          option.classList.toggle('selected', input.checked);
+          option.classList.toggle('disabled', input.disabled);
+          const amountField = option.querySelector('.payment-option-amount-field');
+          if (amountField) {
+            amountField.hidden = !input.checked || input.disabled;
+            amountField.querySelector('input').disabled = input.disabled;
+          }
         });
+      }
+      function setDefaultComponentAmount(component) {
+        const amountInput = document.querySelector(`[data-component-amount="${component}"]`);
+        if (!amountInput || amountInput.value) return;
+        const job = getJob(document.getElementById('paymentJob').value);
+        const editingId = document.getElementById('paymentDialog').dataset.editingId || '';
+        const nominal = { jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE }[component] || 0;
+        const expected = job ? expectedFor(job, component) : nominal;
+        const alreadyReceived = job ? receivedForExcluding(job.id, component, editingId) : 0;
+        const remaining = job ? HisaabLedger.remainingExpected(expected, alreadyReceived) : nominal;
+        if (remaining > 0) amountInput.value = String(remaining);
+      }
+      function updatePaymentTotalPreview() {
+        const dialog = document.getElementById('paymentDialog');
+        const preview = document.getElementById('paymentTotalPreview');
+        if (!preview) return;
+        if (dialog.dataset.editingId) {
+          preview.textContent = money(document.getElementById('editPaymentAmount').value);
+          return;
+        }
+        let total = 0;
+        ['jobValue', 'onTime', 'rating'].forEach(component => {
+          if (document.querySelector(`[data-payment-part="${component}"]`).checked) {
+            total += Number(document.querySelector(`[data-component-amount="${component}"]`).value) || 0;
+          }
+        });
+        if (document.querySelector('[data-payment-part="referral"]').checked) total += Number(document.getElementById('referralAmount').value) || 0;
+        if (document.querySelector('[data-payment-part="goodwill"]').checked) total += Number(document.getElementById('goodwillAmount').value) || 0;
+        if (!document.getElementById('extraMilePaymentField').hidden) total += Number(document.getElementById('extraMileAmount').value) || 0;
+        if (!document.getElementById('commissionPaymentField').hidden) total += Number(document.getElementById('commissionAmount').value) || 0;
+        preview.textContent = money(total);
       }
       function updatePaymentPartsHint() {
         const job = getJob(document.getElementById('paymentJob').value);
@@ -1604,6 +1703,7 @@
         document.getElementById('jobStatusHint').textContent = job ? `Status: ${jobStatusFor(job)}. Non-local jobs remain pending until an extra-mile payment is recorded.` : 'The status beside each customer shows what is still pending.';
         document.getElementById('paymentHint').textContent = referralJob ? 'Referral jobs track only the agreed payout. Goodwill is optional and can be recorded separately if the customer gives an amount.' : job?.locality === 'nonLocal' ? 'Select each payment type received. Enter the extra-mile amount manually; Goodwill is optional.' : job ? 'Select each payment type received. Local jobs have no extra-mile amount. Add UC commission or optional Goodwill if received.' : 'If no job is linked, select each payment type received. Goodwill is optional and needs an amount when selected.';
         refreshPaymentOptionStyles();
+        updatePaymentTotalPreview();
       }
       function selectKnownPendingParts() {
         const job = getJob(document.getElementById('paymentJob').value);
@@ -1614,14 +1714,17 @@
           const received = job ? receivedForExcluding(job.id, component, editingId) : 0;
           const input = document.querySelector(`[data-payment-part="${component}"]`);
           input.checked = expected > received;
+          if (input.checked && ['jobValue', 'onTime', 'rating'].includes(component)) setDefaultComponentAmount(component);
         });
         if (job && expectedFor(job, 'referral') > receivedForExcluding(job.id, 'referral', editingId) && document.querySelector('[data-payment-part="referral"]').checked) {
           document.getElementById('referralAmount').value = expectedFor(job, 'referral') - receivedForExcluding(job.id, 'referral', editingId);
         }
         refreshPaymentOptionStyles();
+        updatePaymentTotalPreview();
       }
       function clearPaymentParts() {
         document.querySelectorAll('[data-payment-part]').forEach(input => { input.checked = false; });
+        document.querySelectorAll('[data-component-amount]').forEach(input => { input.value = ''; });
         document.getElementById('extraMileAmount').value = '';
         document.getElementById('commissionAmount').value = '';
         document.getElementById('goodwillAmount').value = '';
@@ -1641,7 +1744,9 @@
         document.getElementById('paymentDialog').dataset.editingId = payment?.id || '';
         populateJobSelect(payment?.jobId || '');
         document.getElementById('paymentDate').value = payment?.date || localISO();
-        document.getElementById('paymentCustomer').value = payment?.customerName || '';
+        const linkedJob = payment?.jobId ? getJob(payment.jobId) : null;
+        document.getElementById('paymentCustomer').value = payment?.customerName || linkedJob?.customer || '';
+        document.getElementById('paymentCustomer').required = !payment?.jobId;
         if (payment) {
           document.getElementById('editPaymentComponent').value = payment.component;
           document.getElementById('editPaymentAmount').value = payment.amount;
@@ -1887,17 +1992,25 @@
           const original = data.payments.find(item => item.id === editingId);
           customerField.value = original?.customerName || (original?.jobId ? getJob(original.jobId)?.customer || '' : '');
         }
+        customerField.required = !document.getElementById('paymentJob').value;
         if (!editingId) clearPaymentParts();
         else updatePaymentPartsHint();
       });
       document.querySelectorAll('[data-payment-part]').forEach(input => input.addEventListener('change', () => {
+        const component = input.dataset.paymentPart;
+        if (['jobValue', 'onTime', 'rating'].includes(component)) {
+          if (input.checked) setDefaultComponentAmount(component);
+          else document.querySelector(`[data-component-amount="${component}"]`).value = '';
+        }
         if (input.dataset.paymentPart === 'referral' && input.checked && !document.getElementById('referralAmount').value) {
           const job = getJob(document.getElementById('paymentJob').value);
           if (job && expectedFor(job, 'referral') > 0) document.getElementById('referralAmount').value = Math.max(expectedFor(job, 'referral') - receivedForExcluding(job.id, 'referral', document.getElementById('paymentDialog').dataset.editingId || ''), 0);
         }
-        if (input.dataset.paymentPart === 'goodwill') updatePaymentPartsHint();
-        else refreshPaymentOptionStyles();
+        updatePaymentPartsHint();
       }));
+      ['[data-component-amount]', '#referralAmount', '#goodwillAmount', '#extraMileAmount', '#commissionAmount', '#editPaymentAmount'].forEach(selector => {
+        document.querySelectorAll(selector).forEach(input => input.addEventListener('input', updatePaymentTotalPreview));
+      });
       document.getElementById('selectPendingParts').addEventListener('click', selectKnownPendingParts);
       document.getElementById('clearPaymentParts').addEventListener('click', clearPaymentParts);
       document.getElementById('paymentForm').addEventListener('submit', event => {
@@ -1907,17 +2020,27 @@
         const jobId = document.getElementById('paymentJob').value || null;
         const job = getJob(jobId);
         const customerName = jobId ? '' : document.getElementById('paymentCustomer').value.trim();
+        if (!jobId && !customerName) { showToast('Choose a job or enter the customer name from UC'); document.getElementById('paymentCustomer').focus(); return; }
         if (editingId) {
           const current = data.payments.find(item => item.id === editingId);
           if (!current) { dialog.close(); render(); return; }
           const component = document.getElementById('editPaymentComponent').value;
           const amount = Number(document.getElementById('editPaymentAmount').value || 0);
-          if (amount <= 0) { showToast('Enter an amount greater than zero'); return; }
+          if (!Number.isSafeInteger(amount) || amount <= 0) { showToast('Enter a whole rupee amount greater than zero'); document.getElementById('editPaymentAmount').focus(); return; }
           if (job?.type === 'referral' && !['referral', 'goodwill'].includes(component)) { showToast('Referral jobs can only have a referral payout or Goodwill payment'); return; }
           if (job && component === 'goodwill' && !jobIsComplete(job)) { showToast('Goodwill can be recorded after the job is complete'); return; }
           if (job && component === 'extraMile' && (job.type === 'referral' || job.locality !== 'nonLocal')) { showToast('Extra-mile can only be recorded for non-local jobs'); return; }
-          if (jobId && ['jobValue', 'onTime', 'rating'].includes(component) && data.payments.some(item => item.id !== editingId && item.jobId === jobId && item.component === component)) {
-            showToast(`This job already has a ${COMPONENT_LABELS[component]} entry`); return;
+          if (job && ['jobValue', 'onTime', 'rating', 'referral'].includes(component)) {
+            const expected = expectedFor(job, component);
+            if (expected > 0) {
+              const received = receivedForExcluding(job.id, component, editingId);
+              if (!HisaabLedger.canRecordKnownAmount(expected, received, amount)) {
+                showToast(`Only ${money(HisaabLedger.remainingExpected(expected, received))} remains for ${COMPONENT_LABELS[component]}`);
+                document.getElementById('editPaymentAmount').focus(); return;
+              }
+            } else if (['jobValue', 'onTime', 'rating'].includes(component)) {
+              showToast(`${COMPONENT_LABELS[component]} is not expected for this job`); return;
+            }
           }
           data.payments = data.payments.map(item => item.id === editingId ? {
             ...item, jobId, customerName, date: document.getElementById('paymentDate').value,
@@ -1928,26 +2051,45 @@
         }
         const amountEntries = [];
         const fixedAmounts = { jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE };
+        let invalidAmount = false;
         Object.entries(fixedAmounts).forEach(([component, amount]) => {
           if (document.querySelector(`[data-payment-part="${component}"]`).checked) {
             const expected = job ? expectedFor(job, component) : amount;
             const alreadyReceived = job ? receivedForExcluding(job.id, component, editingId) : 0;
-            if (!job || expected > alreadyReceived) amountEntries.push({ component, amount: job ? expected - alreadyReceived : amount });
+            const amountInput = document.querySelector(`[data-component-amount="${component}"]`);
+            const amountToRecord = Number(amountInput.value || 0);
+            if (!Number.isSafeInteger(amountToRecord) || amountToRecord <= 0) {
+              showToast(`Enter the ${COMPONENT_LABELS[component]} amount received`); amountInput.focus(); invalidAmount = true; return;
+            }
+            if (job && !HisaabLedger.canRecordKnownAmount(expected, alreadyReceived, amountToRecord)) {
+              showToast(`Only ${money(HisaabLedger.remainingExpected(expected, alreadyReceived))} remains for ${COMPONENT_LABELS[component]}`); amountInput.focus(); invalidAmount = true; return;
+            }
+            amountEntries.push({ component, amount: amountToRecord });
           }
         });
+        if (invalidAmount) return;
         if (document.querySelector('[data-payment-part="referral"]').checked) {
-          const referralAmount = Number(document.getElementById('referralAmount').value || (job ? Math.max(expectedFor(job, 'referral') - receivedForExcluding(job.id, 'referral', editingId), 0) : 0));
-          if (referralAmount > 0) amountEntries.push({ component: 'referral', amount: referralAmount });
+          const referralInput = document.getElementById('referralAmount');
+          const referralAmount = Number(referralInput.value || 0);
+          if (!Number.isSafeInteger(referralAmount) || referralAmount <= 0) { showToast('Enter the referral payout amount received'); referralInput.focus(); return; }
+          const expected = job ? expectedFor(job, 'referral') : 0;
+          const alreadyReceived = job ? receivedForExcluding(job.id, 'referral', editingId) : 0;
+          if (job && expected > 0 && !HisaabLedger.canRecordKnownAmount(expected, alreadyReceived, referralAmount)) {
+            showToast(`Only ${money(HisaabLedger.remainingExpected(expected, alreadyReceived))} remains for the referral payout`); referralInput.focus(); return;
+          }
+          amountEntries.push({ component: 'referral', amount: referralAmount });
         }
         if (document.querySelector('[data-payment-part="goodwill"]').checked) {
           if (job && !jobIsComplete(job)) { showToast('Goodwill can be recorded after the job is complete'); return; }
           const goodwillAmount = Number(document.getElementById('goodwillAmount').value || 0);
-          if (goodwillAmount <= 0) { showToast('Enter the Goodwill amount received'); return; }
+          if (!Number.isSafeInteger(goodwillAmount) || goodwillAmount <= 0) { showToast('Enter a whole rupee Goodwill amount'); document.getElementById('goodwillAmount').focus(); return; }
           amountEntries.push({ component: 'goodwill', amount: goodwillAmount });
         }
         const extraMileAllowed = !job || (job.type !== 'referral' && job.locality === 'nonLocal');
         const extraMileAmount = extraMileAllowed ? Number(document.getElementById('extraMileAmount').value || 0) : 0;
         const commissionAmount = job?.type === 'referral' ? 0 : Number(document.getElementById('commissionAmount').value || 0);
+        if (extraMileAmount < 0 || !Number.isSafeInteger(extraMileAmount)) { showToast('Enter a whole rupee extra-mile amount'); document.getElementById('extraMileAmount').focus(); return; }
+        if (commissionAmount < 0 || !Number.isSafeInteger(commissionAmount)) { showToast('Enter a whole rupee commission amount'); document.getElementById('commissionAmount').focus(); return; }
         if (extraMileAmount > 0) amountEntries.push({ component: 'extraMile', amount: extraMileAmount });
         if (commissionAmount > 0) amountEntries.push({ component: 'commission', amount: commissionAmount });
         if (!amountEntries.length) { showToast('Select a payment type or enter an amount'); return; }

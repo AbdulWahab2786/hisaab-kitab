@@ -11,9 +11,9 @@
   "icons": [
     {
       "src": "./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png",
-      "sizes": "192x192",
+      "sizes": "1254x1254",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
