@@ -72,7 +72,17 @@
     .dashboard-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 16px; }
     .overview-actions { display: flex; align-items: center; gap: 8px; flex: 0 0 auto; }
     .home-screen { display: grid; gap: 16px; max-width: 920px; margin: 0 auto; }
-    .dashboard-home { display: grid; max-width: 1040px; gap: 18px; margin: 0 auto; }
+    .dashboard-home { display: grid; max-width: 900px; gap: 18px; margin: 0 auto; }
+    .hk-home-balance { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); min-height: 150px; overflow: hidden; border: 1px solid var(--line); border-radius: 14px; background: var(--paper); }
+    .hk-home-balance-main { display: grid; align-content: center; gap: 5px; min-width: 0; padding: 20px 22px; border-left: 5px solid var(--gold); background: var(--ink); color: white; }
+    .hk-home-balance-label { color: #F7D892; font-weight: 700; }
+    .hk-home-balance-amount { color: white; font-size: clamp(30px, 5vw, 42px) !important; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -1.2px; line-height: 1.12; overflow-wrap: anywhere; }
+    .hk-home-balance-note { color: #E0E8F0; line-height: 1.4; }
+    .hk-home-balance-received { display: grid; align-content: center; gap: 5px; min-width: 0; padding: 18px; border-left: 1px solid var(--line); }
+    .hk-home-balance-received span { color: var(--muted); line-height: 1.35; }
+    .hk-home-balance-received strong { color: var(--ink); font-size: clamp(21px, 3vw, 28px) !important; font-variant-numeric: tabular-nums; letter-spacing: -.5px; overflow-wrap: anywhere; }
+    .hk-home-balance-received small { color: var(--muted); font-size: 14px; }
+
     .dashboard-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
     .dashboard-heading h2 { margin: 0; color: var(--ink); font-size: 24px !important; letter-spacing: -.5px; }
     .dashboard-heading p { margin: 5px 0 0; color: var(--muted); line-height: 1.45; }
@@ -282,11 +292,6 @@
     .schedule-badge.overdue { background: #FDECEB; color: var(--red); }
     .schedule-card-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
     .schedule-stage-select { min-height: 33px; font-size: 10px; }
-    .schedule-slide { display: grid; grid-template-columns: 1fr 34px; align-items: center; gap: 7px; max-width: 310px; margin-top: 12px; padding: 7px 9px; border-radius: 9px; background: var(--green-soft); color: var(--green-dark); }
-    .schedule-slide label { display: block; font-size: 10px; font-weight: 700; }
-    .schedule-slide input { width: 100%; min-height: 18px; height: 18px; margin-top: 4px; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; accent-color: var(--green); }
-    .schedule-slide input:focus { box-shadow: none; }
-    .schedule-slide-arrow { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 8px; background: var(--green); color: white; font-size: 16px; }
     .schedule-empty { margin-top: 14px; }
     .jobs-page, .customers-page { display: grid; gap: 12px; min-width: 0; }
     .jobs-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; }
@@ -319,9 +324,24 @@
     .job-list-meta { color: var(--muted); font-size: 14px !important; line-height: 1.35; overflow-wrap: anywhere; }
     .job-model-chip { justify-self: start; max-width: 100%; padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px; background: var(--canvas); color: var(--ink); font-size: 14px; font-weight: 650; overflow-wrap: anywhere; }
     .job-work-status { max-width: 118px; white-space: normal; text-align: center; }
-    .job-list-slide { max-width: 100%; margin-top: 2px; }
-    .job-list-slide input { min-height: 44px !important; height: 44px; touch-action: pan-x; }
-    .job-list-slide label { font-size: 14px !important; }
+    .job-complete-control { display: grid; gap: 8px; max-width: 100%; margin-top: 8px; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: #F4F9F6; }
+    .job-complete-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 10px; }
+    .job-complete-heading label { color: var(--ink); font-size: 14px !important; font-weight: 750; }
+    .job-complete-heading span { color: var(--muted); font-size: 14px !important; line-height: 1.35; }
+    .job-complete-rail { position: relative; isolation: isolate; height: 56px; overflow: hidden; border: 1px solid #C8DDD5; border-radius: 14px; background: var(--green-soft); }
+    .job-complete-fill { position: absolute; z-index: 0; inset: 0 auto 0 0; width: var(--completion-progress, 0%); background: rgba(8,127,91,.13); transition: width .16s ease-out; pointer-events: none; }
+    .job-complete-prompt { position: absolute; z-index: 1; top: 50%; left: 68px; right: 48px; transform: translateY(-50%); color: var(--green-dark); font-size: 14px !important; font-weight: 700; text-align: center; white-space: nowrap; pointer-events: none; }
+    .job-complete-rail input[type=range] { position: absolute; z-index: 2; inset: 0 54px 0 0; width: calc(100% - 54px); height: 56px; min-height: 56px !important; margin: 0; padding: 0; appearance: none; background: transparent; cursor: grab; touch-action: pan-x; }
+    .job-complete-rail input[type=range]:active { cursor: grabbing; }
+    .job-complete-rail input[type=range]::-webkit-slider-runnable-track { height: 56px; border: 0; background: transparent; }
+    .job-complete-rail input[type=range]::-webkit-slider-thumb { width: 54px; height: 44px; margin-top: 6px; appearance: none; border: 0; border-radius: 12px; background-color: var(--green); background-image: linear-gradient(90deg, transparent 20px, rgba(255,255,255,.72) 20px 22px, transparent 22px 30px, rgba(255,255,255,.72) 30px 32px, transparent 32px); box-shadow: 0 2px 6px rgba(8,72,54,.24); }
+    .job-complete-rail input[type=range]::-moz-range-track { height: 56px; border: 0; background: transparent; }
+    .job-complete-rail input[type=range]::-moz-range-thumb { width: 54px; height: 44px; border: 0; border-radius: 12px; background-color: var(--green); background-image: linear-gradient(90deg, transparent 20px, rgba(255,255,255,.72) 20px 22px, transparent 22px 30px, rgba(255,255,255,.72) 30px 32px, transparent 32px); box-shadow: 0 2px 6px rgba(8,72,54,.24); }
+    .job-complete-confirm { position: absolute; z-index: 3; top: 5px; right: 5px; display: grid; width: 44px; min-width: 44px !important; height: 44px; min-height: 44px !important; place-items: center; padding: 0; border: 1px solid #B9D8CC; border-radius: 12px; background: white; color: var(--green-dark); cursor: pointer; transition: background-color .16s ease, color .16s ease, transform .16s ease, box-shadow .16s ease; }
+    .job-complete-confirm svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+    .job-complete-confirm:hover { background: var(--green); color: white; box-shadow: 0 2px 7px rgba(8,127,91,.2); }
+    .job-complete-confirm:active { transform: scale(.94); }
+    .job-complete-confirm:focus-visible, .job-complete-rail input[type=range]:focus-visible { outline: 3px solid #3B82F6; outline-offset: 2px; }
     .jobs-empty { min-width: 0; padding: 20px 14px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
     .jobs-empty p, .customers-empty p { margin: 0 0 10px; color: var(--muted); line-height: 1.45; }
     .customers-search { width: 100%; }
@@ -475,7 +495,7 @@
       .dashboard-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
     @media (max-width: 680px) {
-      .app-shell { display: block; padding-bottom: calc(70px + env(safe-area-inset-bottom)); }
+      .app-shell { display: block; padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
       .sidebar { display: none; }
       .topbar { height: 62px; padding: 0 16px; }
       .topbar .eyebrow { display: none; }
@@ -493,6 +513,10 @@
       .overview-actions .button { flex: 1; min-height: 42px; }
       .home-screen { gap: 12px; }
       .dashboard-home { gap: 14px; }
+      .hk-home-balance { min-height: 132px; }
+      .hk-home-balance-main { padding: 16px; }
+      .hk-home-balance-received { padding: 14px; }
+
       .dashboard-heading { align-items: stretch; flex-direction: column; gap: 10px; }
       .dashboard-heading h2 { font-size: 20px !important; }
       .dashboard-period { max-width: none; flex-basis: auto; }
@@ -546,10 +570,19 @@
       .job-custom-range { grid-template-columns: 1fr; }
       .list-pagination { display: grid; grid-template-columns: 1fr 1fr; }
       .list-pagination span { grid-column: 1 / -1; grid-row: 1; }
-    .mobile-nav { position: fixed; z-index: 10; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.96); border-top: 1px solid var(--line); padding: 6px 8px max(7px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }
-      .mobile-nav .nav-item { min-width: 0; min-height: 48px; flex-direction: column; justify-content: center; gap: 3px; padding: 2px; font-size: 9px; }
+    .mobile-nav { position: fixed; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) clamp(52px, 15.5vw, 64px) minmax(0, 1fr) minmax(0, 1fr); align-items: center; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,.98); border-top: 1px solid var(--line); padding: 6px 4px max(7px, env(safe-area-inset-bottom)); backdrop-filter: blur(12px); }
+        .mobile-nav .nav-item { min-width: 0; min-height: 64px; flex-direction: column; justify-content: center; gap: 4px; padding: 2px; font-size: 14px; transition: background-color .16s ease, color .16s ease, transform .16s ease; }
+      .mobile-nav .nav-item:active { transform: scale(.97); }
+      .mobile-nav .nav-item.active { border-radius: 14px; }
+      .mobile-nav .nav-item.active::before { display: none; }
       .mobile-nav .nav-icon { font-size: 15px; }
-      .mobile-nav .quick-add-fab { position: absolute; top: -28px; left: 50%; z-index: 1; display: grid; width: 52px; height: 52px; min-width: 52px; min-height: 52px; place-self: auto; margin: 0; padding: 0; transform: translateX(-50%); border: 4px solid white; border-radius: 50%; background: var(--green); color: white; box-shadow: 0 4px 12px rgba(8,127,91,.22); font-size: 28px; font-weight: 500; line-height: 1; }
+      .mobile-nav .nav-icon svg { width: 21px; height: 21px; }
+      .mobile-nav .quick-add-fab { position: relative; top: auto; left: auto; z-index: 1; display: grid; grid-template-rows: 44px auto; grid-column: 3; justify-self: center; align-self: center; width: 100%; height: 64px; min-width: 44px; min-height: 64px; gap: 2px; margin: 0; padding: 0; transform: none; border: 0; border-radius: 14px; background: transparent; color: var(--muted); box-shadow: none; font-size: 14px; font-weight: 650; line-height: 1; }
+      .mobile-nav .quick-add-icon { display: grid; width: 44px; height: 44px; justify-self: center; place-items: center; border: 1px solid var(--green); border-radius: 14px; background: var(--green); color: white; box-shadow: 0 2px 5px rgba(8,127,91,.16); transition: transform .16s ease, box-shadow .16s ease; }
+      .mobile-nav .quick-add-icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+      .mobile-nav .quick-add-label { color: inherit; font-size: 14px !important; line-height: 1; }
+      .mobile-nav .quick-add-fab:hover .quick-add-icon { box-shadow: 0 3px 8px rgba(8,127,91,.2); }
+      .mobile-nav .quick-add-fab:active .quick-add-icon { transform: scale(.94); }
       .form-grid { grid-template-columns: 1fr; }
       .field.full { grid-column: auto; }
       .customer-profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
@@ -561,11 +594,40 @@
       .overview-secondary-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
       .overview-secondary-value { margin: 0; white-space: nowrap; }
       .overview-secondary-note { display: none; }
+      .hk-home-balance { grid-template-columns: minmax(0, 1fr); }
+      .hk-home-balance-main { min-height: 120px; }
+      .hk-home-balance-received { grid-template-columns: 1fr auto; align-items: center; border-top: 1px solid var(--line); border-left: 0; }
+      .hk-home-balance-received strong { grid-column: 2; grid-row: 1 / span 2; }
+      .hk-home-balance-received small { grid-column: 1; }
       .stat-card { padding: 10px; }
       .stat-label { font-size: 10px; }
       .stat-icon { width: 27px; height: 27px; }
     }
-  </style>
+    .drive-explanation { margin: 0 0 12px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--canvas); color: var(--ink); font-size: 14px; line-height: 1.5; }
+    .drive-status { min-height: 44px; margin: 10px 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: white; color: var(--ink); font-size: 14px; line-height: 1.45; }
+    .drive-status[data-kind="success"] { border-color: #B9D8CC; background: #EEF8F4; color: #075C43; }
+    .drive-status[data-kind="error"] { border-color: #E7B6B3; background: #FFF3F2; color: #842D2A; }
+    .drive-connect-button { width: 100%; }
+    .drive-actions { display: grid; gap: 12px; margin-top: 12px; }
+    .drive-action-row { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 8px; }
+    .drive-action-row .button { min-height: 46px; }
+    .drive-backup-section { display: grid; gap: 8px; }
+    .drive-backup-section h4 { margin: 0; font-size: 16px; }
+    .drive-backup-list { display: grid; gap: 8px; max-height: min(36vh, 320px); overflow-y: auto; overscroll-behavior: contain; }
+    .drive-backup-row { display: grid; gap: 8px; padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+    .drive-backup-meta { display: grid; min-width: 0; gap: 4px; }
+    .drive-backup-meta strong { color: var(--ink); font-size: 14px; overflow-wrap: anywhere; }
+    .drive-backup-meta span, .drive-empty, .drive-privacy-note { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .drive-backup-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+    .drive-backup-actions .button { min-height: 44px; }
+    .drive-privacy-note { margin-top: 12px; }
+    .drive-backup-actions .button:disabled, .drive-action-row .button:disabled { cursor: wait; opacity: .6; }
+    [hidden] { display: none !important; }
+    @media (max-width: 420px) {
+      .drive-action-row { grid-template-columns: 1fr; }
+      #googleDriveDialog .modal-head { padding-right: 14px; padding-left: 14px; }
+      #googleDriveDialog .modal-body { padding-right: 14px; padding-left: 14px; }
+    }  </style>
 </head>
 <body>
   <div class="app-shell">
@@ -579,7 +641,7 @@
         <button class="nav-item" data-page="payments"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Payments</button>
       </nav>
       <div class="sidebar-bottom">
-        <div class="device-note"><strong>Private to this device</strong>Your entries stay in this browser. This demo is not connected to Urban Company.</div>
+        <div class="device-note"><strong>Offline-first data</strong>Your working records stay in this browser. Create a Google Drive backup when you need one. Not connected to Urban Company.</div>
         <div class="sidebar-user"><div class="avatar">HK</div><div><div class="user-name">Hisaab Kitab</div><div class="user-role">Water purifier partner</div></div></div>
       </div>
     </aside>
@@ -587,7 +649,7 @@
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
         <div class="topbar-left"><img class="topbar-logo" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
-        <div class="top-actions"><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Private to this device</span></div><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+        <div class="top-actions"><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
@@ -595,7 +657,7 @@
   <nav class="mobile-nav" aria-label="Mobile navigation">
     <button class="nav-item active" data-page="overview"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></svg></span>Home</button>
     <button class="nav-item" data-page="jobs"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span>Jobs</button>
-    <button type="button" class="quick-add-fab" data-open-quick-add aria-label="Add a job, payment, or customer" aria-haspopup="dialog" aria-controls="quickAddSheet"><span aria-hidden="true">+</span></button>
+    <button type="button" class="quick-add-fab" data-open-quick-add aria-label="Add a job, payment, or customer" aria-haspopup="dialog" aria-controls="quickAddSheet"><span class="quick-add-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="quick-add-label" aria-hidden="true">Add</span></button>
     <button class="nav-item" data-page="customers"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>Customers</button>
     <button class="nav-item" data-page="payments"><span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span>Payments</button>
   </nav>
@@ -708,7 +770,21 @@
       </div>
     </form>
   </dialog>
-  <dialog id="backupPreviewDialog" aria-labelledby="backupPreviewTitle">
+  <dialog id="googleDriveDialog" class="hk-bottom-sheet" aria-labelledby="googleDriveTitle">
+    <div class="modal-head"><div><h3 id="googleDriveTitle">Google Drive backups</h3><p>Create and restore dated copies of this device's records.</p></div><button type="button" class="icon-button" data-close="googleDriveDialog" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <p class="drive-explanation">Each backup creates a new JSON file in your Google Drive with its date and time in the filename. Backups include customer details and financial records. Changes are not synced automatically.</p>
+      <p class="drive-status" id="driveStatus" role="status" aria-live="polite">Google Drive access has not been requested.</p>
+      <button type="button" class="button button-primary drive-connect-button" id="driveConnectButton">Connect Google Drive</button>
+      <section class="drive-actions" id="driveActions" hidden>
+        <div class="drive-action-row"><button type="button" class="button button-primary" id="driveSaveButton">Save a dated backup</button><button type="button" class="button" id="driveRefreshButton">Refresh backup list</button></div>
+        <section class="drive-backup-section" id="driveBackupSection" aria-labelledby="driveBackupHeading" hidden><h4 id="driveBackupHeading">Recent backups</h4><div class="drive-backup-list" id="driveBackupList"></div></section>
+      </section>
+      <p class="drive-privacy-note">Hisaab Kitab requests access only to backup files it creates. Google access stays in this page session; no Google password or access token is saved in your records.</p>
+      <button type="button" class="button button-quiet" id="driveDisconnectButton" hidden>Disconnect for this session</button>
+    </div>
+    <div class="backup-preview-actions"><button type="button" class="button" data-close="googleDriveDialog">Close</button></div>
+  </dialog>  <dialog id="backupPreviewDialog" aria-labelledby="backupPreviewTitle">
     <div class="modal-head"><div><h3 id="backupPreviewTitle">Review backup</h3><p>Check what will be restored before replacing this device’s records.</p></div><button type="button" class="icon-button" data-close="backupPreviewDialog" aria-label="Close backup preview">×</button></div>
     <div class="modal-body backup-preview-body">
       <div class="backup-preview-warning" role="note">Restoring replaces all jobs, payments, and customer profiles currently saved in this browser. It does not merge records. Export your current data first if you may need it.</div>
@@ -738,6 +814,8 @@
   <div class="toast" id="toast" role="status"></div>
 
   <script src="./ledger-core.js"></script>
+  <script src="./google-drive-config.js"></script>
+  <script src="./google-drive-backup.js"></script>
   <script>
     (() => {
       const STORAGE_KEY = 'hisaab-payment-tracker-v1';
@@ -1023,24 +1101,30 @@
           return `<button type="button" class="home-task-row" data-action="${action}" data-id="${escapeHtml(item.id)}" aria-label="Open ${item.type === 'job' ? 'job' : 'payment'} for ${escapeHtml(item.name)}"><span class="home-task-copy"><strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.detail)}${dateHint}</span></span><span class="home-task-arrow" aria-hidden="true">›</span></button>`;
         }).join('') : `<div class="home-task-empty"><p>No job due today or payment follow-up.</p><button type="button" class="button button-secondary" data-action="go-jobs">View jobs</button></div>`;
         return `<div class="dashboard-home">
-          <header class="dashboard-heading"><div><h2>Your money at a glance</h2><p>${escapeHtml(periodLabel)} · ${periodJobs.length} completed ${periodJobs.length === 1 ? 'job' : 'jobs'}</p></div><label class="dashboard-period" for="overviewPeriod">View period<select id="overviewPeriod" aria-label="Filter dashboard activity by period"><option value="thisMonth" ${overviewPeriodFilter === 'thisMonth' ? 'selected' : ''}>This month</option><option value="lastMonth" ${overviewPeriodFilter === 'lastMonth' ? 'selected' : ''}>Last month</option><option value="all" ${overviewPeriodFilter === 'all' ? 'selected' : ''}>All time</option></select></label></header>
-          <div class="dashboard-actions" role="group" aria-label="Quick actions"><button type="button" class="button button-primary" data-action="add-job">＋ Add job</button><button type="button" class="button" data-action="add-payment">＋ Record payment</button></div>
-          <section class="dashboard-metrics" aria-label="Financial summary">
-            <button type="button" class="dashboard-metric" data-action="go-payments"><span class="dashboard-metric-label">Job-related received</span><strong class="dashboard-metric-value">${money(receiptTotals.jobRelated)}</strong><span class="dashboard-metric-note">Linked job payments · ${escapeHtml(periodLabel)}</span></button>
-            <button type="button" class="dashboard-metric dashboard-metric--pending" data-action="go-jobs"><span class="dashboard-metric-label">Known payments pending</span><strong class="dashboard-metric-value">${money(outstanding)}</strong><span class="dashboard-metric-note">Current total across all jobs</span></button>
-            <article class="dashboard-metric dashboard-metric--goodwill"><span class="dashboard-metric-label">Goodwill received</span><strong class="dashboard-metric-value">${money(HisaabLedger.componentTotal(periodPayments, 'goodwill'))}</strong><span class="dashboard-metric-note">Customer gave voluntarily · ${escapeHtml(periodLabel)}</span></article>
-            <article class="dashboard-metric dashboard-metric--extra"><span class="dashboard-metric-label">Extra-mile received</span><strong class="dashboard-metric-value">${money(HisaabLedger.componentTotal(periodPayments, 'extraMile'))}</strong><span class="dashboard-metric-note">${escapeHtml(periodLabel)}</span></article>
-            <article class="dashboard-metric dashboard-metric--commission"><span class="dashboard-metric-label">Commission received</span><strong class="dashboard-metric-value">${money(HisaabLedger.componentTotal(periodPayments, 'commission'))}</strong><span class="dashboard-metric-note">${escapeHtml(periodLabel)}</span></article>
-            <button type="button" class="dashboard-metric dashboard-metric--jobs" data-action="go-jobs"><span class="dashboard-metric-label">Jobs completed</span><strong class="dashboard-metric-value">${periodJobs.length}</strong><span class="dashboard-metric-note">Completion date · ${escapeHtml(periodLabel)}</span></button>
-          </section>
-          <section class="dashboard-section" aria-labelledby="homeAttentionTitle"><div class="dashboard-section-heading"><h3 id="homeAttentionTitle">Needs attention</h3><span class="dashboard-count">${attention.length}</span></div><div class="home-task-list">${attentionRows}</div></section>
-          <details class="dashboard-details"><summary><span>More details</span><span aria-hidden="true">⌄</span></summary><div class="dashboard-detail-list">
-            <div class="dashboard-detail-row"><span>Known expected for completed jobs</span><strong>${money(expectedInPeriod)}</strong></div>
-            <div class="dashboard-detail-row"><span>All payments received</span><strong>${money(receiptTotals.total)}</strong></div>
-            <div class="dashboard-detail-row"><span>Payments not linked to a job</span><strong>${unmatchedPayments.length} · ${money(unmatchedTotal)}</strong></div>
-          </div></details>
-          <p class="dashboard-date-note">Payment totals use the date money arrived. Job counts and expected amounts use the job completion date. Pending stays current across all jobs.</p>
-        </div>`;
+  <header class="dashboard-heading"><div><h2>Your money at a glance</h2><p>${escapeHtml(periodLabel)} · ${periodJobs.length} completed ${periodJobs.length === 1 ? 'job' : 'jobs'}</p></div><label class="dashboard-period" for="overviewPeriod">View period<select id="overviewPeriod" aria-label="Filter dashboard activity by period"><option value="thisMonth" ${overviewPeriodFilter === 'thisMonth' ? 'selected' : ''}>This month</option><option value="lastMonth" ${overviewPeriodFilter === 'lastMonth' ? 'selected' : ''}>Last month</option><option value="all" ${overviewPeriodFilter === 'all' ? 'selected' : ''}>All time</option></select></label></header>
+  <section class="hk-home-balance" aria-label="Payment summary">
+    <div class="hk-home-balance-main"><span class="hk-home-balance-label">Pending</span><strong class="hk-home-balance-amount">${money(outstanding)}</strong><span class="hk-home-balance-note">Known expected amounts across all jobs</span></div>
+    <div class="hk-home-balance-received"><span>Job-related received</span><strong>${money(receiptTotals.jobRelated)}</strong><small>${escapeHtml(periodLabel)} · based on payment date</small></div>
+  </section>
+  <div class="dashboard-actions" role="group" aria-label="Quick actions"><button type="button" class="button button-primary" data-action="add-job">Add job</button><button type="button" class="button" data-action="add-payment">Record payment</button></div>
+  <section class="dashboard-section" aria-labelledby="homeAttentionTitle"><div class="dashboard-section-heading"><h3 id="homeAttentionTitle">Needs attention</h3><span class="dashboard-count">${attention.length}</span></div><div class="home-task-list">${attentionRows}</div></section>
+  <details class="dashboard-details"><summary><span>More details</span><span aria-hidden="true">⌄</span></summary><div class="dashboard-detail-list">
+    <div class="dashboard-detail-row"><span>Expected for completed jobs</span><strong>${money(expectedInPeriod)}</strong></div>
+    <div class="dashboard-detail-row"><span>Goodwill received</span><strong>${money(HisaabLedger.componentTotal(periodPayments, 'goodwill'))}</strong></div>
+    <div class="dashboard-detail-row"><span>Extra-mile received</span><strong>${money(HisaabLedger.componentTotal(periodPayments, 'extraMile'))}</strong></div>
+    <div class="dashboard-detail-row"><span>Commission received</span><strong>${money(HisaabLedger.componentTotal(periodPayments, 'commission'))}</strong></div>
+    <div class="dashboard-detail-row"><span>Completed jobs</span><strong>${periodJobs.length}</strong></div>
+    <div class="dashboard-detail-row"><span>All payments received</span><strong>${money(receiptTotals.total)}</strong></div>
+    <div class="dashboard-detail-row"><span>Unmatched payments (included above)</span><strong>${unmatchedPayments.length} · ${money(unmatchedTotal)}</strong></div>
+    <p class="dashboard-date-note">Received totals use payment dates; expected totals use job completion dates.</p>
+  </div></details>
+</div>`;
+      }
+      function renderCompletionControl(job) {
+        if (jobIsComplete(job)) return '';
+        const inputId = `complete-${job.id}`;
+        const helpId = `complete-help-${job.id}`;
+        return `<div class="job-complete-control"><div class="job-complete-heading"><label for="${escapeHtml(inputId)}">Mark job complete</label><span id="${escapeHtml(helpId)}">Slide the grip or tap the check to confirm.</span></div><div class="job-complete-rail" style="--completion-progress: 0%"><span class="job-complete-fill" aria-hidden="true"></span><span class="job-complete-prompt" aria-hidden="true">Slide to complete</span><input id="${escapeHtml(inputId)}" type="range" min="0" max="100" step="1" value="0" aria-valuetext="Not completed" aria-describedby="${escapeHtml(helpId)}" data-complete-job="${escapeHtml(job.id)}"><button type="button" class="job-complete-confirm" data-confirm-complete="${escapeHtml(job.id)}" aria-label="Mark ${escapeHtml(job.customer)} job complete"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button></div></div>`;
       }
       function renderScheduleLegacy() {
         const statuses = ['upcoming', 'pending', 'followup', 'completed'];
@@ -1072,7 +1156,7 @@
             const customerLabel = phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}">Call customer</a>` : '';
             const badgeClass = overdue ? 'overdue' : scheduleStatusFilter === 'pending' ? 'pending' : scheduleStatusFilter === 'followup' ? 'followup' : '';
             const stageOptions = ['upcoming','pending','followup'].map(status => `<option value="${status}" ${workStatusFor(job) === status ? 'selected' : ''}>${workStatusLabel(status)}</option>`).join('');
-            const progressControl = !jobIsComplete(job) ? `<div class="schedule-slide"><div><label for="complete-${escapeHtml(job.id)}">Slide to mark job complete</label><input id="complete-${escapeHtml(job.id)}" type="range" min="0" max="100" value="0" aria-label="Slide to mark ${escapeHtml(job.customer)} job complete" data-complete-job="${escapeHtml(job.id)}"></div><span class="schedule-slide-arrow" aria-hidden="true">→</span></div>` : '';
+            const progressControl = renderCompletionControl(job);
             return `<article class="schedule-card"><div class="schedule-card-top"><div class="schedule-card-main"><span class="schedule-badge ${badgeClass}">${overdue ? 'Past due' : workStatusLabel(workStatusFor(job))}</span><strong class="schedule-card-name">${escapeHtml(job.customer)}</strong><div class="schedule-card-meta">${escapeHtml(job.model || 'Purifier')} · ${escapeHtml(job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`)}<br>${jobIsComplete(job) ? `Completed on ${dateText(job.date)}` : date === 'not-set' ? 'Add a completion deadline' : `Complete by ${dateText(job.dueDate)}`}</div></div></div><div class="schedule-card-actions">${customerLabel}<button class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">${jobIsComplete(job) ? 'Edit job' : 'Reschedule / edit'}</button>${!jobIsComplete(job) ? `<label class="money-muted" for="stage-${escapeHtml(job.id)}" style="font-size:10px">Move to</label><select class="schedule-stage-select" id="stage-${escapeHtml(job.id)}" aria-label="Change ${escapeHtml(job.customer)} job status" data-job-stage="${escapeHtml(job.id)}">${stageOptions}</select>` : ''}</div>${progressControl}</article>`;
           }).join('');
           return `<section class="schedule-day-group"><h3 class="schedule-day-title">${escapeHtml(heading)}</h3><div class="schedule-card-list">${cards}</div></section>`;
@@ -1202,7 +1286,7 @@
             const jobKind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`;
             const call = phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}" aria-label="Call ${escapeHtml(job.customer)}">Call</a>` : '';
             const stageOptions = ['upcoming', 'pending', 'followup'].map(status => `<option value="${status}" ${workStatusFor(job) === status ? 'selected' : ''}>${workStatusLabel(status)}</option>`).join('');
-            const progressControl = !jobIsComplete(job) ? `<div class="schedule-slide job-list-slide"><div><label for="complete-${escapeHtml(job.id)}">Slide to mark job complete</label><input id="complete-${escapeHtml(job.id)}" type="range" min="0" max="100" value="0" aria-label="Slide to mark ${escapeHtml(job.customer)} job complete" data-complete-job="${escapeHtml(job.id)}"></div><span class="schedule-slide-arrow" aria-hidden="true">→</span></div>` : '';
+            const progressControl = renderCompletionControl(job);
             const workflow = !jobIsComplete(job) ? `<label class="job-stage-label" for="stage-${escapeHtml(job.id)}">Status</label><select class="schedule-stage-select" id="stage-${escapeHtml(job.id)}" aria-label="Change ${escapeHtml(job.customer)} job status" data-job-stage="${escapeHtml(job.id)}">${stageOptions}</select>` : '';
             return `<article class="job-list-card"><button type="button" class="job-list-row" data-action="view-job" data-id="${escapeHtml(job.id)}" aria-label="View job for ${escapeHtml(job.customer)}"><span class="job-list-main"><strong class="job-list-name">${escapeHtml(job.customer)}</strong><span class="job-list-meta">${escapeHtml(jobKind)} · ${jobIsComplete(job) ? 'Completed' : 'Complete by'} ${dateText(dueDate)}</span><span class="job-model-chip">${escapeHtml(job.model || 'Purifier')}</span></span>${jobStatusChip(job)}</button><div class="schedule-card-actions">${call}${workflow}<button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">${jobIsComplete(job) ? 'Edit job' : 'Reschedule / edit'}</button></div>${progressControl}</article>`;
           }).join('');
@@ -1424,7 +1508,22 @@
         const scheduleSearchInput = document.getElementById('scheduleSearch');
         if (scheduleSearchInput) scheduleSearchInput.addEventListener('input', event => { scheduleSearch = event.target.value; const cursor = event.target.selectionStart; render(); const again = document.getElementById('scheduleSearch'); again.focus(); again.setSelectionRange(cursor, cursor); });
         document.querySelectorAll('[data-job-stage]').forEach(select => select.addEventListener('change', () => setJobWorkflowStatus(select.dataset.jobStage, select.value)));
-        document.querySelectorAll('[data-complete-job]').forEach(slider => slider.addEventListener('input', () => { if (Number(slider.value) >= 95) markJobComplete(slider.dataset.completeJob); }));
+        document.querySelectorAll('[data-complete-job]').forEach(slider => {
+          const rail = slider.closest('.job-complete-rail');
+          const updateProgress = () => {
+            const value = Number(slider.value);
+            rail?.style.setProperty('--completion-progress', value + '%');
+            slider.setAttribute('aria-valuetext', value === 0 ? 'Not completed' : value + '% complete');
+          };
+          slider.addEventListener('input', () => {
+            updateProgress();
+            if (Number(slider.value) >= 95) markJobComplete(slider.dataset.completeJob);
+          });
+          slider.addEventListener('change', () => {
+            if (Number(slider.value) < 95) { slider.value = '0'; updateProgress(); }
+          });
+        });
+        document.querySelectorAll('[data-confirm-complete]').forEach(button => button.addEventListener('click', () => markJobComplete(button.dataset.confirmComplete)));
         const jobTypeFilterInput = document.getElementById('jobTypeFilter');
         if (jobTypeFilterInput) jobTypeFilterInput.addEventListener('change', event => { jobTypeFilter = event.target.value; jobFocusId = ''; jobPage = 1; jobsStatusChosen = false; renderKeepingFocus('jobTypeFilter'); });
         const jobRangeFilterInput = document.getElementById('jobRangeFilter');
@@ -1793,9 +1892,13 @@
         jobPage = 1;
         saveData(); render(); showToast('Job deleted; payment records kept');
       }
+      function backupTimestamp() {
+        const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(new Date()).map(part => [part.type, part.value]));
+        return parts.year + '-' + parts.month + '-' + parts.day + '_' + parts.hour + '-' + parts.minute + '-' + parts.second + '-' + String(new Date().getMilliseconds()).padStart(3, '0');
+      }
       function exportBackup() {
         const blob = new Blob([JSON.stringify({ app: 'Hisaab Kitab', exportedAt: new Date().toISOString(), ...data }, null, 2)], { type: 'application/json' });
-        const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `hisaab-kitab-backup-${localISO()}.json`; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+        const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = 'hisaab-kitab-backup-' + backupTimestamp() + '.json'; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
         showToast('Backup downloaded');
       }
       function backupCounts(recordData) {
@@ -1893,6 +1996,13 @@
       }));
       document.getElementById('exportButton').addEventListener('click', exportBackup);
       document.getElementById('importButton').addEventListener('click', () => document.getElementById('backupFile').click());
+      window.HisaabKitabDriveBackup.init({
+        clientId: window.HISAAB_KITAB_GOOGLE_CLIENT_ID,
+        getBackupPayload: () => ({ app: 'Hisaab Kitab', backupVersion: 1, exportedAt: new Date().toISOString(), ...data }),
+        previewBackup: (payload, filename) => showBackupPreview(validateBackup(payload), { name: filename }),
+        onToast: showToast
+      });
+      document.getElementById('googleDriveButton').addEventListener('click', () => window.HisaabKitabDriveBackup.open());
       document.getElementById('backupPreviewExport').addEventListener('click', exportBackup);
       document.getElementById('backupPreviewConfirm').addEventListener('click', restorePendingBackup);
       document.getElementById('backupPreviewDialog').addEventListener('close', () => { pendingBackupImport = null; });
@@ -2133,3 +2243,4 @@
   </script>
 </body>
 </html>
+

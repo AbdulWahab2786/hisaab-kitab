@@ -1,5 +1,5 @@
-const CACHE_NAME = 'hisaab-kitab-shell-v6';
-const APP_FILES = ['./', './index.html', './design-tokens.css', './ledger-core.js', './manifest.webmanifest', './codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png'];
+const CACHE_NAME = 'hisaab-kitab-shell-v7';
+const APP_FILES = ['./', './index.html', './design-tokens.css', './ledger-core.js', './google-drive-config.js', './google-drive-backup.js', './manifest.webmanifest', './codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)));
@@ -41,3 +41,4 @@ self.addEventListener('fetch', event => {
     }))
   );
 });
+

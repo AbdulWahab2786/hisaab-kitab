@@ -27,14 +27,30 @@ To run the accounting checks on a computer with Node.js installed, open this fol
 - Goodwill, extra-mile, and commission are shown separately. **All payments received** includes every recorded payment once, while the linked job-receipts card excludes payments that have not been matched to a job.
 - The Needs attention list points to today’s scheduled jobs, known pending parts, non-local jobs without a recorded extra-mile amount, overdue jobs, and payments that still need matching.
 
+## Google Drive backups
+
+The app can create a **new dated JSON snapshot** in the user's visible Google Drive. It does not continuously sync and does not replace the browser's local working copy. Restoring a Drive backup uses the existing validation and review dialog; records are replaced only after the user confirms.
+
+Before Drive access is available, configure a Google OAuth **Web application client ID** in google-drive-config.js (the client ID is public; never put a client secret in the PWA). In Google Cloud Console:
+
+1. Enable the Google Drive API, configure OAuth branding, and add the drive.file scope under Data Access.
+2. Keep the app in Testing mode while developing and add each tester's Google account as a test user.
+3. Create a Web application OAuth client. Add https://hisaab-kitab.pages.dev as an authorized JavaScript origin, plus http://localhost and http://localhost:8766 for local development.
+4. Copy the client ID into google-drive-config.js, deploy, and test with a non-critical account.
+
+The app requests the narrow drive.file permission. Users grant it from the Google account popup after selecting **Connect Google Drive**. The app only lists and reads Hisaab Kitab backup files it created. The OAuth access token stays in page memory and is not written to localStorage. The browser preview opened as file:// cannot use Drive authorization; use HTTPS or localhost.
+
+For a public production release, Google requires the OAuth app's web domains to be verified and a public homepage/privacy policy on a verified domain. Because pages.dev is a shared hosting domain, Google may require a custom domain you control on Cloudflare Pages before production verification. Testing mode is suitable for initial partner testing.
+
+Each backup filename includes the creation date and time in India Standard Time. A backup contains customer names and phone numbers, jobs, and financial/payment records. Users can disconnect the current page session here and can revoke the app's Drive permission from their Google Account. Because every backup is a separate file, older snapshots remain available; this first version does not merge data or automatically sync devices.
 ## Scope and data
 
 - This version does not connect to Urban Company or read UC account data. Entries are manual.
-- Data is stored in this browser's local storage on this device. The installed PWA uses the website's browser storage for its origin; it does not sync with another browser, website, or device. Export backups regularly. Clearing browser/site data can remove the records.
+- Working records are stored in this browser's local storage on this device. The installed PWA uses the website's browser storage for its origin. A user can create dated JSON backups in their Google Drive and restore one on another device, but changes do not sync automatically. Clearing browser/site data removes the local copy; Drive snapshots remain until the user deletes them.
 - For non-local jobs without an expected extra-mile figure, the app shows an extra-mile payment as pending until an amount is recorded. This pending state does not add an estimated rupee amount to the dashboard.
 - Commission entries are recorded as received credits. The app does not estimate commission due.
 - Goodwill is an optional customer-given amount; it is manually entered only when received and does not create a pending balance.
-- This prototype has no sign-in, cloud sync, Play Store package, or multi-device access. An Android package with a separate app-private database is a later release step.
+- This prototype has no Hisaab Kitab account login or automatic cloud sync. Google Drive authorization is separate and only used for user-requested backup/restore. A Play Store package and Android app-private database are later release steps.
 
 ## Suggested next product milestones
 
@@ -42,3 +58,4 @@ To run the accounting checks on a computer with Node.js installed, open this fol
 2. Try the installable PWA with partners on Android and improve the entry flow from their feedback.
 3. Prepare a Capacitor Android package with app-private phone storage and test backup/restore on the phone.
 4. Decide whether sign-in and cross-device sync are needed before adding a backend.
+
