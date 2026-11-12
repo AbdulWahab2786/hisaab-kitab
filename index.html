@@ -14,7 +14,7 @@
     * { box-sizing: border-box; }
     .sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0, 0, 0, 0) !important; white-space: nowrap !important; border: 0 !important; }
     body { margin: 0; min-width: 320px; background: var(--canvas); }
-    button, input, select { font: inherit; }
+    button, input, select, textarea { font: inherit; }
     button { cursor: pointer; }
     :where(button, a, input, select, summary, [tabindex]):focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
     .app-shell { min-height: 100vh; display: grid; grid-template-columns: 244px minmax(0, 1fr); }
@@ -47,6 +47,7 @@
     .top-actions { display: flex; align-items: center; gap: 9px; }
     .content { max-width: 1280px; margin: 0 auto; padding: 29px clamp(18px, 4vw, 54px) 52px; }
     .welcome-row { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 23px; }
+    .welcome-row > div { min-width: 0; max-width: 100%; }
     .welcome-row h2 { margin: 0 0 7px; font-size: clamp(22px, 3vw, 28px); letter-spacing: -1px; }
     .welcome-row p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
     .button { min-height: 42px; border-radius: 9px; padding: 0 14px; border: 1px solid var(--line); background: white; color: var(--ink); font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: .15s ease; }
@@ -203,9 +204,9 @@
     .search-box { position: relative; }
     .search-box input { padding-left: 34px; width: min(280px, 56vw); }
     .search-glyph { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 13px; }
-    .input, input, select { min-height: 42px; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 0 11px; outline: none; color: var(--ink); font-size: 12px; }
-    .input:focus, input:focus, select:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(8,127,91,.12); }
-    .input::placeholder, input::placeholder { color: #66798C; opacity: 1; }
+    .input, input, select, textarea { min-height: 42px; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 0 11px; outline: none; color: var(--ink); font-size: 12px; }
+    .input:focus, input:focus, select:focus, textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(8,127,91,.12); }
+    .input::placeholder, input::placeholder, textarea::placeholder { color: #66798C; opacity: 1; }
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; min-width: 680px; }
     th { background: var(--canvas); text-align: left; padding: 11px 15px; color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .7px; font-weight: 750; white-space: nowrap; }
@@ -220,7 +221,8 @@
     @media (prefers-reduced-motion: reduce) { .settlement-dot.pending { animation: none; } }
     .customer-avatar { width: 28px; height: 28px; border-radius: 9px; background: var(--green-soft); display: grid; place-items: center; color: var(--green); font-size: 10px; font-weight: 750; }
     .subcell { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
-    .subcell a, .customer-profile-meta a { color: var(--green); text-decoration: underline; text-underline-offset: 2px; }
+    .subcell a, .customer-profile-meta a:not(.button) { color: var(--green); text-decoration: underline; text-underline-offset: 2px; }
+    .customer-profile-meta a.button { text-decoration: none; }
     .customer-profile-actions { display: flex; align-items: center; gap: 8px; }
     .customer-menu { position: relative; }
     .customer-menu > summary { list-style: none; min-width: 38px; padding: 0 10px; font-size: 19px; cursor: pointer; }
@@ -242,13 +244,13 @@
     .batch-section-label { color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: .7px; text-transform: uppercase; padding: 12px 15px 4px; }
     .batch-table { min-width: 760px; }
     .batch-table th { background: white; }
-    .row-actions { display: flex; justify-content: flex-end; align-items: center; gap: 5px; }
+    .row-actions { display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 5px; max-width: 100%; }
     .button-danger { color: var(--red); }
     [hidden] { display: none !important; }
     .customer-profile-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
     .customer-profile-grid .stat-label { font-size: 14px; }
-    .customer-job-list { display: grid; gap: 12px; }
-    .customer-job-card { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 15px; }
+    .customer-job-list { display: grid; gap: 12px; min-width: 0; }
+    .customer-job-card { min-width: 0; max-width: 100%; background: white; border: 1px solid var(--line); border-radius: 12px; padding: 15px; }
     .customer-job-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
     .customer-job-title { font-size: 16px; font-weight: 750; }
     .customer-job-meta { color: var(--muted); font-size: 14px; margin-top: 4px; }
@@ -309,14 +311,14 @@
     .jobs-filter-details:not([open]) > summary::after { content: '+'; }
     .jobs-filter-details .job-filter-panel { margin: 0; border: 0; background: transparent; }
     .jobs-filter-count { margin-left: auto; color: var(--muted); font-weight: 500; }
-    .job-status-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: #EDF2F7; }
+    .job-status-tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: #EDF2F7; }
     .job-status-tab { display: flex; min-width: 0; min-height: 56px !important; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 5px 3px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: var(--muted); font-weight: 650; line-height: 1.15; text-align: center; cursor: pointer; }
     .job-status-tab[aria-pressed="true"] { border-color: var(--line); background: var(--paper); color: var(--ink); box-shadow: 0 1px 3px rgba(20,45,78,.08); }
     .job-status-tab-count { color: var(--muted); font-size: 14px !important; font-weight: 600; }
     .job-list { display: grid; gap: 10px; min-width: 0; }
-    .job-list-day { display: grid; gap: 8px; }
+    .job-list-day { display: grid; gap: 8px; min-width: 0; }
     .job-list-day-title { margin: 8px 0 0; color: var(--ink); font-size: 20px !important; font-weight: 750; }
-    .job-list-card { min-width: 0; padding: 4px 12px 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); box-shadow: 0 2px 8px rgba(20,45,78,.04); }
+    .job-list-card { min-width: 0; max-width: 100%; padding: 4px 12px 12px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); box-shadow: 0 2px 8px rgba(20,45,78,.04); }
     .job-list-row { display: grid; width: 100%; min-width: 0 !important; min-height: 74px !important; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 9px 0; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
     .job-list-row:hover .job-list-name { color: var(--green-dark); }
     .job-list-main { display: grid; min-width: 0; gap: 4px; }
@@ -366,6 +368,8 @@
     .job-detail-payment > span:first-child { min-width: 0; overflow-wrap: anywhere; }
     .job-detail-payment strong { flex: 0 0 auto; color: var(--ink); text-align: right; }
     .job-detail-topline { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; color: var(--muted); }
+    .job-detail-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .job-detail-actions a.button { text-decoration: none; }
     .job-detail-sub { display: block; margin-top: 3px; color: var(--muted); line-height: 1.35; }
     .job-detail-note { color: var(--muted); line-height: 1.45; }
     .job-stage-label { color: var(--muted); font-weight: 650; }
@@ -410,7 +414,7 @@
     .notice { display: flex; gap: 10px; align-items: flex-start; background: var(--green-soft); color: #365B4A; border-radius: 9px; padding: 11px 12px; font-size: 11px; line-height: 1.5; margin-bottom: 15px; }
     .notice-icon { font-size: 14px; color: var(--green); }
     .mobile-nav { display: none; }
-    dialog { border: 0; border-radius: 15px; padding: 0; width: min(480px, calc(100vw - 28px)); max-height: min(90vh, 760px); box-shadow: 0 26px 90px rgba(19,39,28,.23); color: var(--ink); }
+    dialog { border: 0; border-radius: 15px; padding: 0; width: min(480px, calc(100% - 24px)); max-width: calc(100vw - 24px); max-height: min(90vh, 760px); margin: auto; box-shadow: 0 26px 90px rgba(19,39,28,.23); color: var(--ink); }
     dialog::backdrop { background: rgba(17,31,23,.42); backdrop-filter: blur(2px); }
     .modal-head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--line); padding: 19px 21px 15px; }
     .modal-head h3 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
@@ -422,7 +426,61 @@
     .field.full { grid-column: 1 / -1; }
     .field label { color: var(--muted); font-size: 11px; font-weight: 700; }
     .field small { color: var(--muted); font-size: 10px; line-height: 1.45; }
-    .field input, .field select { width: 100%; }
+    .field input, .field select, .field textarea { width: 100%; max-width: 100%; }
+    .field textarea { min-height: 88px; padding: 10px 11px; resize: vertical; line-height: 1.45; }
+    .customer-notes-card { margin-bottom: 16px; padding: 14px 15px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+    .customer-notes-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+    .customer-notes-head h3 { margin: 0; font-size: 16px !important; color: var(--ink); }
+    .note-body { margin: 0; color: var(--ink); line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .note-empty { margin: 0; color: var(--muted); line-height: 1.45; }
+    .job-note-inline { margin-top: 8px; padding: 9px 10px; border-radius: 9px; background: var(--canvas); color: var(--ink); line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .job-note-inline strong { color: var(--muted); }
+    .job-list-note { color: var(--muted); font-size: 14px !important; line-height: 1.35; overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .job-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .parts-editor { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--canvas); }
+    .parts-editor-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+    .parts-editor-head strong { color: var(--ink); }
+    .parts-entry-row { display: grid; grid-template-columns: minmax(0, 1fr) 110px auto; gap: 8px; align-items: center; }
+    .parts-entry-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .parts-list { display: grid; gap: 6px; }
+    .part-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: white; }
+    .part-row-main { display: grid; min-width: 0; gap: 2px; flex: 1 1 160px; }
+    .part-row-name { color: var(--ink); font-weight: 700; overflow-wrap: anywhere; }
+    .part-row-amount { color: var(--muted); font-weight: 650; }
+    .part-row-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .parts-total-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 8px; border-top: 1px solid var(--line); color: var(--ink); font-weight: 750; }
+    .job-parts-summary { margin-top: 8px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas); display: grid; gap: 4px; }
+    .job-parts-summary-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; color: var(--ink); font-weight: 700; }
+    .job-parts-summary-list { color: var(--muted); line-height: 1.45; overflow-wrap: anywhere; }
+    .wa-draft-note { margin: 0; padding: 9px 11px; border: 1px solid #E6C46B; border-radius: 9px; background: var(--gold-soft); color: #69470A; line-height: 1.45; }
+    .wa-custom-box { display: grid; gap: 8px; padding: 10px 11px; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas); }
+    .wa-custom-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .wa-custom-save-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
+    .wa-draft-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+    .wa-draft-actions a.button { text-decoration: none; }
+    .wa-draft-actions a.button[aria-disabled="true"] { pointer-events: none; opacity: .55; }
+    .top-actions { display: flex; align-items: center; gap: 8px; }
+    .reminder-trigger { position: relative; min-height: 44px; padding: 0 11px; gap: 6px; }
+    .reminder-badge { display: inline-grid; min-width: 20px; height: 20px; padding: 0 5px; place-items: center; border-radius: 999px; background: var(--red); color: white; font-size: 12px !important; font-weight: 800; line-height: 1; }
+    .reminder-banner { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid #E6C46B; border-left: 4px solid var(--gold); border-radius: 13px; background: var(--gold-soft); }
+    .reminder-banner-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+    .reminder-banner-head h3 { margin: 0; color: var(--ink); font-size: 16px !important; }
+    .reminder-list { display: grid; gap: 8px; }
+    .reminder-card { display: grid; gap: 8px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+    .reminder-card-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 6px 10px; }
+    .reminder-card-title { color: var(--ink); font-weight: 750; }
+    .reminder-card-body { color: var(--muted); line-height: 1.45; overflow-wrap: anywhere; }
+    .reminder-card-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .reminder-section-label { margin: 14px 0 6px; color: var(--ink); font-size: 16px !important; }
+    .reminder-push-note { margin: 12px 0 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas); color: var(--muted); line-height: 1.45; }
+    @media (max-width: 680px) {
+      .job-status-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 480px) {
+      .parts-entry-row { grid-template-columns: 1fr; }
+      .wa-custom-save-row { grid-template-columns: 1fr; }
+      .wa-draft-actions { flex-direction: column; align-items: stretch; }
+    }
     .check-field { min-height: 48px; display: flex; align-items: center; gap: 9px; padding: 0 10px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; color: var(--muted); cursor: pointer; }
     .field-group-label { color: var(--muted); font-size: 14px; font-weight: 700; }
     .check-field input { min-height: auto; accent-color: var(--green); }
@@ -501,11 +559,14 @@
       .topbar .eyebrow { display: none; }
       .page-heading { font-size: 13px; }
       .topbar-logo { width: 32px; height: 32px; flex-basis: 32px; }
-      .top-actions { gap: 0; }
+      .top-actions { gap: 6px; }
       .profile-trigger-label { display: none; }
       .profile-trigger { gap: 5px; padding: 0 7px; }
       .content { padding: 20px 15px 30px; }
       .welcome-row { align-items: flex-start; flex-direction: column; margin-bottom: 17px; }
+      .welcome-row > div { width: 100%; }
+      .customer-profile-actions { width: 100%; flex-wrap: wrap; }
+      .customer-job-head .row-actions { justify-content: flex-start; }
       .welcome-row h2 { font-size: 22px; }
       .welcome-row p { font-size: 11px; }
       .welcome-row > .button { display: none; }
@@ -589,6 +650,9 @@
       .customer-breakdown { grid-template-columns: 1fr; }
     }
     @media (max-width: 360px) {
+      .topbar { padding: 0 12px; }
+      .content { padding: 16px 12px 28px; }
+      .job-status-tabs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .backup-menu > summary span { display: none; }
       .overview-secondary { grid-template-columns: 1fr; }
       .overview-secondary-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -649,7 +713,7 @@
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
         <div class="topbar-left"><img class="topbar-logo" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
-        <div class="top-actions"><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
@@ -692,7 +756,8 @@
               <div class="field full"><label for="customerName">Customer name</label><input id="customerName" list="customerNameOptions" required maxlength="80" autocomplete="off" placeholder="Name as shown in UC payments"><datalist id="customerNameOptions"></datalist></div>
           <div class="field full"><label for="customerPhone">Customer mobile number</label><input id="customerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div>
           <div class="field" id="jobDueDateField"><label for="jobDueDate">Complete by</label><input id="jobDueDate" type="date"><small>Last date by which this job should be finished.</small></div>
-          <div class="field"><label for="jobWorkflowStatus">Job status</label><select id="jobWorkflowStatus"><option value="upcoming">Upcoming</option><option value="pending">Pending</option><option value="followup">Follow-up</option><option value="completed">Completed</option></select></div>
+          <div class="field" id="jobDueTimeField"><label for="jobDueTime">Scheduled time (optional)</label><input id="jobDueTime" type="time"><small>Local time for 30-minute pre-job reminder.</small></div>
+          <div class="field"><label for="jobWorkflowStatus">Job status</label><select id="jobWorkflowStatus"><option value="upcoming">Upcoming</option><option value="pending">Pending</option><option value="followup">Follow-up</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option></select></div>
           <div class="field" id="completedDateField" hidden><label for="jobDate">Completed on</label><input id="jobDate" type="date"><small>Used to match UC payment history.</small></div>
           <div class="field"><label for="purifierModel">Purifier / model</label><input id="purifierModel" maxlength="50" value="M1" placeholder="e.g. M1"></div>
           <div class="field"><label for="jobType">Job type</label><select id="jobType"><option value="regular">Regular job</option><option value="referral">Referral job</option></select></div>
@@ -702,6 +767,22 @@
           <div id="extraMileExpectedField" class="field full" hidden><label for="extraMileExpected">Expected extra-mile amount (₹, if known)</label><input id="extraMileExpected" type="number" min="0" step="1" placeholder="Leave blank if not known"><small>Non-local jobs stay pending until an extra-mile payment is recorded.</small></div>
           <div class="field" id="referralExpectedField"><label id="referralExpectedLabel" for="referralExpected">Referral payout expected (₹)</label><input id="referralExpected" type="number" min="0" step="1" placeholder="0"></div>
           <div class="field full"><div class="form-hint" id="jobTypeHint">Regular jobs include the ₹354 net job value. Extra-mile varies and is tracked when received.</div></div>
+          <div class="field full">
+            <div class="parts-editor" id="jobPartsEditor" role="group" aria-labelledby="jobPartsHeading">
+              <div class="parts-editor-head"><span class="field-group-label" id="jobPartsHeading">Spare parts used (optional)</span><strong id="jobPartsTotal">Total: ₹0</strong></div>
+              <div class="parts-entry-row">
+                <input id="jobPartName" maxlength="80" placeholder="Part name (e.g. Sediment filter)" aria-label="Spare part name">
+                <input id="jobPartAmount" type="number" min="1" step="1" inputmode="numeric" placeholder="Amount (₹)" aria-label="Spare part amount in rupees">
+                <div class="parts-entry-actions">
+                  <button type="button" class="button button-small" id="jobPartSaveButton">Add part</button>
+                  <button type="button" class="button button-small button-quiet" id="jobPartCancelButton" hidden>Cancel</button>
+                </div>
+              </div>
+              <div class="parts-list" id="jobPartsList"></div>
+              <small>Tracked per job only. Does not change Urban Company payment expectations or pending balances.</small>
+            </div>
+          </div>
+          <div class="field full"><label for="jobNotes">Job notes (optional)</label><textarea id="jobNotes" rows="3" maxlength="1000" placeholder="Notes for this visit or job only"></textarea><small>Saved on this job only, separate from permanent customer notes.</small></div>
         </div>
         <div class="modal-actions"><button type="button" class="button" data-close="jobDialog">Cancel</button><button type="submit" class="button button-primary">Save job</button></div>
       </div>
@@ -750,10 +831,50 @@
       </div>
     </form>
   </dialog>
+  <dialog id="remindersDialog" class="hk-bottom-sheet" aria-labelledby="remindersDialogTitle">
+    <div class="modal-head"><div><h3 id="remindersDialogTitle">Reminders (local time)</h3><p>8:00 AM today summary, 8:00 PM tomorrow summary, and 30 minutes before timed jobs.</p></div><button type="button" class="icon-button" data-close="remindersDialog" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <div id="remindersDialogContent"></div>
+      <div class="reminder-push-note">
+        <label class="check-field" for="browserNotifyToggle" style="background:white"><input id="browserNotifyToggle" type="checkbox"><span>Allow browser notifications while app is open</span></label>
+        <p id="browserNotifyStatus" style="margin:8px 0 0"></p>
+        <p style="margin:6px 0 0"><strong>Closed-app limitation:</strong> Browser timers and local storage only deliver reminders while Hisaab Kitab is open or active. Background push delivery when the app is closed requires backend Web Push scheduling.</p>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="whatsappDraftDialog" class="hk-bottom-sheet" aria-labelledby="whatsappDraftTitle">
+    <div class="modal-head"><div><h3 id="whatsappDraftTitle">Review WhatsApp draft</h3><p id="whatsappDraftSubtitle">Check and edit the message before opening WhatsApp.</p></div><button type="button" class="icon-button" data-close="whatsappDraftDialog" aria-label="Close">×</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field full"><label for="waDraftType">Message type</label><select id="waDraftType"><option value="paymentReminder">Payment reminder</option><option value="arrival">Arrival update</option><option value="completion">Job completion</option><option value="followUp">Follow-up</option><option value="appointment">Appointment</option></select></div>
+        <div class="field full"><label for="waDraftPhone">Customer WhatsApp number (optional)</label><input id="waDraftPhone" type="tel" inputmode="tel" maxlength="24" placeholder="e.g. +91 98765 43210"><small>10-digit Indian numbers automatically use +91. Leave blank to choose a contact in WhatsApp.</small></div>
+        <div class="field full"><label for="waDraftMessage">Draft message (edit before sending)</label><textarea id="waDraftMessage" rows="5" maxlength="2000" placeholder="Review and customize your message"></textarea><small>Optional placeholders for saved drafts: {customer}, {model}, {pending}, {date}, {dueDate}, {partsTotal}</small></div>
+        <div class="field full wa-custom-box">
+          <div class="wa-custom-bar">
+            <button type="button" class="button button-small" id="waSaveCustomToggle">Save as custom draft</button>
+            <button type="button" class="button button-small" id="waUpdateCustom" hidden>Update saved draft</button>
+            <button type="button" class="button button-small button-danger" id="waDeleteCustom" hidden>Delete saved draft</button>
+          </div>
+          <div class="wa-custom-save-row" id="waCustomSaveRow" hidden>
+            <input id="waCustomTitle" maxlength="60" placeholder="Draft name (e.g. Evening reminder)" aria-label="Custom WhatsApp draft name">
+            <button type="button" class="button button-small button-primary" id="waCustomSaveConfirm">Save</button>
+            <button type="button" class="button button-small button-quiet" id="waCustomSaveCancel">Cancel</button>
+          </div>
+        </div>
+        <div class="field full"><p id="waDraftPhoneNote" class="wa-draft-note" role="status" hidden></p></div>
+        <div class="field full"><div class="form-hint">Manual review only: Hisaab Kitab never sends WhatsApp messages automatically.</div></div>
+      </div>
+      <div class="wa-draft-actions">
+        <button type="button" class="button" id="waDraftReset">Reset template</button>
+        <button type="button" class="button" id="waDraftCopy">Copy message</button>
+        <a id="waDraftOpenLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer">Open in WhatsApp</a>
+      </div>
+    </div>
+  </dialog>
   <dialog id="customerDialog" aria-labelledby="customerDialogTitle">
     <form id="customerForm">
       <div class="modal-head"><div><h3 id="customerDialogTitle">Add a customer</h3><p>A Customer ID is assigned automatically and can be changed from profile options.</p></div><button type="button" class="icon-button" data-close="customerDialog" aria-label="Close">×</button></div>
-      <div class="modal-body"><div class="form-grid"><div class="field full"><label for="newCustomerName">Customer name</label><input id="newCustomerName" maxlength="80" required placeholder="Enter customer name"></div><div class="field full"><label for="newCustomerPhone">Mobile number</label><input id="newCustomerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div></div><div class="modal-actions"><button type="button" class="button" data-close="customerDialog">Cancel</button><button type="submit" class="button button-primary">Create profile</button></div></div>
+      <div class="modal-body"><div class="form-grid"><div class="field full"><label for="newCustomerName">Customer name</label><input id="newCustomerName" maxlength="80" required placeholder="Enter customer name"></div><div class="field full"><label for="newCustomerPhone">Mobile number</label><input id="newCustomerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div><div class="field full"><label for="newCustomerMapsUrl">Google Maps link (optional)</label><input id="newCustomerMapsUrl" type="url" inputmode="url" maxlength="1000" placeholder="https://maps.app.goo.gl/..."><small>Paste an https:// or http:// Maps link for quick directions.</small></div><div class="field full"><label for="newCustomerNotes">Permanent customer notes (optional)</label><textarea id="newCustomerNotes" rows="3" maxlength="1000" placeholder="Gate code, purifier placement, parking, or preferences"></textarea><small>Stays on this customer profile across all jobs.</small></div></div><div class="modal-actions"><button type="button" class="button" data-close="customerDialog">Cancel</button><button type="submit" class="button button-primary">Create profile</button></div></div>
     </form>
   </dialog>
   <dialog id="editCustomerDialog" aria-labelledby="editCustomerDialogTitle">
@@ -765,6 +886,8 @@
           <div class="field full"><label for="editCustomerCode">Customer ID</label><input id="editCustomerCode" required maxlength="24" placeholder="e.g. C-001"><small>This reference ID can be changed; job and payment links stay connected.</small></div>
           <div class="field full"><label for="editCustomerName">Customer name</label><input id="editCustomerName" maxlength="80" required></div>
           <div class="field full"><label for="editCustomerPhone">Mobile number</label><input id="editCustomerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"><small>Clear this field to remove the saved phone number.</small></div>
+          <div class="field full"><label for="editCustomerMapsUrl">Google Maps link (optional)</label><input id="editCustomerMapsUrl" type="url" inputmode="url" maxlength="1000" placeholder="https://maps.app.goo.gl/..."><small>Clear this field to remove the saved Maps link.</small></div>
+          <div class="field full"><label for="editCustomerNotes">Permanent customer notes (optional)</label><textarea id="editCustomerNotes" rows="3" maxlength="1000" placeholder="Gate code, purifier placement, parking, or preferences"></textarea><small>Stays on this customer profile across all jobs. Clear to remove.</small></div>
         </div>
         <div class="modal-actions"><button type="button" class="button" data-close="editCustomerDialog">Cancel</button><button type="submit" class="button button-primary">Save changes</button></div>
       </div>
@@ -819,6 +942,8 @@
   <script>
     (() => {
       const STORAGE_KEY = 'hisaab-payment-tracker-v1';
+      const REMINDER_STORAGE_KEY = 'hisaab-reminders-state-v1';
+      const BROWSER_NOTIFY_KEY = 'hisaab-browser-notify-v1';
       const BASE_JOB_VALUE = 354;
       const ON_TIME_VALUE = 250;
       const RATING_VALUE = 150;
@@ -862,27 +987,48 @@
       let paymentFocusId = '';
       let jobFocusId = '';
       let pendingBackupImport = null;
+      let draftJobParts = [];
+      let editingDraftPartId = '';
+      let detailPartsJobId = '';
+      let editingDetailPartId = '';
+      let activeWhatsAppContext = null;
+      let reminderState = loadReminderState();
+      let latestReminderEval = { active: [], newlyTriggered: [], upcoming: [], nextBoundaryMs: null };
+      let reminderTimeoutId = null;
+
+      function loadReminderState() {
+        try {
+          const raw = localStorage.getItem(REMINDER_STORAGE_KEY);
+          return raw ? JSON.parse(raw) : null;
+        } catch (_) {
+          return null;
+        }
+      }
+      function saveReminderState(nextState) {
+        reminderState = nextState;
+        try {
+          localStorage.setItem(REMINDER_STORAGE_KEY, JSON.stringify(nextState));
+        } catch (_) {}
+      }
+      function formatJobDueLabel(job) {
+        if (!job || !job.dueDate) return 'Date not set';
+        const timeText = job.dueTime ? ` · ${HisaabLedger.formatTime12h(job.dueTime)}` : '';
+        return `${dateText(job.dueDate)}${timeText}`;
+      }
 
       function loadData() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
-          if (raw === null) return { jobs: [], payments: [], customers: [], hiddenCustomers: [] };
+          if (raw === null) return { jobs: [], payments: [], customers: [], hiddenCustomers: [], whatsappTemplates: [] };
           const saved = JSON.parse(raw);
           if (saved && Array.isArray(saved.jobs) && Array.isArray(saved.payments)) {
-            if (!Array.isArray(saved.customers)) saved.customers = [];
-            if (!Array.isArray(saved.hiddenCustomers)) saved.hiddenCustomers = [];
-            saved.jobs.forEach(job => {
-              if (!job.locality) job.locality = saved.payments.some(payment => payment.jobId === job.id && payment.component === 'extraMile') ? 'nonLocal' : 'local';
-              if (job.extraMileExpected == null) job.extraMileExpected = 0;
-              if (typeof job.phone !== 'string') job.phone = '';
-            });
-            return saved;
+            return HisaabLedger.validateAndNormalizeBackup(saved);
           }
           storageLoadError = 'Saved data could not be read safely. Import a valid backup before adding or changing records.';
         } catch (_) {
           storageLoadError = 'Saved data could not be opened. Import a valid backup before adding or changing records.';
         }
-        return { jobs: [], payments: [], customers: [], hiddenCustomers: [] };
+        return { jobs: [], payments: [], customers: [], hiddenCustomers: [], whatsappTemplates: [] };
       }
       function showStorageWarning(message) {
         const warning = document.getElementById('storageWarning');
@@ -906,7 +1052,9 @@
           showStorageWarning(storageLoadError);
           return false;
         }
-        return persistData(data);
+        const ok = persistData(data);
+        if (ok) reconcileReminders({ notify: false, rerender: false });
+        return ok;
       }
       function id() { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `h-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`; }
       function escapeHtml(value) {
@@ -943,22 +1091,30 @@
       function getJob(jobId) { return data.jobs.find(job => job.id === jobId) || null; }
       function customerKey(name) { return String(name || '').trim().toLowerCase(); }
       function phoneHref(number) { return String(number || '').replace(/[^\d+]/g, ''); }
+      function safeMapsUrl(value) { return HisaabLedger.safeMapsUrl(value); }
+      function safeNoteText(value) { return HisaabLedger.safeNoteText(value); }
+      function sparePartsFor(job) { return HisaabLedger.sparePartsFor(job); }
+      function sparePartsTotal(job) { return HisaabLedger.sparePartsTotal(job); }
       function newCustomerCode() {
         const existing = new Set((data.customers || []).map(profile => String(profile.customerCode || '').toLowerCase()));
         let code = '';
         do { code = `C-${id().replace(/[^a-z0-9]/gi, '').slice(-6).toUpperCase()}`; } while (existing.has(code.toLowerCase()));
         return code;
       }
-      function upsertCustomerProfile(name, phone = '') {
+      function upsertCustomerProfile(name, phone = '', mapsUrl = '', notes = '') {
         const key = customerKey(name);
         if (!key) return;
         let profile = (data.customers || []).find(item => customerKey(item.name) === key);
         if (!profile) {
-          profile = { id: id(), customerCode: newCustomerCode(), name: String(name).trim(), phone: '', createdAt: new Date().toISOString() };
+          profile = { id: id(), customerCode: newCustomerCode(), name: String(name).trim(), phone: '', mapsUrl: '', notes: '', createdAt: new Date().toISOString() };
           data.customers.push(profile);
         }
         if (!profile.customerCode) profile.customerCode = newCustomerCode();
         if (phone.trim()) profile.phone = phone.trim();
+        const safeUrl = safeMapsUrl(mapsUrl);
+        if (safeUrl) profile.mapsUrl = safeUrl;
+        const cleanNotes = safeNoteText(notes);
+        if (cleanNotes) profile.notes = cleanNotes;
         data.hiddenCustomers = (data.hiddenCustomers || []).filter(hiddenKey => hiddenKey !== key);
       }
       function customerGroups() {
@@ -966,10 +1122,18 @@
         const getGroup = name => {
           const key = customerKey(name);
           if (!key) return null;
-          if (!groups.has(key)) groups.set(key, { key, name: String(name).trim(), phone: '', jobs: [], unmatchedPayments: [] });
+          if (!groups.has(key)) groups.set(key, { key, name: String(name).trim(), phone: '', mapsUrl: '', notes: '', jobs: [], unmatchedPayments: [] });
           return groups.get(key);
         };
-        (data.customers || []).forEach(customer => { const group = getGroup(customer.name); if (group && customer.phone) group.phone = customer.phone; });
+        (data.customers || []).forEach(customer => {
+          const group = getGroup(customer.name);
+          if (!group) return;
+          if (customer.phone) group.phone = customer.phone;
+          const safeUrl = safeMapsUrl(customer.mapsUrl);
+          if (safeUrl) group.mapsUrl = safeUrl;
+          const cleanNotes = safeNoteText(customer.notes);
+          if (cleanNotes) group.notes = cleanNotes;
+        });
         data.jobs.forEach(job => getGroup(job.customer)?.jobs.push(job));
         data.payments.filter(item => !item.jobId && item.customerName).forEach(item => getGroup(item.customerName)?.unmatchedPayments.push(item));
         return [...groups.values()].map(group => {
@@ -1023,10 +1187,12 @@
       }
       function workStatusFor(job) { return job.workStatus || 'completed'; }
       function jobIsComplete(job) { return workStatusFor(job) === 'completed'; }
-      function workStatusLabel(status) { return ({ upcoming: 'Upcoming', pending: 'Pending', followup: 'Follow-up', completed: 'Completed' })[status] || 'Upcoming'; }
+      function jobIsCancelled(job) { return workStatusFor(job) === 'cancelled'; }
+      function jobIsActiveScheduled(job) { return !jobIsComplete(job) && !jobIsCancelled(job); }
+      function workStatusLabel(status) { return ({ upcoming: 'Upcoming', pending: 'Pending', followup: 'Follow-up', completed: 'Completed', cancelled: 'Cancelled' })[status] || 'Upcoming'; }
       function customerSettlement(customer) {
         const completedJobs = customer.jobs.filter(jobIsComplete);
-        if (!completedJobs.length) return customer.unmatchedPayments.length ? 'pending' : customer.jobs.length ? 'scheduled' : 'unknown';
+        if (!completedJobs.length) return customer.unmatchedPayments.length ? 'pending' : customer.jobs.some(jobIsActiveScheduled) ? 'scheduled' : 'unknown';
         if (customer.unmatchedPayments.length || completedJobs.some(job => jobStatusFor(job) !== 'Settled')) return 'pending';
         return 'settled';
       }
@@ -1049,8 +1215,8 @@
             const extraMileUnpriced = job.type !== 'referral' && job.locality === 'nonLocal'
               && expectedFor(job, 'extraMile') <= 0 && receivedFor(job.id, 'extraMile') <= 0;
             if (extraMileUnpriced) reasons.push('Extra-mile amount not entered');
-          } else if (job.dueDate && job.dueDate < today) {
-            reasons.push(`Job overdue · complete by ${dateText(job.dueDate)}`);
+          } else if (jobIsActiveScheduled(job) && job.dueDate && job.dueDate < today) {
+            reasons.push(`Job overdue · complete by ${formatJobDueLabel(job)}`);
           }
           if (reasons.length) items.push({ type: 'job', id: job.id, name: job.customer, detail: reasons.join(' · '), date: jobIsComplete(job) ? job.date : job.dueDate || '' });
         });
@@ -1088,11 +1254,13 @@
         const periodLabel = overviewPeriodLabel();
         const outstanding = totalKnownPending();
         const today = localISO();
-        const todayJobs = data.jobs.filter(job => !jobIsComplete(job) && job.dueDate === today).map(job => ({
+        const todayJobs = data.jobs.filter(job => jobIsActiveScheduled(job) && job.dueDate === today).map(job => ({
           type: 'job', id: job.id, name: job.customer,
-          detail: `Due today · ${workStatusLabel(workStatusFor(job))}`,
+          detail: `Due today${job.dueTime ? ` at ${HisaabLedger.formatTime12h(job.dueTime)}` : ''} · ${workStatusLabel(workStatusFor(job))}`,
           date: job.dueDate, todayTask: true
         }));
+        const activeReminders = latestReminderEval.active || [];
+        const reminderBanner = activeReminders.length ? `<section class="reminder-banner" aria-label="In-app reminders"><div class="reminder-banner-head"><h3>Reminders (${activeReminders.length})</h3><button type="button" class="button button-small" data-action="open-reminders">View all</button></div><div class="reminder-list">${activeReminders.map(rem => `<article class="reminder-card"><div class="reminder-card-head"><span class="reminder-card-title">${escapeHtml(rem.title)}</span><button type="button" class="button button-small" data-action="dismiss-reminder" data-id="${escapeHtml(rem.id)}">Dismiss</button></div><div class="reminder-card-body">${escapeHtml(rem.body)}</div>${rem.jobIds.length === 1 ? `<div class="reminder-card-actions"><button type="button" class="button button-small" data-action="focus-job" data-id="${escapeHtml(rem.jobIds[0])}">View job</button><button type="button" class="button button-small" data-action="open-wa-job" data-id="${escapeHtml(rem.jobIds[0])}">WhatsApp</button></div>` : ''}</article>`).join('')}</div></section>` : '';
         const attention = [...todayJobs, ...needsAttentionItems()]
           .sort((a, b) => Number(Boolean(b.todayTask)) - Number(Boolean(a.todayTask)) || (a.date || '').localeCompare(b.date || ''));
         const attentionRows = attention.length ? attention.map(item => {
@@ -1101,6 +1269,7 @@
           return `<button type="button" class="home-task-row" data-action="${action}" data-id="${escapeHtml(item.id)}" aria-label="Open ${item.type === 'job' ? 'job' : 'payment'} for ${escapeHtml(item.name)}"><span class="home-task-copy"><strong>${escapeHtml(item.name)}</strong><span>${escapeHtml(item.detail)}${dateHint}</span></span><span class="home-task-arrow" aria-hidden="true">›</span></button>`;
         }).join('') : `<div class="home-task-empty"><p>No job due today or payment follow-up.</p><button type="button" class="button button-secondary" data-action="go-jobs">View jobs</button></div>`;
         return `<div class="dashboard-home">
+  ${reminderBanner}
   <header class="dashboard-heading"><div><h2>Your money at a glance</h2><p>${escapeHtml(periodLabel)} · ${periodJobs.length} completed ${periodJobs.length === 1 ? 'job' : 'jobs'}</p></div><label class="dashboard-period" for="overviewPeriod">View period<select id="overviewPeriod" aria-label="Filter dashboard activity by period"><option value="thisMonth" ${overviewPeriodFilter === 'thisMonth' ? 'selected' : ''}>This month</option><option value="lastMonth" ${overviewPeriodFilter === 'lastMonth' ? 'selected' : ''}>Last month</option><option value="all" ${overviewPeriodFilter === 'all' ? 'selected' : ''}>All time</option></select></label></header>
   <section class="hk-home-balance" aria-label="Payment summary">
     <div class="hk-home-balance-main"><span class="hk-home-balance-label">Pending</span><strong class="hk-home-balance-amount">${money(outstanding)}</strong><span class="hk-home-balance-note">Known expected amounts across all jobs</span></div>
@@ -1121,13 +1290,13 @@
 </div>`;
       }
       function renderCompletionControl(job) {
-        if (jobIsComplete(job)) return '';
+        if (jobIsComplete(job) || jobIsCancelled(job)) return '';
         const inputId = `complete-${job.id}`;
         const helpId = `complete-help-${job.id}`;
         return `<div class="job-complete-control"><div class="job-complete-heading"><label for="${escapeHtml(inputId)}">Mark job complete</label><span id="${escapeHtml(helpId)}">Slide the grip or tap the check to confirm.</span></div><div class="job-complete-rail" style="--completion-progress: 0%"><span class="job-complete-fill" aria-hidden="true"></span><span class="job-complete-prompt" aria-hidden="true">Slide to complete</span><input id="${escapeHtml(inputId)}" type="range" min="0" max="100" step="1" value="0" aria-valuetext="Not completed" aria-describedby="${escapeHtml(helpId)}" data-complete-job="${escapeHtml(job.id)}"><button type="button" class="job-complete-confirm" data-confirm-complete="${escapeHtml(job.id)}" aria-label="Mark ${escapeHtml(job.customer)} job complete"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button></div></div>`;
       }
       function renderScheduleLegacy() {
-        const statuses = ['upcoming', 'pending', 'followup', 'completed'];
+        const statuses = ['upcoming', 'pending', 'followup', 'completed', 'cancelled'];
         const counts = Object.fromEntries(statuses.map(status => [status, data.jobs.filter(job => workStatusFor(job) === status).length]));
         const jobs = data.jobs.filter(job => workStatusFor(job) === scheduleStatusFilter)
           .filter(job => `${job.customer} ${job.model} ${jobCategoryLabel(job)}`.toLowerCase().includes(scheduleSearch.toLowerCase()))
@@ -1176,7 +1345,7 @@
           .filter(job => jobTypeFilter === 'all' || (jobTypeFilter === 'referral' ? job.type === 'referral' : job.type !== 'referral'))
           .filter(job => !fromDate || (job.date || job.dueDate || '') >= fromDate)
           .filter(job => !toDate || (job.date || job.dueDate || '') <= toDate)
-          .filter(job => `${job.customer} ${job.model} ${job.date} ${job.dueDate} ${jobCategoryLabel(job)} ${job.type || 'regular'}`.toLowerCase().includes(jobSearch.toLowerCase()));
+          .filter(job => `${job.customer} ${job.model} ${job.date} ${job.dueDate} ${jobCategoryLabel(job)} ${job.type || 'regular'} ${job.notes || ''} ${sparePartsFor(job).map(part => part.name).join(' ')}`.toLowerCase().includes(jobSearch.toLowerCase()));
         const regularJobs = jobs.filter(job => job.type !== 'referral');
         const referralJobs = jobs.filter(job => job.type === 'referral');
         const renderRows = group => group.map(job => {
@@ -1212,7 +1381,7 @@
         if (selectedCustomerKey && !profile) selectedCustomerKey = '';
         if (profile) return renderCustomerProfile(profile);
         const searchText = customerSearch.trim().toLowerCase();
-        const customers = groups.filter(item => [item.name, item.phone, customerCodeFor(item)].some(value => String(value || '').toLowerCase().includes(searchText)));
+        const customers = groups.filter(item => [item.name, item.phone, customerCodeFor(item), item.notes].some(value => String(value || '').toLowerCase().includes(searchText)));
         const rows = customers.map(customer => {
           const expected = customer.jobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
           const received = customer.jobs.reduce((sum, job) => sum + knownReceivedFor(job), 0);
@@ -1232,7 +1401,7 @@
       }
       function jobStatusChip(job) {
         const status = workStatusFor(job);
-        const kind = status === 'completed' ? 'settled' : status === 'upcoming' ? 'neutral' : 'pending';
+        const kind = status === 'completed' ? 'settled' : (status === 'upcoming' || status === 'cancelled') ? 'neutral' : 'pending';
         const label = status === 'completed' ? 'Done' : workStatusLabel(status);
         return `<span class="hk-status-chip hk-status-chip--${kind}">${label}</span>`;
       }
@@ -1247,8 +1416,8 @@
           .filter(job => jobTypeFilter === 'all' || (jobTypeFilter === 'referral' ? job.type === 'referral' : job.type !== 'referral'))
           .filter(job => !fromDate || (job.date || job.dueDate || '') >= fromDate)
           .filter(job => !toDate || (job.date || job.dueDate || '') <= toDate)
-          .filter(job => `${job.customer} ${job.model} ${job.date} ${job.dueDate} ${jobCategoryLabel(job)} ${job.type || 'regular'}`.toLowerCase().includes(jobSearch.toLowerCase()));
-        const statuses = ['upcoming', 'pending', 'followup', 'completed'];
+          .filter(job => `${job.customer} ${job.model} ${job.date} ${job.dueDate} ${jobCategoryLabel(job)} ${job.type || 'regular'} ${job.notes || ''} ${sparePartsFor(job).map(part => part.name).join(' ')}`.toLowerCase().includes(jobSearch.toLowerCase()));
+        const statuses = ['upcoming', 'pending', 'followup', 'completed', 'cancelled'];
         const counts = Object.fromEntries(statuses.map(status => [status, jobs.filter(job => workStatusFor(job) === status).length]));
         if (!jobsStatusChosen) {
           scheduleStatusFilter = statuses.find(status => counts[status] > 0) || 'upcoming';
@@ -1277,18 +1446,25 @@
           grouped.get(key).push(job);
         });
         const groupHtml = [...grouped.entries()].map(([date, group]) => {
-          const overdue = scheduleStatusFilter !== 'completed' && date !== 'not-set' && date < todayISO;
+          const overdue = scheduleStatusFilter !== 'completed' && scheduleStatusFilter !== 'cancelled' && date !== 'not-set' && date < todayISO;
           const heading = date === 'not-set' ? 'Date not set' : date === todayISO ? 'Today' : date === tomorrowISO ? 'Tomorrow' : `${overdue ? 'Past due · ' : ''}${dateText(date)}`;
           const cards = group.map(job => {
             const profile = customerGroups().find(customer => customer.key === customerKey(job.customer));
             const phone = job.phone || profile?.phone || '';
-            const dueDate = jobIsComplete(job) ? job.date : job.dueDate;
+            const mapsUrl = safeMapsUrl(profile?.mapsUrl);
+            const dueLabel = jobIsComplete(job) ? dateText(job.date) : formatJobDueLabel(job);
             const jobKind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`;
             const call = phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}" aria-label="Call ${escapeHtml(job.customer)}">Call</a>` : '';
-            const stageOptions = ['upcoming', 'pending', 'followup'].map(status => `<option value="${status}" ${workStatusFor(job) === status ? 'selected' : ''}>${workStatusLabel(status)}</option>`).join('');
+            const mapsLink = mapsUrl ? `<a class="button button-small" href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Open Maps for ${escapeHtml(job.customer)}">Maps</a>` : '';
+            const whatsappBtn = `<button type="button" class="button button-small" data-action="open-wa-job" data-id="${escapeHtml(job.id)}" aria-label="Draft WhatsApp message for ${escapeHtml(job.customer)}">WhatsApp</button>`;
+            const stageOptions = ['upcoming', 'pending', 'followup', 'cancelled'].map(status => `<option value="${status}" ${workStatusFor(job) === status ? 'selected' : ''}>${workStatusLabel(status)}</option>`).join('');
             const progressControl = renderCompletionControl(job);
+            const jobNote = safeNoteText(job.notes);
+            const noteLine = jobNote ? `<span class="job-list-note">Note: ${escapeHtml(jobNote)}</span>` : '';
+            const parts = sparePartsFor(job);
+            const partsChip = parts.length ? `<span class="job-model-chip">${parts.length} ${parts.length === 1 ? 'part' : 'parts'} · ${money(sparePartsTotal(parts))}</span>` : '';
             const workflow = !jobIsComplete(job) ? `<label class="job-stage-label" for="stage-${escapeHtml(job.id)}">Status</label><select class="schedule-stage-select" id="stage-${escapeHtml(job.id)}" aria-label="Change ${escapeHtml(job.customer)} job status" data-job-stage="${escapeHtml(job.id)}">${stageOptions}</select>` : '';
-            return `<article class="job-list-card"><button type="button" class="job-list-row" data-action="view-job" data-id="${escapeHtml(job.id)}" aria-label="View job for ${escapeHtml(job.customer)}"><span class="job-list-main"><strong class="job-list-name">${escapeHtml(job.customer)}</strong><span class="job-list-meta">${escapeHtml(jobKind)} · ${jobIsComplete(job) ? 'Completed' : 'Complete by'} ${dateText(dueDate)}</span><span class="job-model-chip">${escapeHtml(job.model || 'Purifier')}</span></span>${jobStatusChip(job)}</button><div class="schedule-card-actions">${call}${workflow}<button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">${jobIsComplete(job) ? 'Edit job' : 'Reschedule / edit'}</button></div>${progressControl}</article>`;
+            return `<article class="job-list-card"><button type="button" class="job-list-row" data-action="view-job" data-id="${escapeHtml(job.id)}" aria-label="View job for ${escapeHtml(job.customer)}"><span class="job-list-main"><strong class="job-list-name">${escapeHtml(job.customer)}</strong><span class="job-list-meta">${escapeHtml(jobKind)} · ${jobIsComplete(job) ? `Completed ${dueLabel}` : jobIsCancelled(job) ? `Cancelled · ${dueLabel}` : `Complete by ${dueLabel}`}</span><span class="job-chips"><span class="job-model-chip">${escapeHtml(job.model || 'Purifier')}</span>${partsChip}</span>${noteLine}</span>${jobStatusChip(job)}</button><div class="schedule-card-actions">${call}${mapsLink}${whatsappBtn}${workflow}<button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">${jobIsComplete(job) ? 'Edit job' : 'Reschedule / edit'}</button></div>${progressControl}</article>`;
           }).join('');
           return `<section class="job-list-day"><h2 class="job-list-day-title">${escapeHtml(heading)}</h2>${cards}</section>`;
         }).join('');
@@ -1322,11 +1498,11 @@
         if (selectedCustomerKey && !profile) selectedCustomerKey = '';
         if (profile) return renderCustomerProfile(profile);
         const searchText = customerSearch.trim().toLowerCase();
-        const customers = groups.filter(item => [item.name, item.phone, customerCodeFor(item)].some(value => String(value || '').toLowerCase().includes(searchText)));
+        const customers = groups.filter(item => [item.name, item.phone, customerCodeFor(item), item.notes].some(value => String(value || '').toLowerCase().includes(searchText)));
         const rows = customers.map(customer => {
           const pending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
           const settlement = customerSettlement(customer);
-          const hasIncompleteJobs = customer.jobs.some(job => !jobIsComplete(job));
+          const hasIncompleteJobs = customer.jobs.some(jobIsActiveScheduled);
           let label = 'No job yet', kind = 'neutral';
           if (customer.unmatchedPayments.length) { label = 'Match payment'; kind = 'problem'; }
           else if (pending > 0) { label = `${money(pending)} pending`; kind = 'pending'; }
@@ -1340,11 +1516,24 @@
         const empty = groups.length ? `<div class="customers-empty"><p>No matching customers. Try a name, phone number, or customer ID.</p><button type="button" class="button" data-action="clear-customer-search">Clear search</button></div>` : `<div class="customers-empty"><p>No customer profiles yet. Add a customer or create a job to get started.</p><button type="button" class="button button-primary" data-action="add-customer">Add a customer</button></div>`;
         return `<div class="customers-page">${search}${rows ? `<div class="customer-list">${rows}</div>` : empty}</div>`;
       }
+      function renderDetailPartsSection(job) {
+        const parts = sparePartsFor(job);
+        const editingPart = editingDetailPartId ? parts.find(part => part.id === editingDetailPartId) : null;
+        if (editingDetailPartId && !editingPart) editingDetailPartId = '';
+        const rows = parts.length ? parts.map(part => `<div class="part-row"><div class="part-row-main"><span class="part-row-name">${escapeHtml(part.name)}</span><span class="part-row-amount">${money(part.amount)}</span></div><div class="part-row-actions"><button type="button" class="button button-small" data-detail-edit-part="${escapeHtml(part.id)}">Edit</button><button type="button" class="button button-small button-danger" data-detail-delete-part="${escapeHtml(part.id)}">Delete</button></div></div>`).join('') : '<p class="job-detail-note">No spare parts added for this job.</p>';
+        const total = sparePartsTotal(parts);
+        return `<section class="job-detail-section"><h4>Spare parts used</h4><div class="parts-editor"><div class="parts-entry-row"><input id="detailPartName" maxlength="80" value="${escapeHtml(editingPart?.name || '')}" placeholder="Part name (e.g. Sediment filter)" aria-label="Spare part name"><input id="detailPartAmount" type="number" min="1" step="1" inputmode="numeric" value="${editingPart ? escapeHtml(editingPart.amount) : ''}" placeholder="Amount (₹)" aria-label="Spare part amount in rupees"><div class="parts-entry-actions"><button type="button" class="button button-small" id="detailPartSave">${editingPart ? 'Save part' : 'Add part'}</button>${editingPart ? '<button type="button" class="button button-small button-quiet" id="detailPartCancel">Cancel</button>' : ''}</div></div><div class="parts-list">${rows}</div><div class="parts-total-row"><span>Spare parts total (${parts.length})</span><strong>${money(total)}</strong></div></div></section>`;
+      }
       function openJobDetails(jobId) {
         const job = getJob(jobId);
         if (!job) return;
+        if (detailPartsJobId !== job.id) {
+          detailPartsJobId = job.id;
+          editingDetailPartId = '';
+        }
         const profile = customerGroups().find(customer => customer.key === customerKey(job.customer));
         const phone = job.phone || profile?.phone || '';
+        const mapsUrl = safeMapsUrl(profile?.mapsUrl);
         const expected = knownExpectedFor(job);
         const received = knownReceivedFor(job);
         const pending = knownPendingFor(job);
@@ -1364,11 +1553,23 @@
           const amount = receivedFor(job.id, component);
           return amount > 0 ? `<div class="job-detail-payment"><span>${escapeHtml(COMPONENT_LABELS[component])} received</span><strong>+${money(amount)}</strong></div>` : '';
         }).join('');
-        const detailDate = jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `Complete by ${dateText(job.dueDate)}`;
+        const detailDate = jobIsComplete(job) ? `Completed ${dateText(job.date)}` : jobIsCancelled(job) ? `Cancelled · ${formatJobDueLabel(job)}` : `Complete by ${formatJobDueLabel(job)}`;
         const jobKind = job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`;
+        const quickActions = [
+          phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}">Call ${escapeHtml(job.customer)}</a>` : '',
+          mapsUrl ? `<a class="button button-small" href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Open Maps for ${escapeHtml(job.customer)}">Open Maps</a>` : '',
+          `<button type="button" class="button button-small" data-detail-whatsapp="${escapeHtml(job.id)}">WhatsApp draft</button>`
+        ].filter(Boolean).join('');
+        const jobNotes = safeNoteText(job.notes);
+        const customerNotes = safeNoteText(profile?.notes);
+        const notesSections = [
+          jobNotes ? `<section class="job-detail-section"><h4>Job notes</h4><p class="note-body">${escapeHtml(jobNotes)}</p></section>` : '',
+          customerNotes ? `<section class="job-detail-section"><h4>Customer notes (permanent)</h4><p class="note-body">${escapeHtml(customerNotes)}</p></section>` : ''
+        ].filter(Boolean).join('');
+        const partsSection = renderDetailPartsSection(job);
         document.getElementById('jobDetailTitle').textContent = job.customer;
         document.getElementById('jobDetailSubtitle').textContent = `${job.model || 'Purifier'} · ${jobKind}`;
-        document.getElementById('jobDetailContent').innerHTML = `<div class="job-detail-topline">${jobStatusChip(job)}<span>${escapeHtml(detailDate)}</span></div>${phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(phone))}">Call ${escapeHtml(job.customer)}</a>` : ''}<div class="job-detail-summary"><div class="job-detail-metric"><span>Expected</span><strong>${money(expected)}</strong></div><div class="job-detail-metric"><span>Received toward expected</span><strong>${money(received)}</strong></div><div class="job-detail-metric"><span>Pending</span><strong>${money(pending)}</strong></div></div>${jobIsComplete(job) ? `<section class="job-detail-section"><h4>Payment breakdown</h4>${componentRows || '<p>No expected payments are set for this job.</p>'}</section>` : '<p class="job-detail-note">Payment amounts are tracked after the job is marked complete.</p>'}${manualRows ? `<section class="job-detail-section"><h4>Other credits received</h4>${manualRows}</section>` : ''}<section class="job-detail-section"><h4>Payment history</h4>${paymentRows || '<p>No payments recorded for this job yet.</p>'}</section><p class="job-detail-id">Job reference: ${escapeHtml(job.id)}</p>`;
+        document.getElementById('jobDetailContent').innerHTML = `<div class="job-detail-topline">${jobStatusChip(job)}<span>${escapeHtml(detailDate)}</span></div>${quickActions ? `<div class="job-detail-actions">${quickActions}</div>` : ''}<div class="job-detail-summary"><div class="job-detail-metric"><span>Expected</span><strong>${money(expected)}</strong></div><div class="job-detail-metric"><span>Received toward expected</span><strong>${money(received)}</strong></div><div class="job-detail-metric"><span>Pending</span><strong>${money(pending)}</strong></div></div>${partsSection}${notesSections}${jobIsComplete(job) ? `<section class="job-detail-section"><h4>Payment breakdown</h4>${componentRows || '<p>No expected payments are set for this job.</p>'}</section>` : '<p class="job-detail-note">Payment amounts are tracked after the job is marked complete.</p>'}${manualRows ? `<section class="job-detail-section"><h4>Other credits received</h4>${manualRows}</section>` : ''}<section class="job-detail-section"><h4>Payment history</h4>${paymentRows || '<p>No payments recorded for this job yet.</p>'}</section><p class="job-detail-id">Job reference: ${escapeHtml(job.id)}</p>`;
         document.getElementById('jobDetailEdit').dataset.id = job.id;
         document.getElementById('jobDetailDelete').dataset.id = job.id;
         document.getElementById('jobDetailDialog').showModal();
@@ -1397,15 +1598,25 @@
           const referralAmountMissing = job.type === 'referral' && expectedFor(job, 'referral') <= 0;
           const commission = receivedFor(job.id, 'commission');
         const progressSummary = jobIsComplete(job) ? `${referralAmountMissing ? 'Referral payout not set' : pendingParts.length ? `Pending payments: ${escapeHtml(pendingParts.join(', '))}` : 'All expected payments are settled'} · UC commission received: ${money(commission)}` : `Status: ${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}. Payment tracking starts when the job is complete.`;
-          return `<article class="customer-job-card"><div class="customer-job-head"><div><div class="customer-job-title">${escapeHtml(job.model || 'Purifier')} · ${job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`}</div><div class="customer-job-meta">${jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `${workStatusLabel(workStatusFor(job))} · Complete by ${dateText(job.dueDate)}`} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</div></div><div class="row-actions"><button type="button" class="button button-small" data-action="view-job" data-id="${escapeHtml(job.id)}">View job</button><button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit job</button><button type="button" class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></div>${jobIsComplete(job) ? `<div class="customer-breakdown">${parts}${extraPart}</div>` : ''}<div class="customer-job-meta">${progressSummary}</div><div class="customer-history"><strong class="customer-breakdown-label">Payments received</strong>${history || '<span class="customer-job-meta">No payments recorded for this job yet.</span>'}</div></article>`;
+          const jobNote = safeNoteText(job.notes);
+          const jobNoteBlock = jobNote ? `<div class="job-note-inline"><strong>Job note:</strong> <span>${escapeHtml(jobNote)}</span></div>` : '';
+          const jobParts = sparePartsFor(job);
+          const jobPartsBlock = jobParts.length ? `<div class="job-parts-summary"><div class="job-parts-summary-head"><span>Spare parts (${jobParts.length})</span><span>Total ${money(sparePartsTotal(jobParts))}</span></div><div class="job-parts-summary-list">${jobParts.map(part => `${escapeHtml(part.name)} (${money(part.amount)})`).join(' · ')}</div></div>` : '';
+          return `<article class="customer-job-card"><div class="customer-job-head"><div><div class="customer-job-title">${escapeHtml(job.model || 'Purifier')} · ${job.type === 'referral' ? 'Referral job' : `${jobCategoryLabel(job)} · ${job.locality === 'nonLocal' ? 'Non-local' : 'Local'} job`}</div><div class="customer-job-meta">${jobIsComplete(job) ? `Completed ${dateText(job.date)}` : `${workStatusLabel(workStatusFor(job))} · ${jobIsCancelled(job) ? formatJobDueLabel(job) : `Complete by ${formatJobDueLabel(job)}`}`} · ${escapeHtml(job.id.slice(0, 7).toUpperCase())}</div></div><div class="row-actions"><button type="button" class="button button-small" data-action="open-wa-job" data-id="${escapeHtml(job.id)}">WhatsApp</button><button type="button" class="button button-small" data-action="view-job" data-id="${escapeHtml(job.id)}">View job</button><button type="button" class="button button-small" data-action="edit-job" data-id="${escapeHtml(job.id)}">Edit job</button><button type="button" class="button button-small button-danger" data-action="delete-job" data-id="${escapeHtml(job.id)}">Delete</button></div></div>${jobIsComplete(job) ? `<div class="customer-breakdown">${parts}${extraPart}</div>` : ''}<div class="customer-job-meta">${progressSummary}</div>${jobPartsBlock}${jobNoteBlock}<div class="customer-history"><strong class="customer-breakdown-label">Payments received</strong>${history || '<span class="customer-job-meta">No payments recorded for this job yet.</span>'}</div></article>`;
         }).join('');
         const unmatchedRows = customer.unmatchedPayments.map(payment => `<div class="customer-history-row"><button type="button" class="customer-history-row--button" data-action="view-payment" data-id="${escapeHtml(payment.id)}" aria-label="View ${escapeHtml(COMPONENT_LABELS[payment.component] || 'payment')} of ${money(payment.amount)} received ${dateText(payment.date)}"><span>${escapeHtml(COMPONENT_LABELS[payment.component] || 'Payment')} · ${dateText(payment.date)} · Not linked to a job</span><strong>+${money(payment.amount)}</strong></button><button type="button" class="button button-small" data-action="edit-payment" data-id="${escapeHtml(payment.id)}">Edit / link to a job</button></div>`).join('');
         const noJobsTitle = customer.unmatchedPayments.length ? 'No job linked yet' : 'No jobs yet';
         const noJobsCopy = customer.unmatchedPayments.length ? 'This profile has payments without a job link. Add a job to track expected and pending amounts.' : 'Add a job to start tracking this customer’s expected, received, and pending amounts.';
         const contact = customer.phone ? `<a class="button button-small" href="tel:${escapeHtml(phoneHref(customer.phone))}">Call ${escapeHtml(customer.phone)}</a>` : `<button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">Add phone number</button>`;
+        const mapsUrl = safeMapsUrl(customer.mapsUrl);
+        const mapsAction = mapsUrl ? `<a class="button button-small" href="${escapeHtml(mapsUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Open Maps location for ${escapeHtml(customer.name)}">Open Maps</a>` : `<button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">Add Maps link</button>`;
+        const waProfileAction = `<button type="button" class="button button-small" data-action="open-wa-customer" data-id="${escapeHtml(customer.key)}">WhatsApp draft</button>`;
+        const customerNotes = safeNoteText(customer.notes);
+        const customerNotesCard = `<section class="customer-notes-card" aria-label="Permanent customer notes"><div class="customer-notes-head"><h3>Permanent customer notes</h3><button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">${customerNotes ? 'Edit notes' : 'Add notes'}</button></div>${customerNotes ? `<p class="note-body">${escapeHtml(customerNotes)}</p>` : '<p class="note-empty">No permanent notes for this customer yet. These stay across all jobs.</p>'}</section>`;
         const hasUnpricedPending = customer.jobs.some(job => pendingPartsFor(job).length && knownPendingFor(job) === 0);
-        return `<div class="welcome-row"><div><button class="button button-small" data-action="back-customers">← Customers</button><h2 style="margin-top:10px">${escapeHtml(customer.name)}</h2><p class="customer-profile-meta"><span>Customer ID: <strong>${escapeHtml(customerCodeFor(customer))}</strong></span>${contact}<span>${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'} in this profile</span>${hasUnpricedPending ? '<span class="status pending">Extra-mile payment pending</span>' : ''}</p></div><div class="customer-profile-actions"><button class="button button-primary" data-action="add-customer-job" data-id="${escapeHtml(customer.key)}">＋ Add a job</button><details class="customer-menu"><summary class="button button-small" aria-label="Customer options" title="Customer options">⋮</summary><div class="customer-menu-panel"><button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">Edit profile</button><button type="button" class="button button-small button-danger" data-action="delete-customer-profile" data-id="${escapeHtml(customer.key)}">Delete profile</button></div></details></div></div>
+        return `<div class="welcome-row"><div><button class="button button-small" data-action="back-customers">← Customers</button><h2 style="margin-top:10px">${escapeHtml(customer.name)}</h2><p class="customer-profile-meta"><span>Customer ID: <strong>${escapeHtml(customerCodeFor(customer))}</strong></span>${contact}${mapsAction}${waProfileAction}<span>${customer.jobs.length} ${customer.jobs.length === 1 ? 'job' : 'jobs'} in this profile</span>${hasUnpricedPending ? '<span class="status pending">Extra-mile payment pending</span>' : ''}</p></div><div class="customer-profile-actions"><button class="button button-primary" data-action="add-customer-job" data-id="${escapeHtml(customer.key)}">＋ Add a job</button><details class="customer-menu"><summary class="button button-small" aria-label="Customer options" title="Customer options">⋮</summary><div class="customer-menu-panel"><button type="button" class="button button-small" data-action="edit-customer-profile" data-id="${escapeHtml(customer.key)}">Edit profile</button><button type="button" class="button button-small button-danger" data-action="delete-customer-profile" data-id="${escapeHtml(customer.key)}">Delete profile</button></div></details></div></div>
           <div class="customer-profile-grid"><div class="stat-card"><div class="stat-label">Expected payments</div><div class="stat-value">${money(expected)}</div></div><div class="stat-card"><div class="stat-label">Received toward expected</div><div class="stat-value">${money(received)}</div></div><div class="stat-card"><div class="stat-label">Pending</div><div class="stat-value">${money(pending)}</div></div><div class="stat-card"><div class="stat-label">Goodwill received</div><div class="stat-value">${money(goodwill)}</div></div><div class="stat-card"><div class="stat-label">UC commission received</div><div class="stat-value">${money(manual)}</div></div></div>
+          ${customerNotesCard}
           <div class="customer-job-list">${jobCards || `<section class="panel"><div class="empty-state"><div class="empty-icon">▣</div><strong>${noJobsTitle}</strong><p>${noJobsCopy}</p><button class="button button-small button-primary" data-action="add-customer-job" data-id="${escapeHtml(customer.key)}">＋ Add a job</button></div></section>`}</div>
           ${unmatchedRows ? `<section class="panel" style="margin-top:14px"><div class="panel-head"><div><h3 class="panel-title">Payments not linked to a job</h3><div class="panel-subtitle">These payments have this customer name but are not linked to a job.</div></div></div><div class="panel-body">${unmatchedRows}</div></section>` : ''}`;
       }
@@ -1587,7 +1798,272 @@
           if (action === 'edit-payment') openPaymentDialog(button.dataset.id);
           if (action === 'unmatch-payment') unmatchPayment(button.dataset.id);
           if (action === 'delete-payment') deletePayment(button.dataset.id);
+          if (action === 'open-wa-job') openWhatsAppDraftForJob(button.dataset.id);
+          if (action === 'open-wa-customer') openWhatsAppDraftForCustomer(button.dataset.id);
+          if (action === 'open-reminders') openRemindersDialog();
+          if (action === 'dismiss-reminder') dismissReminder(button.dataset.id);
         }));
+      }
+      function updateReminderBadge() {
+        const badge = document.getElementById('reminderBadgeCount');
+        const btn = document.getElementById('reminderButton');
+        const count = (latestReminderEval.active || []).length;
+        if (badge) {
+          badge.textContent = String(count);
+          badge.hidden = count <= 0;
+        }
+        if (btn) {
+          btn.setAttribute('aria-label', count > 0 ? `Open reminders (${count} active)` : 'Open reminders');
+        }
+      }
+      function browserNotifyEnabled() {
+        try { return localStorage.getItem(BROWSER_NOTIFY_KEY) === 'true'; } catch (_) { return false; }
+      }
+      function updateBrowserNotifyUI() {
+        const toggle = document.getElementById('browserNotifyToggle');
+        const status = document.getElementById('browserNotifyStatus');
+        if (!toggle || !status) return;
+        const supported = typeof Notification !== 'undefined';
+        if (!supported) {
+          toggle.checked = false;
+          toggle.disabled = true;
+          status.textContent = 'Browser notifications are not supported in this browser; in-app reminders still work.';
+          return;
+        }
+        const perm = Notification.permission;
+        toggle.disabled = perm === 'denied';
+        toggle.checked = browserNotifyEnabled() && perm === 'granted';
+        status.textContent = perm === 'granted'
+          ? (toggle.checked ? 'Enabled for active browser sessions.' : 'Permission granted; browser popups paused.')
+          : perm === 'denied'
+            ? 'Blocked in browser settings. In-app reminders continue working normally.'
+            : 'Optional: enable to show system notifications while this app is open.';
+      }
+      function renderRemindersDialogContent() {
+        const container = document.getElementById('remindersDialogContent');
+        if (!container) return;
+        const active = latestReminderEval.active || [];
+        const upcoming = latestReminderEval.upcoming || [];
+        const activeHtml = active.length
+          ? active.map(rem => `<article class="reminder-card"><div class="reminder-card-head"><span class="reminder-card-title">${escapeHtml(rem.title)}</span><button type="button" class="button button-small" data-reminder-dismiss="${escapeHtml(rem.id)}">Dismiss</button></div><div class="reminder-card-body">${escapeHtml(rem.body)}</div>${rem.jobIds.length === 1 ? `<div class="reminder-card-actions"><button type="button" class="button button-small" data-reminder-view="${escapeHtml(rem.jobIds[0])}">View job</button><button type="button" class="button button-small" data-reminder-wa="${escapeHtml(rem.jobIds[0])}">WhatsApp</button></div>` : ''}</article>`).join('')
+          : '<p class="job-detail-note">No active reminders right now.</p>';
+        const upcomingHtml = upcoming.length
+          ? upcoming.map(rem => {
+            const at = new Date(rem.triggerAtMs).toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' });
+            return `<article class="reminder-card"><div class="reminder-card-head"><span class="reminder-card-title">${escapeHtml(rem.title)}</span><span class="hk-status-chip hk-status-chip--neutral">${escapeHtml(at)}</span></div><div class="reminder-card-body">${escapeHtml(rem.body)}</div></article>`;
+          }).join('')
+          : '<p class="job-detail-note">No upcoming reminders scheduled in the next 24 hours.</p>';
+        container.innerHTML = `<h4 class="reminder-section-label" style="margin-top:0">Active now (${active.length})</h4><div class="reminder-list">${activeHtml}</div><h4 class="reminder-section-label">Upcoming (${upcoming.length})</h4><div class="reminder-list">${upcomingHtml}</div>`;
+      }
+      function openRemindersDialog() {
+        reconcileReminders({ notify: false, rerender: false });
+        renderRemindersDialogContent();
+        updateBrowserNotifyUI();
+        document.getElementById('remindersDialog').showModal();
+      }
+      function dismissReminder(reminderId) {
+        const rem = (latestReminderEval.active || []).find(item => item.id === reminderId);
+        const pruned = HisaabLedger.pruneReminderState(reminderState, data.jobs, new Date());
+        if (rem && rem.kind === 'preJob30m') {
+          if (!pruned.dismissedPreJob.includes(reminderId)) pruned.dismissedPreJob.push(reminderId);
+        } else if (rem) {
+          const existing = Array.isArray(pruned.dismissedDaily[reminderId]) ? pruned.dismissedDaily[reminderId] : [];
+          pruned.dismissedDaily[reminderId] = [...new Set([...existing, ...(rem.tokens || [])])];
+        }
+        saveReminderState(pruned);
+        reconcileReminders({ notify: false, rerender: true });
+        if (document.getElementById('remindersDialog')?.open) renderRemindersDialogContent();
+        showToast('Reminder dismissed');
+      }
+      function scheduleNextReminderTimer() {
+        if (reminderTimeoutId) {
+          clearTimeout(reminderTimeoutId);
+          reminderTimeoutId = null;
+        }
+        const nextMs = latestReminderEval.nextBoundaryMs;
+        if (!nextMs) return;
+        const delay = Math.max(1000, Math.min(nextMs - Date.now() + 250, 2147483647));
+        reminderTimeoutId = setTimeout(() => {
+          reconcileReminders({ notify: true, rerender: true });
+        }, delay);
+      }
+      function reconcileReminders({ notify = true, rerender = false } = {}) {
+        const now = new Date();
+        const pruned = HisaabLedger.pruneReminderState(reminderState, data.jobs, now);
+        const evaluation = HisaabLedger.evaluateReminders(data.jobs, now, pruned);
+        latestReminderEval = evaluation;
+        if (evaluation.newlyTriggered.length) {
+          evaluation.newlyTriggered.forEach(rem => {
+            if (rem.kind === 'preJob30m') {
+              if (!pruned.notifiedPreJob.includes(rem.id)) pruned.notifiedPreJob.push(rem.id);
+            } else {
+              const existing = Array.isArray(pruned.notifiedDaily[rem.id]) ? pruned.notifiedDaily[rem.id] : [];
+              pruned.notifiedDaily[rem.id] = [...new Set([...existing, ...(rem.tokens || [])])];
+            }
+          });
+          saveReminderState(pruned);
+          if (notify) {
+            const first = evaluation.newlyTriggered[0];
+            showToast(`${first.title}: ${first.body}`);
+            if (browserNotifyEnabled() && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+              evaluation.newlyTriggered.forEach(rem => {
+                try { new Notification(`Hisaab Kitab · ${rem.title}`, { body: rem.body, tag: rem.id }); } catch (_) {}
+              });
+            }
+          }
+        } else {
+          saveReminderState(pruned);
+        }
+        updateReminderBadge();
+        scheduleNextReminderTimer();
+        if (document.getElementById('remindersDialog')?.open) renderRemindersDialogContent();
+        if (rerender && currentPage === 'overview') render();
+      }
+      function whatsappContextForJob(job, customerProfile = null) {
+        const profile = customerProfile || customerGroups().find(item => item.key === customerKey(job.customer));
+        const pendingAmount = jobIsComplete(job) ? knownPendingFor(job) : 0;
+        return {
+          customerName: job.customer,
+          phone: job.phone || profile?.phone || '',
+          model: job.model || 'Purifier',
+          categoryLabel: job.type === 'referral' ? 'Referral' : jobCategoryLabel(job),
+          dateText: job.date ? dateText(job.date) : '',
+          dueDateText: job.dueDate ? formatJobDueLabel(job) : '',
+          pendingAmount,
+          parts: sparePartsFor(job)
+        };
+      }
+      function defaultDraftTypeForJob(job) {
+        if (!job) return 'followUp';
+        if (!jobIsComplete(job)) {
+          return workStatusFor(job) === 'followup' ? 'followUp' : 'appointment';
+        }
+        return knownPendingFor(job) > 0 ? 'paymentReminder' : 'completion';
+      }
+      function refreshWhatsAppDraftLink() {
+        const phoneInput = document.getElementById('waDraftPhone');
+        const messageInput = document.getElementById('waDraftMessage');
+        const openLink = document.getElementById('waDraftOpenLink');
+        const note = document.getElementById('waDraftPhoneNote');
+        if (!phoneInput || !messageInput || !openLink || !note) return;
+        const result = HisaabLedger.buildWhatsAppUrl(phoneInput.value, messageInput.value);
+        if (!result.ok) {
+          openLink.href = '#';
+          openLink.setAttribute('aria-disabled', 'true');
+          note.textContent = result.error;
+          note.hidden = false;
+          return;
+        }
+        openLink.href = result.url;
+        openLink.removeAttribute('aria-disabled');
+        if (!result.digits) {
+          note.textContent = 'No customer mobile number entered. Opening WhatsApp will let you choose the contact manually.';
+          note.hidden = false;
+        } else {
+          note.textContent = '';
+          note.hidden = true;
+        }
+      }
+      function populateWhatsAppTypeSelect(selectedValue = '') {
+        const select = document.getElementById('waDraftType');
+        if (!select) return;
+        const standard = [
+          ['paymentReminder', 'Payment reminder'],
+          ['arrival', 'Arrival update'],
+          ['completion', 'Job completion'],
+          ['followUp', 'Follow-up'],
+          ['appointment', 'Appointment']
+        ].map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
+        const customTemplates = Array.isArray(data.whatsappTemplates) ? data.whatsappTemplates : [];
+        const customGroup = customTemplates.length
+          ? `<optgroup label="Saved custom drafts">${customTemplates.map(tpl => `<option value="custom:${escapeHtml(tpl.id)}">${escapeHtml(tpl.title)}</option>`).join('')}</optgroup>`
+          : '';
+        select.innerHTML = `<optgroup label="Standard drafts">${standard}</optgroup>${customGroup}`;
+        if (selectedValue) select.value = selectedValue;
+      }
+      function updateWhatsAppCustomControls() {
+        const value = document.getElementById('waDraftType')?.value || '';
+        const isCustom = value.startsWith('custom:');
+        const updateBtn = document.getElementById('waUpdateCustom');
+        const deleteBtn = document.getElementById('waDeleteCustom');
+        if (updateBtn) updateBtn.hidden = !isCustom;
+        if (deleteBtn) deleteBtn.hidden = !isCustom;
+      }
+      function applyWhatsAppTemplate() {
+        if (!activeWhatsAppContext) return;
+        const type = document.getElementById('waDraftType').value;
+        if (type.startsWith('custom:')) {
+          const tplId = type.slice('custom:'.length);
+          const tpl = (data.whatsappTemplates || []).find(item => item.id === tplId);
+          document.getElementById('waDraftMessage').value = tpl
+            ? HisaabLedger.renderCustomWhatsAppTemplate(tpl.body, activeWhatsAppContext)
+            : '';
+        } else {
+          document.getElementById('waDraftMessage').value = HisaabLedger.buildWhatsAppDraft(type, activeWhatsAppContext);
+        }
+        updateWhatsAppCustomControls();
+        refreshWhatsAppDraftLink();
+      }
+      function openWhatsAppDraftDialog(context, defaultType) {
+        activeWhatsAppContext = context;
+        document.getElementById('whatsappDraftSubtitle').textContent = `For ${context.customerName} · review and edit before sending`;
+        const initialType = HisaabLedger.WHATSAPP_DRAFT_TYPES.includes(defaultType) ? defaultType : 'followUp';
+        populateWhatsAppTypeSelect(initialType);
+        document.getElementById('waDraftPhone').value = context.phone || '';
+        document.getElementById('waCustomSaveRow').hidden = true;
+        document.getElementById('waCustomTitle').value = '';
+        applyWhatsAppTemplate();
+        document.getElementById('whatsappDraftDialog').showModal();
+      }
+      function openWhatsAppDraftForJob(jobId) {
+        const job = getJob(jobId);
+        if (!job) return;
+        openWhatsAppDraftDialog(whatsappContextForJob(job), defaultDraftTypeForJob(job));
+      }
+      function openWhatsAppDraftForCustomer(customerKeyToDraft) {
+        const customer = customerGroups().find(item => item.key === customerKeyToDraft);
+        if (!customer) return;
+        const totalPending = customer.jobs.reduce((sum, job) => sum + knownPendingFor(job), 0);
+        const latestJob = customer.jobs[0] || null;
+        const context = latestJob
+          ? { ...whatsappContextForJob(latestJob, customer), pendingAmount: totalPending }
+          : { customerName: customer.name, phone: customer.phone || '', model: 'Purifier', categoryLabel: '', dateText: '', dueDateText: '', pendingAmount: 0, parts: [] };
+        const defaultType = totalPending > 0 ? 'paymentReminder' : (latestJob ? defaultDraftTypeForJob(latestJob) : 'followUp');
+        openWhatsAppDraftDialog(context, defaultType);
+      }
+      function renderJobDraftParts() {
+        const list = document.getElementById('jobPartsList');
+        const totalNode = document.getElementById('jobPartsTotal');
+        const saveBtn = document.getElementById('jobPartSaveButton');
+        const cancelBtn = document.getElementById('jobPartCancelButton');
+        if (!list || !totalNode) return;
+        totalNode.textContent = `Total: ${money(sparePartsTotal(draftJobParts))}`;
+        if (saveBtn) saveBtn.textContent = editingDraftPartId ? 'Save part' : 'Add part';
+        if (cancelBtn) cancelBtn.hidden = !editingDraftPartId;
+        list.innerHTML = draftJobParts.length ? draftJobParts.map(part => `<div class="part-row"><div class="part-row-main"><span class="part-row-name">${escapeHtml(part.name)}</span><span class="part-row-amount">${money(part.amount)}</span></div><div class="part-row-actions"><button type="button" class="button button-small" data-edit-draft-part="${escapeHtml(part.id)}">Edit</button><button type="button" class="button button-small button-danger" data-delete-draft-part="${escapeHtml(part.id)}">Delete</button></div></div>`).join('') : '';
+      }
+      function resetDraftPartInputs() {
+        editingDraftPartId = '';
+        document.getElementById('jobPartName').value = '';
+        document.getElementById('jobPartAmount').value = '';
+        renderJobDraftParts();
+      }
+      function commitDraftPart() {
+        const nameInput = document.getElementById('jobPartName');
+        const amountInput = document.getElementById('jobPartAmount');
+        const check = HisaabLedger.normalizeSparePartInput(nameInput.value, amountInput.value, editingDraftPartId || id());
+        if (!check.ok) {
+          showToast(check.error);
+          (check.field === 'amount' ? amountInput : nameInput).focus();
+          return false;
+        }
+        if (editingDraftPartId) {
+          draftJobParts = draftJobParts.map(part => part.id === editingDraftPartId ? check.part : part);
+        } else {
+          draftJobParts.push(check.part);
+        }
+        resetDraftPartInputs();
+        return true;
       }
       function openJobDialog(jobId = '', defaultCustomer = '', defaultPhone = '') {
         const form = document.getElementById('jobForm');
@@ -1601,6 +2077,7 @@
         document.getElementById('customerPhone').value = job?.phone || profile?.phone || defaultPhone;
         document.getElementById('jobDate').value = job?.date || '';
         document.getElementById('jobDueDate').value = job?.dueDate || (job && job.date ? job.date : localISO());
+        document.getElementById('jobDueTime').value = job?.dueTime || '';
         document.getElementById('jobWorkflowStatus').value = job ? workStatusFor(job) : 'upcoming';
         document.getElementById('purifierModel').value = job?.model || 'M1';
         document.getElementById('jobCategory').value = job?.category || '';
@@ -1610,16 +2087,22 @@
         document.getElementById('jobType').value = job?.type || 'regular';
         document.getElementById('jobLocality').value = job?.locality || 'local';
         document.getElementById('extraMileExpected').value = job?.extraMileExpected || '';
+        document.getElementById('jobNotes').value = job?.notes || '';
+        draftJobParts = sparePartsFor(job).map(part => ({ ...part }));
+        resetDraftPartInputs();
         updateJobTypeFields();
         updateJobWorkflowFields();
         document.getElementById('jobDialog').showModal();
       }
       function updateJobWorkflowFields() {
-        const completed = document.getElementById('jobWorkflowStatus').value === 'completed';
+        const status = document.getElementById('jobWorkflowStatus').value;
+        const completed = status === 'completed';
+        const cancelled = status === 'cancelled';
         document.getElementById('completedDateField').hidden = !completed;
         document.getElementById('jobDate').required = completed;
         document.getElementById('jobDueDateField').hidden = completed;
-        document.getElementById('jobDueDate').required = !completed;
+        document.getElementById('jobDueTimeField').hidden = completed || cancelled;
+        document.getElementById('jobDueDate').required = !completed && !cancelled;
       }
       function updateJobTypeFields() {
         const referralJob = document.getElementById('jobType').value === 'referral';
@@ -1646,7 +2129,7 @@
       }
       function setJobWorkflowStatus(jobId, status) {
         const job = getJob(jobId);
-        if (!job || !['upcoming', 'pending', 'followup'].includes(status)) return;
+        if (!job || !['upcoming', 'pending', 'followup', 'cancelled'].includes(status)) return;
         job.workStatus = status;
         scheduleStatusFilter = status;
         jobPage = 1;
@@ -1676,6 +2159,8 @@
         document.getElementById('editCustomerCode').value = profile?.customerCode || customerCodeFor(customer);
         document.getElementById('editCustomerName').value = customer.name;
         document.getElementById('editCustomerPhone').value = customer.phone || '';
+        document.getElementById('editCustomerMapsUrl').value = profile?.mapsUrl || customer.mapsUrl || '';
+        document.getElementById('editCustomerNotes').value = profile?.notes || customer.notes || '';
         document.getElementById('editCustomerDialog').showModal();
       }
       function deleteCustomerProfile(customerKeyToDelete) {
@@ -1944,34 +2429,12 @@
         storageLoadError = '';
         selectedCustomerKey = '';
         document.getElementById('backupPreviewDialog').close();
+        reconcileReminders({ notify: false, rerender: false });
         render();
         showToast('Backup restored');
       }
       function validateBackup(payload) {
-        if (!payload || typeof payload !== 'object' || !Array.isArray(payload.jobs) || !Array.isArray(payload.payments)) {
-          throw new Error('This file is not a Hisaab Kitab backup.');
-        }
-        const customers = Array.isArray(payload.customers) ? payload.customers : [];
-        const hiddenCustomers = Array.isArray(payload.hiddenCustomers) ? payload.hiddenCustomers : [];
-        const checkUniqueIds = (records, label) => {
-          const ids = records.map(record => record?.id);
-          if (ids.some(value => typeof value !== 'string' || !value.trim()) || new Set(ids).size !== ids.length) {
-            throw new Error(`The backup has missing or repeated ${label} IDs.`);
-          }
-        };
-        checkUniqueIds(payload.jobs, 'job');
-        checkUniqueIds(payload.payments, 'payment');
-        checkUniqueIds(customers, 'customer');
-        if (payload.jobs.some(job => !job || typeof job.customer !== 'string' || typeof job.date !== 'string')) {
-          throw new Error('The backup contains an incomplete job record.');
-        }
-        if (payload.payments.some(payment => !payment || typeof payment.component !== 'string' || typeof payment.date !== 'string' || !Number.isFinite(Number(payment.amount)) || Number(payment.amount) <= 0 || (payment.jobId != null && typeof payment.jobId !== 'string'))) {
-          throw new Error('The backup contains an incomplete or invalid payment record.');
-        }
-        if (customers.some(customer => !customer || typeof customer.name !== 'string')) {
-          throw new Error('The backup contains an incomplete customer record.');
-        }
-        return { ...payload, jobs: payload.jobs, payments: payload.payments, customers, hiddenCustomers };
+        return HisaabLedger.validateAndNormalizeBackup(payload);
       }
       async function importBackup(file) {
         try {
@@ -2015,17 +2478,102 @@
         if (event.target.closest('button')) event.currentTarget.removeAttribute('open');
       });
       document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.close).close()));
+      document.getElementById('jobPartSaveButton').addEventListener('click', () => {
+        commitDraftPart();
+      });
+      document.getElementById('jobPartCancelButton').addEventListener('click', resetDraftPartInputs);
+      document.getElementById('jobPartsList').addEventListener('click', event => {
+        const editBtn = event.target.closest('[data-edit-draft-part]');
+        if (editBtn) {
+          const part = draftJobParts.find(item => item.id === editBtn.dataset.editDraftPart);
+          if (!part) return;
+          editingDraftPartId = part.id;
+          document.getElementById('jobPartName').value = part.name;
+          document.getElementById('jobPartAmount').value = String(part.amount);
+          renderJobDraftParts();
+          document.getElementById('jobPartName').focus();
+          return;
+        }
+        const deleteBtn = event.target.closest('[data-delete-draft-part]');
+        if (deleteBtn) {
+          const partId = deleteBtn.dataset.deleteDraftPart;
+          draftJobParts = draftJobParts.filter(item => item.id !== partId);
+          if (editingDraftPartId === partId) resetDraftPartInputs();
+          else renderJobDraftParts();
+        }
+      });
+      document.getElementById('jobDetailContent').addEventListener('click', event => {
+        const waBtn = event.target.closest('[data-detail-whatsapp]');
+        if (waBtn) {
+          const targetJobId = waBtn.dataset.detailWhatsapp;
+          document.getElementById('jobDetailDialog').close();
+          openWhatsAppDraftForJob(targetJobId);
+          return;
+        }
+        const job = getJob(detailPartsJobId);
+        if (!job) return;
+        const editBtn = event.target.closest('[data-detail-edit-part]');
+        if (editBtn) {
+          editingDetailPartId = editBtn.dataset.detailEditPart;
+          openJobDetails(job.id);
+          document.getElementById('detailPartName')?.focus();
+          return;
+        }
+        const deleteBtn = event.target.closest('[data-detail-delete-part]');
+        if (deleteBtn) {
+          const partId = deleteBtn.dataset.detailDeletePart;
+          job.spareParts = sparePartsFor(job).filter(item => item.id !== partId);
+          if (editingDetailPartId === partId) editingDetailPartId = '';
+          saveData(); render(); openJobDetails(job.id); showToast('Spare part removed');
+          return;
+        }
+        if (event.target.closest('#detailPartCancel')) {
+          editingDetailPartId = '';
+          openJobDetails(job.id);
+          return;
+        }
+        if (event.target.closest('#detailPartSave')) {
+          const nameInput = document.getElementById('detailPartName');
+          const amountInput = document.getElementById('detailPartAmount');
+          const check = HisaabLedger.normalizeSparePartInput(nameInput?.value, amountInput?.value, editingDetailPartId || id());
+          if (!check.ok) {
+            showToast(check.error);
+            (check.field === 'amount' ? amountInput : nameInput)?.focus();
+            return;
+          }
+          const currentParts = sparePartsFor(job).map(part => ({ ...part }));
+          if (editingDetailPartId) {
+            job.spareParts = currentParts.map(part => part.id === editingDetailPartId ? check.part : part);
+          } else {
+            job.spareParts = [...currentParts, check.part];
+          }
+          editingDetailPartId = '';
+          saveData(); render(); openJobDetails(job.id);
+          showToast('Spare part saved');
+        }
+      });
       document.getElementById('jobForm').addEventListener('submit', event => {
         event.preventDefault();
+        const pendingPartName = document.getElementById('jobPartName').value.trim();
+        const pendingPartAmount = document.getElementById('jobPartAmount').value.trim();
+        if (pendingPartName || pendingPartAmount) {
+          if (!commitDraftPart()) return;
+        }
         const jobId = document.getElementById('jobId').value;
         const oldJob = getJob(jobId);
         const type = document.getElementById('jobType').value;
         const workStatus = document.getElementById('jobWorkflowStatus').value;
+        const notesCheck = HisaabLedger.normalizeNoteText(document.getElementById('jobNotes').value);
+        if (!notesCheck.ok) { showToast(notesCheck.error); document.getElementById('jobNotes').focus(); return; }
+        const timeCheck = HisaabLedger.normalizeTimeString(document.getElementById('jobDueTime').value);
+        if (!timeCheck.ok) { showToast(timeCheck.error); document.getElementById('jobDueTime').focus(); return; }
         const job = {
+          ...(oldJob || {}),
           id: jobId || id(), customer: document.getElementById('customerName').value.trim(),
           phone: document.getElementById('customerPhone').value.trim(),
           date: workStatus === 'completed' ? document.getElementById('jobDate').value : '',
           dueDate: workStatus === 'completed' ? (oldJob?.dueDate || '') : document.getElementById('jobDueDate').value,
+          dueTime: (workStatus === 'completed' || workStatus === 'cancelled') ? (oldJob?.dueTime || '') : timeCheck.time,
           workStatus, model: document.getElementById('purifierModel').value.trim() || 'Purifier',
           category: type === 'referral' ? '' : document.getElementById('jobCategory').value,
           onTimeExpected: type === 'referral' ? false : document.getElementById('onTimeExpected').checked,
@@ -2033,6 +2581,8 @@
           referralExpected: Number(document.getElementById('referralExpected').value || 0),
           locality: type === 'referral' ? 'local' : document.getElementById('jobLocality').value,
           extraMileExpected: type === 'referral' || document.getElementById('jobLocality').value !== 'nonLocal' ? 0 : Number(document.getElementById('extraMileExpected').value || 0),
+          spareParts: draftJobParts.map(part => ({ ...part })),
+          notes: notesCheck.text,
           type, createdAt: oldJob?.createdAt || new Date().toISOString()
         };
         if (oldJob) data.jobs = data.jobs.map(item => item.id === jobId ? job : item); else data.jobs.push(job);
@@ -2051,19 +2601,23 @@
         event.preventDefault();
         const name = document.getElementById('newCustomerName').value.trim();
         const phone = document.getElementById('newCustomerPhone').value.trim();
+        const mapsCheck = HisaabLedger.normalizeMapsUrl(document.getElementById('newCustomerMapsUrl').value);
+        const notesCheck = HisaabLedger.normalizeNoteText(document.getElementById('newCustomerNotes').value);
         if (!name) { showToast('Enter a customer name'); return; }
+        if (!mapsCheck.ok) { showToast(mapsCheck.error); document.getElementById('newCustomerMapsUrl').focus(); return; }
+        if (!notesCheck.ok) { showToast(notesCheck.error); document.getElementById('newCustomerNotes').focus(); return; }
         const key = customerKey(name);
         const existing = customerGroups().find(item => item.key === key);
         document.getElementById('customerDialog').close();
         if (existing) {
-          upsertCustomerProfile(name, phone);
+          upsertCustomerProfile(name, phone, mapsCheck.url, notesCheck.text);
           saveData();
           selectedCustomerKey = existing.key;
           render();
-          showToast(phone ? 'Customer contact updated' : 'Customer profile already exists');
+          showToast(phone || mapsCheck.url || notesCheck.text ? 'Customer profile updated' : 'Customer profile already exists');
           return;
         }
-        data.customers.push({ id: id(), customerCode: newCustomerCode(), name, phone, createdAt: new Date().toISOString() });
+        data.customers.push({ id: id(), customerCode: newCustomerCode(), name, phone, mapsUrl: mapsCheck.url, notes: notesCheck.text, createdAt: new Date().toISOString() });
         selectedCustomerKey = key;
         saveData(); render(); showToast('Customer profile created');
       });
@@ -2075,11 +2629,15 @@
         const customerCode = document.getElementById('editCustomerCode').value.trim();
         const name = document.getElementById('editCustomerName').value.trim();
         const phone = document.getElementById('editCustomerPhone').value.trim();
+        const mapsCheck = HisaabLedger.normalizeMapsUrl(document.getElementById('editCustomerMapsUrl').value);
+        const notesCheck = HisaabLedger.normalizeNoteText(document.getElementById('editCustomerNotes').value);
         const nextKey = customerKey(name);
         if (!customer || !name || !customerCode) { showToast('Enter a customer name and ID'); return; }
+        if (!mapsCheck.ok) { showToast(mapsCheck.error); document.getElementById('editCustomerMapsUrl').focus(); return; }
+        if (!notesCheck.ok) { showToast(notesCheck.error); document.getElementById('editCustomerNotes').focus(); return; }
         if (nextKey !== oldKey && customerGroups().some(item => item.key === nextKey)) { showToast('A customer with this name already exists'); return; }
         if (!profile) {
-          upsertCustomerProfile(customer.name, customer.phone);
+          upsertCustomerProfile(customer.name, customer.phone, customer.mapsUrl, customer.notes);
           profile = data.customers.find(item => customerKey(item.name) === oldKey);
         }
         if (!profile) { showToast('Could not open this customer profile'); return; }
@@ -2087,6 +2645,8 @@
         profile.name = name;
         profile.customerCode = customerCode;
         profile.phone = phone;
+        profile.mapsUrl = mapsCheck.url;
+        profile.notes = notesCheck.text;
         data.jobs = data.jobs.map(job => customerKey(job.customer) === oldKey ? { ...job, customer: name, phone } : job);
         data.payments = data.payments.map(payment => !payment.jobId && customerKey(payment.customerName) === oldKey ? { ...payment, customerName: name } : payment);
         data.hiddenCustomers = (data.hiddenCustomers || []).filter(key => key !== oldKey && key !== nextKey);
@@ -2234,6 +2794,130 @@
         document.getElementById('paymentDetailSheet').close();
         deletePayment(paymentId);
       });
+      document.getElementById('waDraftType').addEventListener('change', applyWhatsAppTemplate);
+      document.getElementById('waDraftReset').addEventListener('click', applyWhatsAppTemplate);
+      document.getElementById('waDraftPhone').addEventListener('input', refreshWhatsAppDraftLink);
+      document.getElementById('waDraftMessage').addEventListener('input', refreshWhatsAppDraftLink);
+      document.getElementById('waSaveCustomToggle').addEventListener('click', () => {
+        const row = document.getElementById('waCustomSaveRow');
+        row.hidden = !row.hidden;
+        if (!row.hidden) document.getElementById('waCustomTitle').focus();
+      });
+      document.getElementById('waCustomSaveCancel').addEventListener('click', () => {
+        document.getElementById('waCustomSaveRow').hidden = true;
+        document.getElementById('waCustomTitle').value = '';
+      });
+      document.getElementById('waCustomSaveConfirm').addEventListener('click', () => {
+        const titleInput = document.getElementById('waCustomTitle');
+        const messageInput = document.getElementById('waDraftMessage');
+        const check = HisaabLedger.normalizeWhatsAppTemplateInput(titleInput.value, messageInput.value, id());
+        if (!check.ok) {
+          showToast(check.error);
+          (check.field === 'body' ? messageInput : titleInput).focus();
+          return;
+        }
+        if (!Array.isArray(data.whatsappTemplates)) data.whatsappTemplates = [];
+        const saved = { ...check.template, createdAt: new Date().toISOString() };
+        data.whatsappTemplates.push(saved);
+        saveData();
+        document.getElementById('waCustomSaveRow').hidden = true;
+        titleInput.value = '';
+        populateWhatsAppTypeSelect(`custom:${saved.id}`);
+        updateWhatsAppCustomControls();
+        showToast('Custom WhatsApp draft saved');
+      });
+      document.getElementById('waUpdateCustom').addEventListener('click', () => {
+        const value = document.getElementById('waDraftType').value;
+        if (!value.startsWith('custom:')) return;
+        const tplId = value.slice('custom:'.length);
+        const tpl = (data.whatsappTemplates || []).find(item => item.id === tplId);
+        if (!tpl) return;
+        const messageInput = document.getElementById('waDraftMessage');
+        const check = HisaabLedger.normalizeWhatsAppTemplateInput(tpl.title, messageInput.value, tpl.id);
+        if (!check.ok) { showToast(check.error); messageInput.focus(); return; }
+        tpl.body = check.template.body;
+        tpl.updatedAt = new Date().toISOString();
+        saveData();
+        showToast('Saved draft updated');
+      });
+      document.getElementById('waDeleteCustom').addEventListener('click', () => {
+        const value = document.getElementById('waDraftType').value;
+        if (!value.startsWith('custom:')) return;
+        const tplId = value.slice('custom:'.length);
+        data.whatsappTemplates = (data.whatsappTemplates || []).filter(item => item.id !== tplId);
+        saveData();
+        const fallback = activeWhatsAppContext ? 'followUp' : 'paymentReminder';
+        populateWhatsAppTypeSelect(fallback);
+        applyWhatsAppTemplate();
+        showToast('Saved draft deleted');
+      });
+      document.getElementById('waDraftCopy').addEventListener('click', async () => {
+        const text = HisaabLedger.safeNoteText(document.getElementById('waDraftMessage').value, 2000);
+        if (!text) { showToast('Enter a message to copy'); return; }
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+            showToast('WhatsApp draft copied');
+            return;
+          }
+        } catch (_) {}
+        const area = document.getElementById('waDraftMessage');
+        area.select();
+        try {
+          document.execCommand('copy');
+          showToast('WhatsApp draft copied');
+        } catch (_) {
+          showToast('Select the message text above to copy it');
+        }
+      });
+      document.getElementById('waDraftOpenLink').addEventListener('click', event => {
+        if (event.currentTarget.getAttribute('aria-disabled') === 'true') {
+          event.preventDefault();
+          showToast(document.getElementById('waDraftPhoneNote')?.textContent || 'Check the WhatsApp number and message');
+        }
+      });
+      document.getElementById('reminderButton').addEventListener('click', openRemindersDialog);
+      document.getElementById('remindersDialogContent').addEventListener('click', event => {
+        const dismissBtn = event.target.closest('[data-reminder-dismiss]');
+        if (dismissBtn) { dismissReminder(dismissBtn.dataset.reminderDismiss); return; }
+        const viewBtn = event.target.closest('[data-reminder-view]');
+        if (viewBtn) {
+          document.getElementById('remindersDialog').close();
+          openJobDetails(viewBtn.dataset.reminderView);
+          return;
+        }
+        const waBtn = event.target.closest('[data-reminder-wa]');
+        if (waBtn) {
+          document.getElementById('remindersDialog').close();
+          openWhatsAppDraftForJob(waBtn.dataset.reminderWa);
+        }
+      });
+      document.getElementById('browserNotifyToggle').addEventListener('change', async event => {
+        const toggle = event.currentTarget;
+        if (!toggle.checked) {
+          try { localStorage.setItem(BROWSER_NOTIFY_KEY, 'false'); } catch (_) {}
+          updateBrowserNotifyUI();
+          return;
+        }
+        if (typeof Notification === 'undefined') { updateBrowserNotifyUI(); return; }
+        if (Notification.permission === 'default') {
+          try { await Notification.requestPermission(); } catch (_) {}
+        }
+        if (Notification.permission === 'granted') {
+          try { localStorage.setItem(BROWSER_NOTIFY_KEY, 'true'); } catch (_) {}
+          showToast('Browser notifications enabled while app is open');
+        } else {
+          try { localStorage.setItem(BROWSER_NOTIFY_KEY, 'false'); } catch (_) {}
+        }
+        updateBrowserNotifyUI();
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) reconcileReminders({ notify: true, rerender: true });
+      });
+      setInterval(() => {
+        reconcileReminders({ notify: true, rerender: true });
+      }, 15000);
+      reconcileReminders({ notify: true, rerender: false });
       render();
       if (storageLoadError) showStorageWarning(storageLoadError);
       if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
