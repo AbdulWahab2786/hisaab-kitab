@@ -52,10 +52,10 @@
   --hk-space-8: 64px;
 
   /* Type scale */
-  --hk-type-page-title: 28px;
-  --hk-type-section-title: 20px;
-  --hk-type-body: 16px;
-  --hk-type-secondary: 14px;
+  --hk-type-page-title: 24px;
+  --hk-type-section-title: 18px;
+  --hk-type-body: 14px;
+  --hk-type-secondary: 12px;
 
   /* Shape and elevation */
   --hk-radius-small: 8px;
@@ -215,24 +215,27 @@ dialog.hk-bottom-sheet::backdrop { background: rgba(20, 45, 78, .44); }
 .hk-info-tooltip:hover .hk-info-tooltip__content,
 .hk-info-tooltip__content[data-open="true"] { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
-/* Accessibility baseline for the existing screens while they migrate to the shared components. */
-body * { font-size: 14px !important; }
-body h1 { font-size: var(--hk-type-page-title) !important; }
-body h2, body h3 { font-size: var(--hk-type-section-title) !important; }
-body .page-heading { font-size: var(--hk-type-page-title) !important; }
-body .stat-value, body .overview-secondary-value { font-size: 20px !important; }
-body .progress-amount { font-size: 25px !important; }
-body .schedule-day-title { font-size: var(--hk-type-section-title) !important; }
-body .schedule-card-name { font-size: var(--hk-type-body) !important; }
-body .hk-list-row__title, body .hk-list-row__amount { font-size: var(--hk-type-body) !important; }
-body .hk-list-row__subtitle, body .hk-status-chip, body .hk-empty-state__copy { font-size: var(--hk-type-secondary) !important; }
-body .hk-empty-state__title { font-size: var(--hk-type-section-title) !important; }
-body :is(button, a, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, summary, textarea) {
-  min-height: 44px !important;
+/* Accessibility baseline: clean type hierarchy without destructive universal overrides */
+body {
+  font-family: var(--hk-font-family);
+  font-size: var(--hk-type-body);
+  line-height: 1.5;
+  color: var(--hk-color-text);
+  background: var(--hk-color-background);
+  -webkit-font-smoothing: antialiased;
 }
-body button { min-width: 44px !important; }
-body :is(button, a, input, select, summary, textarea) { font-size: var(--hk-type-secondary) !important; }
-body .mobile-nav .quick-add-fab { font-size: 28px !important; }
+
+h1, .page-heading { font-size: var(--hk-type-page-title); line-height: 1.25; }
+h2, h3, .schedule-day-title, .hk-empty-state__title { font-size: var(--hk-type-section-title); line-height: 1.35; }
+.stat-value, .overview-secondary-value { font-size: 20px; font-variant-numeric: tabular-nums; }
+.progress-amount { font-size: 24px; font-variant-numeric: tabular-nums; }
+.schedule-card-name, .hk-list-row__title, .hk-list-row__amount { font-size: var(--hk-type-body); }
+.hk-list-row__subtitle, .hk-status-chip, .hk-empty-state__copy { font-size: var(--hk-type-secondary); }
+
+:is(button, a.button, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), select, summary, textarea) {
+  min-height: 44px;
+}
+button:not(.icon-button):not(.button-small) { min-width: 44px; }
 
 @media (max-width: 680px) {
   body .page-heading { font-size: 20px !important; }
