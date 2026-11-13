@@ -419,7 +419,9 @@
     .modal-head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--line); padding: 19px 21px 15px; }
     .modal-head h3 { margin: 0; font-size: 16px; letter-spacing: -.3px; }
     .modal-head p { color: var(--muted); font-size: 10px; margin: 5px 0 0; }
-    .icon-button { border: 0; background: var(--canvas); color: var(--muted); width: 36px; height: 36px; border-radius: 8px; font-size: 17px; line-height: 1; }
+    .icon-button { border: 1px solid var(--line); background: var(--canvas); color: var(--muted); width: 36px; height: 36px; border-radius: 9px; display: inline-grid; place-items: center; padding: 0; cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+    .icon-button:hover { background: var(--paper); color: var(--ink); border-color: #AFC2D4; }
+    .icon-button svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
     .modal-body { padding: 17px 21px 20px; overflow-y: auto; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .field { display: grid; gap: 6px; }
@@ -457,10 +459,14 @@
     .wa-custom-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .wa-custom-save-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
     .wa-draft-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 14px; }
-    .wa-draft-actions a.button { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: 40px; }
+    .wa-draft-actions a.button, .wa-draft-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 40px; text-decoration: none; }
     .wa-draft-actions a.button[aria-disabled="true"] { pointer-events: none; opacity: .55; }
-    #waDraftBusinessLink { border-color: #25D366; color: #075E54; background: #E7FCE9; }
+    .wa-btn-icon { width: 16px; height: 16px; flex: 0 0 16px; display: inline-block; }
+    #waDraftBusinessLink { border-color: #25D366; color: #075E54; background: #E7FCE9; font-weight: 600; }
     #waDraftBusinessLink:hover { background: #D5F7D8; }
+    .wa-app-helper { margin: 8px 0 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas); color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .wa-app-helper strong { color: var(--ink); }
+    .wa-app-helper summary { cursor: pointer; color: var(--green); font-weight: 600; }
     .top-actions { display: flex; align-items: center; gap: 8px; }
     .reminder-trigger { position: relative; min-height: 44px; padding: 0 11px; gap: 6px; }
     .reminder-badge { display: inline-grid; min-width: 20px; height: 20px; padding: 0 5px; place-items: center; border-radius: 999px; background: var(--red); color: white; font-size: 12px !important; font-weight: 800; line-height: 1; }
@@ -729,29 +735,29 @@
   </nav>
 
   <dialog id="quickAddSheet" class="hk-bottom-sheet" aria-labelledby="quickAddTitle">
-    <div class="modal-head"><div><h3 id="quickAddTitle">What would you like to add?</h3><p>Choose one action to continue.</p></div><button type="button" class="icon-button" data-close="quickAddSheet" aria-label="Close">×</button></div>
+    <div class="modal-head"><div><h3 id="quickAddTitle">What would you like to add?</h3><p>Choose one action to continue.</p></div><button type="button" class="icon-button" data-close="quickAddSheet" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body quick-add-options">
-      <button type="button" class="button quick-add-option" data-quick-add="job"><span class="quick-add-option-icon" aria-hidden="true">▣</span><span>Add job</span><span aria-hidden="true">→</span></button>
-      <button type="button" class="button quick-add-option" data-quick-add="payment"><span class="quick-add-option-icon" aria-hidden="true">↗</span><span>Record payment</span><span aria-hidden="true">→</span></button>
-      <button type="button" class="button quick-add-option" data-quick-add="customer"><span class="quick-add-option-icon" aria-hidden="true">♙</span><span>Add a customer</span><span aria-hidden="true">→</span></button>
+      <button type="button" class="button quick-add-option" data-quick-add="job"><span class="quick-add-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg></span><span>Add job</span><span aria-hidden="true">→</span></button>
+      <button type="button" class="button quick-add-option" data-quick-add="payment"><span class="quick-add-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg></span><span>Record payment</span><span aria-hidden="true">→</span></button>
+      <button type="button" class="button quick-add-option" data-quick-add="customer"><span class="quick-add-option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Add a customer</span><span aria-hidden="true">→</span></button>
     </div>
   </dialog>
 
   <dialog id="jobDetailDialog" aria-labelledby="jobDetailTitle">
-    <div class="modal-head"><div><h3 id="jobDetailTitle">Job details</h3><p id="jobDetailSubtitle">Customer and payment details</p></div><button type="button" class="icon-button" data-close="jobDetailDialog" aria-label="Close job details">×</button></div>
+    <div class="modal-head"><div><h3 id="jobDetailTitle">Job details</h3><p id="jobDetailSubtitle">Customer and payment details</p></div><button type="button" class="icon-button" data-close="jobDetailDialog" aria-label="Close job details"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body" id="jobDetailContent"></div>
     <div class="modal-actions" style="padding:0 21px 20px;margin-top:0"><button type="button" class="button button-danger" id="jobDetailDelete">Delete</button><button type="button" class="button button-primary" id="jobDetailEdit">Edit job</button></div>
   </dialog>
 
   <dialog id="paymentDetailSheet" class="hk-bottom-sheet" aria-labelledby="paymentDetailTitle">
-    <div class="modal-head"><div><h3 id="paymentDetailTitle">Payment details</h3><p id="paymentDetailSubtitle">Received payment information</p></div><button type="button" class="icon-button" data-close="paymentDetailSheet" aria-label="Close payment details">×</button></div>
+    <div class="modal-head"><div><h3 id="paymentDetailTitle">Payment details</h3><p id="paymentDetailSubtitle">Received payment information</p></div><button type="button" class="icon-button" data-close="paymentDetailSheet" aria-label="Close payment details"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body" id="paymentDetailContent"></div>
     <div class="payment-detail-actions"><button type="button" class="button" id="paymentDetailEdit">Edit payment</button><button type="button" class="button" id="paymentDetailUnmatch">Unmatch</button><button type="button" class="hk-button--destructive" id="paymentDetailDelete">Delete payment</button></div>
   </dialog>
 
   <dialog id="jobDialog" aria-labelledby="jobDialogTitle">
     <form id="jobForm">
-      <div class="modal-head"><div><h3 id="jobDialogTitle">Add a job</h3><p>Track the customer and expected payments.</p></div><button type="button" class="icon-button" data-close="jobDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="jobDialogTitle">Add a job</h3><p>Track the customer and expected payments.</p></div><button type="button" class="icon-button" data-close="jobDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
       <div class="modal-body">
         <input type="hidden" id="jobId">
         <div class="form-grid">
@@ -794,7 +800,7 @@
 
   <dialog id="paymentDialog" aria-labelledby="paymentDialogTitle">
     <form id="paymentForm">
-      <div class="modal-head"><div><h3 id="paymentDialogTitle">Record payments</h3><p id="paymentDialogCopy">Select every payment type received for this job on this date.</p></div><button type="button" class="icon-button" data-close="paymentDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="paymentDialogTitle">Record payments</h3><p id="paymentDialogCopy">Select every payment type received for this job on this date.</p></div><button type="button" class="icon-button" data-close="paymentDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
       <div class="modal-body">
         <div class="form-grid">
           <div class="field full"><label for="paymentDate">Received date</label><input id="paymentDate" type="date" required></div>
@@ -835,7 +841,7 @@
     </form>
   </dialog>
   <dialog id="remindersDialog" class="hk-bottom-sheet" aria-labelledby="remindersDialogTitle">
-    <div class="modal-head"><div><h3 id="remindersDialogTitle">Reminders (local time)</h3><p>8:00 AM today summary, 8:00 PM tomorrow summary, and 30 minutes before timed jobs.</p></div><button type="button" class="icon-button" data-close="remindersDialog" aria-label="Close">×</button></div>
+    <div class="modal-head"><div><h3 id="remindersDialogTitle">Reminders (local time)</h3><p>8:00 AM today summary, 8:00 PM tomorrow summary, and 30 minutes before timed jobs.</p></div><button type="button" class="icon-button" data-close="remindersDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body">
       <div id="remindersDialogContent"></div>
       <div class="reminder-push-note">
@@ -846,7 +852,7 @@
     </div>
   </dialog>
   <dialog id="whatsappDraftDialog" class="hk-bottom-sheet" aria-labelledby="whatsappDraftTitle">
-    <div class="modal-head"><div><h3 id="whatsappDraftTitle">Review WhatsApp draft</h3><p id="whatsappDraftSubtitle">Check and edit the message before opening WhatsApp.</p></div><button type="button" class="icon-button" data-close="whatsappDraftDialog" aria-label="Close">×</button></div>
+    <div class="modal-head"><div><h3 id="whatsappDraftTitle">Review WhatsApp draft</h3><p id="whatsappDraftSubtitle">Check and edit the message before opening WhatsApp.</p></div><button type="button" class="icon-button" data-close="whatsappDraftDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body">
       <div class="form-grid">
         <div class="field full"><label for="waDraftType">Message type</label><select id="waDraftType"><option value="location">Location request</option><option value="arrival">Arrival update</option><option value="completion">Job completion</option><option value="followUp">Follow-up</option><option value="appointment">Appointment</option><option value="thankYou">Thank you note</option></select></div>
@@ -870,20 +876,27 @@
       <div class="wa-draft-actions">
         <button type="button" class="button" id="waDraftReset">Reset template</button>
         <button type="button" class="button" id="waDraftCopy">Copy message</button>
-        <a id="waDraftOpenLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-        <a id="waDraftBusinessLink" class="button button-quiet" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp Business</a>
+        <a id="waDraftOpenLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer"><svg class="wa-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>WhatsApp</a>
+        <a id="waDraftBusinessLink" class="button button-quiet" href="https://wa.me/" target="_blank" rel="noopener noreferrer"><svg class="wa-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/><path d="M10 9h3a1.5 1.5 0 0 1 0 3h-3v-3zm0 3h3.5a1.5 1.5 0 0 1 0 3H10v-3z"/></svg>WhatsApp Business</a>
+      </div>
+      <div class="wa-app-helper">
+        <details>
+          <summary>Device opening regular WhatsApp instead of WhatsApp Business?</summary>
+          <p style="margin:6px 0 0">If tapping <strong>WhatsApp Business</strong> still launches standard WhatsApp, Android currently has standard WhatsApp set as the default app for <code>wa.me</code> / <code>whatsapp.com</code> web links.</p>
+          <p style="margin:4px 0 0"><strong>Fix in 10 seconds:</strong> Open phone <em>Settings &gt; Apps &gt; Default apps (or WhatsApp) &gt; Open by default</em>, clear defaults, or select <em>Always ask</em> so your phone lets you choose WhatsApp Business.</p>
+        </details>
       </div>
     </div>
   </dialog>
   <dialog id="customerDialog" aria-labelledby="customerDialogTitle">
     <form id="customerForm">
-      <div class="modal-head"><div><h3 id="customerDialogTitle">Add a customer</h3><p>A Customer ID is assigned automatically and can be changed from profile options.</p></div><button type="button" class="icon-button" data-close="customerDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="customerDialogTitle">Add a customer</h3><p>A Customer ID is assigned automatically and can be changed from profile options.</p></div><button type="button" class="icon-button" data-close="customerDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
       <div class="modal-body"><div class="form-grid"><div class="field full"><label for="newCustomerName">Customer name</label><input id="newCustomerName" maxlength="80" required placeholder="Enter customer name"></div><div class="field full"><label for="newCustomerPhone">Mobile number</label><input id="newCustomerPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="e.g. +91 98765 43210"></div><div class="field full"><label for="newCustomerMapsUrl">Google Maps link (optional)</label><input id="newCustomerMapsUrl" type="url" inputmode="url" maxlength="1000" placeholder="https://maps.app.goo.gl/..."><small>Paste an https:// or http:// Maps link for quick directions.</small></div><div class="field full"><label for="newCustomerNotes">Permanent customer notes (optional)</label><textarea id="newCustomerNotes" rows="3" maxlength="1000" placeholder="Gate code, purifier placement, parking, or preferences"></textarea><small>Stays on this customer profile across all jobs.</small></div></div><div class="modal-actions"><button type="button" class="button" data-close="customerDialog">Cancel</button><button type="submit" class="button button-primary">Create profile</button></div></div>
     </form>
   </dialog>
   <dialog id="editCustomerDialog" aria-labelledby="editCustomerDialogTitle">
     <form id="editCustomerForm">
-      <div class="modal-head"><div><h3 id="editCustomerDialogTitle">Edit customer profile</h3><p>Update contact details and your editable customer reference ID.</p></div><button type="button" class="icon-button" data-close="editCustomerDialog" aria-label="Close">×</button></div>
+      <div class="modal-head"><div><h3 id="editCustomerDialogTitle">Edit customer profile</h3><p>Update contact details and your editable customer reference ID.</p></div><button type="button" class="icon-button" data-close="editCustomerDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
       <div class="modal-body">
         <input type="hidden" id="editCustomerKey">
         <div class="form-grid">
@@ -898,7 +911,7 @@
     </form>
   </dialog>
   <dialog id="googleDriveDialog" class="hk-bottom-sheet" aria-labelledby="googleDriveTitle">
-    <div class="modal-head"><div><h3 id="googleDriveTitle">Google Drive backups</h3><p>Create and restore dated copies of this device's records.</p></div><button type="button" class="icon-button" data-close="googleDriveDialog" aria-label="Close">×</button></div>
+    <div class="modal-head"><div><h3 id="googleDriveTitle">Google Drive backups</h3><p>Create and restore dated copies of this device's records.</p></div><button type="button" class="icon-button" data-close="googleDriveDialog" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body">
       <p class="drive-explanation">Each backup creates a new JSON file in your Google Drive with its date and time in the filename. Backups include customer details and financial records. Changes are not synced automatically.</p>
       <p class="drive-status" id="driveStatus" role="status" aria-live="polite">Google Drive access has not been requested.</p>
@@ -912,7 +925,7 @@
     </div>
     <div class="backup-preview-actions"><button type="button" class="button" data-close="googleDriveDialog">Close</button></div>
   </dialog>  <dialog id="backupPreviewDialog" aria-labelledby="backupPreviewTitle">
-    <div class="modal-head"><div><h3 id="backupPreviewTitle">Review backup</h3><p>Check what will be restored before replacing this device’s records.</p></div><button type="button" class="icon-button" data-close="backupPreviewDialog" aria-label="Close backup preview">×</button></div>
+    <div class="modal-head"><div><h3 id="backupPreviewTitle">Review backup</h3><p>Check what will be restored before replacing this device’s records.</p></div><button type="button" class="icon-button" data-close="backupPreviewDialog" aria-label="Close backup preview"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
     <div class="modal-body backup-preview-body">
       <div class="backup-preview-warning" role="note">Restoring replaces all jobs, payments, and customer profiles currently saved in this browser. It does not merge records. Export your current data first if you may need it.</div>
       <dl class="backup-preview-meta">
