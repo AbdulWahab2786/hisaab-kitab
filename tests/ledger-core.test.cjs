@@ -289,21 +289,24 @@ test('WhatsApp phone normalization, 5 draft templates, and safe wa.me URL genera
     parts: [{ id: 'p1', name: 'Sediment filter', amount: 250 }]
   };
 
-  const reminder = ledger.buildWhatsAppDraft('paymentReminder', context);
+  const location = ledger.buildWhatsAppDraft('location', context);
   const arrival = ledger.buildWhatsAppDraft('arrival', context);
   const completion = ledger.buildWhatsAppDraft('completion', context);
   const followUp = ledger.buildWhatsAppDraft('followUp', context);
   const appointment = ledger.buildWhatsAppDraft('appointment', context);
+  const thankYou = ledger.buildWhatsAppDraft('thankYou', context);
 
-  assert.match(reminder, /₹400/);
-  assert.match(reminder, /Synthetic Customer/);
+  assert.match(location, /exact location or address/i);
+  assert.match(location, /Synthetic Customer/);
   assert.match(arrival, /on the way/i);
+  assert.match(arrival, /few minutes/i);
   assert.match(completion, /Sediment filter \(₹250\)/);
   assert.match(completion, /Total ₹250/);
   assert.match(followUp, /following up/i);
   assert.match(appointment, /13 Nov 2026/);
+  assert.match(thankYou, /thank you for choosing our service/i);
 
-  const withPhone = ledger.buildWhatsAppUrl('9876543210', reminder);
+  const withPhone = ledger.buildWhatsAppUrl('9876543210', location);
   assert.equal(withPhone.ok, true);
   assert.ok(withPhone.url.startsWith('https://wa.me/919876543210?text='));
 
@@ -425,4 +428,37 @@ test('local reminders trigger 8 AM today summary, 8 PM tomorrow summary, and 30-
   assert.equal(restored.jobs[0].dueTime, '');
   assert.equal(restored.jobs[1].dueTime, '14:30');
   assert.equal(restored.jobs[1].workStatus, 'cancelled');
+});
+
+test('refresh install jobs allow custom net job value while installation/repair remain fixed 354', () => {
+  const refreshCustom = {
+    id: 'j-refresh',
+    category: 'refresh',
+    workStatus: 'completed',
+    jobValue: 450,
+    onTimeExpected: true,
+    ratingExpected: true
+  };
+  assert.equal(expectedFor(refreshCustom, 'jobValue'), 450);
+  assert.equal(expectedFor(refreshCustom, 'onTime'), 250);
+  assert.equal(expectedFor(refreshCustom, 'rating'), 150);
+  assert.equal(ledger.knownExpectedFor(refreshCustom, knownComponents, expectedFor), 850);
+
+  const installJob = {
+    id: 'j-install',
+    category: 'installation',
+    workStatus: 'completed',
+    jobValue: 999, // Should be ignored in favor of fixed 354
+    onTimeExpected: false,
+    ratingExpected: false
+  };
+  assert.equal(expectedFor(installJob, 'jobValue'), 354);
+
+  const repairJob = {
+    id: 'j-repair',
+    category: 'repair',
+    workStatus: 'completed',
+    jobValue: null
+  };
+  assert.equal(expectedFor(repairJob, 'jobValue'), 354);
 });

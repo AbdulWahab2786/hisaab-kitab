@@ -8,7 +8,7 @@
   const MAX_MAPS_URL_LENGTH = 1000;
   const MAX_NOTE_LENGTH = 1000;
   const MAX_WHATSAPP_MESSAGE_LENGTH = 2000;
-  const WHATSAPP_DRAFT_TYPES = ['paymentReminder', 'arrival', 'completion', 'followUp', 'appointment'];
+  const WHATSAPP_DRAFT_TYPES = ['location', 'arrival', 'completion', 'followUp', 'appointment', 'thankYou', 'paymentReminder'];
 
   function amount(value) { return Number(value || 0); }
 
@@ -284,12 +284,11 @@
     const parts = sparePartsFor(context.parts);
     const partsTotal = sparePartsTotal(parts);
 
-    if (draftType === 'paymentReminder') {
-      const pendingPart = pendingAmount > 0 ? ` of ${formatRupeesPlain(pendingAmount)}` : '';
-      return `Hello ${customerName}, this is a polite reminder regarding the pending payment${pendingPart} for your ${serviceDesc} service${datePhrase}. Please let me know once it is processed. Thank you!`;
+    if (draftType === 'location') {
+      return `Hello ${customerName}, please share your exact location or address for your ${serviceDesc} service${datePhrase || duePhrase} so I can reach on time.`;
     }
     if (draftType === 'arrival') {
-      return `Hello ${customerName}, I am on the way for your ${serviceDesc} service${datePhrase || duePhrase} and will arrive shortly. Please let me know if there are any entry instructions.`;
+      return `Hello ${customerName}, I am on the way for your ${serviceDesc} service${datePhrase || duePhrase} and will arrive shortly in a few minutes. Please let me know if there are any entry instructions.`;
     }
     if (draftType === 'completion') {
       const partsDetail = parts.length
@@ -299,6 +298,13 @@
     }
     if (draftType === 'appointment') {
       return `Hello ${customerName}, confirming your ${serviceDesc} service appointment${duePhrase || datePhrase}. Please reply if you need to reschedule.`;
+    }
+    if (draftType === 'thankYou') {
+      return `Hello ${customerName}, thank you for choosing our service for your ${serviceDesc}${datePhrase}. It was a pleasure serving you! Please feel free to reach out anytime.`;
+    }
+    if (draftType === 'paymentReminder') {
+      const pendingPart = pendingAmount > 0 ? ` of ${formatRupeesPlain(pendingAmount)}` : '';
+      return `Hello ${customerName}, this is a polite reminder regarding the pending payment${pendingPart} for your ${serviceDesc} service${datePhrase}. Please let me know once it is processed. Thank you!`;
     }
     return `Hello ${customerName}, following up after your ${serviceDesc} service${datePhrase}. Please let me know if everything is working smoothly or if you need any assistance.`;
   }
@@ -428,7 +434,12 @@
   function expectedFor(job, component, isComplete, fixedAmounts) {
     if (!job || !isComplete) return 0;
     if (job.type === 'referral') return component === 'referral' ? amount(job.referralExpected) : 0;
-    if (component === 'jobValue') return fixedAmounts.jobValue;
+    if (component === 'jobValue') {
+      if (job.category === 'refresh' && job.jobValue != null && Number.isFinite(Number(job.jobValue))) {
+        return Math.max(amount(job.jobValue), 0);
+      }
+      return fixedAmounts.jobValue;
+    }
     if (component === 'onTime') return job.onTimeExpected ? fixedAmounts.onTime : 0;
     if (component === 'rating') return job.ratingExpected ? fixedAmounts.rating : 0;
     if (component === 'referral') return amount(job.referralExpected);
@@ -554,6 +565,9 @@
           ? 'nonLocal' : 'local';
       }
       if (nextJob.extraMileExpected == null) nextJob.extraMileExpected = 0;
+      if (nextJob.jobValue != null && Number.isFinite(Number(nextJob.jobValue))) {
+        nextJob.jobValue = Math.max(0, Math.floor(Number(nextJob.jobValue)));
+      }
       if (typeof nextJob.phone !== 'string') nextJob.phone = '';
       if (typeof nextJob.notes !== 'string') nextJob.notes = '';
       const timeCheck = normalizeTimeString(nextJob.dueTime);

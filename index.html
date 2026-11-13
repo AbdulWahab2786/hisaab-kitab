@@ -23,7 +23,7 @@
     .brand-mark { width: 42px; height: 42px; border-radius: 12px; background: white; display: block; object-fit: contain; box-shadow: 0 4px 12px rgba(20,45,78,.12); }
     .brand-name { font-size: 17px; font-weight: 750; letter-spacing: -.5px; }
     .brand-caption { font-size: 10px; color: var(--muted); margin-top: 2px; }
-    .nav-label { padding: 0 12px; margin: 3px 0 10px; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 1.15px; text-transform: uppercase; }
+    .nav-label { padding: 0 12px; margin: 3px 0 10px; color: var(--muted); font-size: 11px; font-weight: 650; letter-spacing: 0.5px; text-transform: none; }
     .nav-list { display: grid; gap: 5px; }
     .nav-item { position: relative; border: 0; background: transparent; color: var(--muted); border-radius: 10px; min-height: 45px; width: 100%; text-align: left; display: flex; align-items: center; gap: 12px; padding: 0 12px; font-weight: 620; font-size: 13px; transition: background .15s ease, color .15s ease; }
     .nav-item:hover { background: var(--canvas); color: var(--ink); }
@@ -42,7 +42,7 @@
     .topbar { height: 76px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.82); display: flex; justify-content: space-between; align-items: center; padding: 0 clamp(20px, 4vw, 54px); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(10px); }
     .topbar-left { display: flex; align-items: center; gap: 13px; }
     .topbar-logo { display: block; width: 36px; height: 36px; flex: 0 0 36px; border-radius: 10px; object-fit: contain; }
-    .eyebrow { color: var(--muted); font-size: 10px; letter-spacing: .85px; text-transform: uppercase; font-weight: 750; margin-bottom: 3px; }
+    .eyebrow { color: var(--muted); font-size: 11px; letter-spacing: 0.4px; text-transform: none; font-weight: 600; margin-bottom: 3px; }
     .page-heading { margin: 0; font-size: 19px; letter-spacing: -.5px; }
     .top-actions { display: flex; align-items: center; gap: 9px; }
     .content { max-width: 1280px; margin: 0 auto; padding: 29px clamp(18px, 4vw, 54px) 52px; }
@@ -457,8 +457,10 @@
     .wa-custom-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .wa-custom-save-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
     .wa-draft-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 14px; }
-    .wa-draft-actions a.button { text-decoration: none; }
+    .wa-draft-actions a.button { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; min-height: 40px; }
     .wa-draft-actions a.button[aria-disabled="true"] { pointer-events: none; opacity: .55; }
+    #waDraftBusinessLink { border-color: #25D366; color: #075E54; background: #E7FCE9; }
+    #waDraftBusinessLink:hover { background: #D5F7D8; }
     .top-actions { display: flex; align-items: center; gap: 8px; }
     .reminder-trigger { position: relative; min-height: 44px; padding: 0 11px; gap: 6px; }
     .reminder-badge { display: inline-grid; min-width: 20px; height: 20px; padding: 0 5px; place-items: center; border-radius: 999px; background: var(--red); color: white; font-size: 12px !important; font-weight: 800; line-height: 1; }
@@ -762,6 +764,7 @@
           <div class="field"><label for="purifierModel">Purifier / model</label><input id="purifierModel" maxlength="50" value="M1" placeholder="e.g. M1"></div>
           <div class="field"><label for="jobType">Job type</label><select id="jobType"><option value="regular">Regular job</option><option value="referral">Referral job</option></select></div>
           <div class="field" id="jobCategoryField"><label for="jobCategory">Regular job category</label><select id="jobCategory" required><option value="">Choose category</option><option value="installation">Installation</option><option value="repair">Repair</option><option value="refresh">Refresh install</option></select></div>
+          <div class="field" id="refreshJobValueField" hidden><label for="refreshJobValue">Net job value for refresh install (₹)</label><input id="refreshJobValue" type="number" min="0" step="1" placeholder="e.g. 354"><small>Varies for refresh install. Enter the custom net amount expected.</small></div>
           <div id="regularJobFields" class="field full"><label class="check-field" for="onTimeExpected"><input id="onTimeExpected" type="checkbox" checked><span>Expect on-time incentive <strong>₹250</strong></span></label><label class="check-field" for="ratingExpected"><input id="ratingExpected" type="checkbox"><span>Expect 5-star rating reward <strong>₹150</strong></span></label></div>
           <div id="localityFields" class="field full"><label for="jobLocality">Job location type</label><select id="jobLocality"><option value="local">Local job</option><option value="nonLocal">Non-local job</option></select></div>
           <div id="extraMileExpectedField" class="field full" hidden><label for="extraMileExpected">Expected extra-mile amount (₹, if known)</label><input id="extraMileExpected" type="number" min="0" step="1" placeholder="Leave blank if not known"><small>Non-local jobs stay pending until an extra-mile payment is recorded.</small></div>
@@ -846,7 +849,7 @@
     <div class="modal-head"><div><h3 id="whatsappDraftTitle">Review WhatsApp draft</h3><p id="whatsappDraftSubtitle">Check and edit the message before opening WhatsApp.</p></div><button type="button" class="icon-button" data-close="whatsappDraftDialog" aria-label="Close">×</button></div>
     <div class="modal-body">
       <div class="form-grid">
-        <div class="field full"><label for="waDraftType">Message type</label><select id="waDraftType"><option value="paymentReminder">Payment reminder</option><option value="arrival">Arrival update</option><option value="completion">Job completion</option><option value="followUp">Follow-up</option><option value="appointment">Appointment</option></select></div>
+        <div class="field full"><label for="waDraftType">Message type</label><select id="waDraftType"><option value="location">Location request</option><option value="arrival">Arrival update</option><option value="completion">Job completion</option><option value="followUp">Follow-up</option><option value="appointment">Appointment</option><option value="thankYou">Thank you note</option></select></div>
         <div class="field full"><label for="waDraftPhone">Customer WhatsApp number (optional)</label><input id="waDraftPhone" type="tel" inputmode="tel" maxlength="24" placeholder="e.g. +91 98765 43210"><small>10-digit Indian numbers automatically use +91. Leave blank to choose a contact in WhatsApp.</small></div>
         <div class="field full"><label for="waDraftMessage">Draft message (edit before sending)</label><textarea id="waDraftMessage" rows="5" maxlength="2000" placeholder="Review and customize your message"></textarea><small>Optional placeholders for saved drafts: {customer}, {model}, {pending}, {date}, {dueDate}, {partsTotal}</small></div>
         <div class="field full wa-custom-box">
@@ -867,7 +870,8 @@
       <div class="wa-draft-actions">
         <button type="button" class="button" id="waDraftReset">Reset template</button>
         <button type="button" class="button" id="waDraftCopy">Copy message</button>
-        <a id="waDraftOpenLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer">Open in WhatsApp</a>
+        <a id="waDraftOpenLink" class="button button-primary" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a id="waDraftBusinessLink" class="button button-quiet" href="https://wa.me/" target="_blank" rel="noopener noreferrer">WhatsApp Business</a>
       </div>
     </div>
   </dialog>
@@ -1155,7 +1159,9 @@
       function receivedFor(jobId, component) { return HisaabLedger.receivedFor(data.payments, jobId, component); }
       function expectedFor(job, component) {
         return HisaabLedger.expectedFor(job, component, jobIsComplete(job), {
-          jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE
+          jobValue: (job?.category === 'refresh' && job?.jobValue != null && Number.isFinite(Number(job.jobValue))) ? Math.max(0, Number(job.jobValue)) : BASE_JOB_VALUE,
+          onTime: ON_TIME_VALUE,
+          rating: RATING_VALUE
         });
       }
       function knownExpectedFor(job) { return HisaabLedger.knownExpectedFor(job, KNOWN_COMPONENTS, expectedFor); }
@@ -1936,26 +1942,39 @@
       function defaultDraftTypeForJob(job) {
         if (!job) return 'followUp';
         if (!jobIsComplete(job)) {
-          return workStatusFor(job) === 'followup' ? 'followUp' : 'appointment';
+          return workStatusFor(job) === 'followup' ? 'followUp' : 'arrival';
         }
-        return knownPendingFor(job) > 0 ? 'paymentReminder' : 'completion';
+        return 'thankYou';
       }
       function refreshWhatsAppDraftLink() {
         const phoneInput = document.getElementById('waDraftPhone');
         const messageInput = document.getElementById('waDraftMessage');
         const openLink = document.getElementById('waDraftOpenLink');
+        const businessLink = document.getElementById('waDraftBusinessLink');
         const note = document.getElementById('waDraftPhoneNote');
         if (!phoneInput || !messageInput || !openLink || !note) return;
         const result = HisaabLedger.buildWhatsAppUrl(phoneInput.value, messageInput.value);
         if (!result.ok) {
           openLink.href = '#';
           openLink.setAttribute('aria-disabled', 'true');
+          if (businessLink) {
+            businessLink.href = '#';
+            businessLink.setAttribute('aria-disabled', 'true');
+          }
           note.textContent = result.error;
           note.hidden = false;
           return;
         }
         openLink.href = result.url;
         openLink.removeAttribute('aria-disabled');
+        if (businessLink) {
+          const digits = result.digits;
+          const encoded = encodeURIComponent(result.text);
+          businessLink.href = digits
+            ? `https://api.whatsapp.com/send?phone=${digits}&text=${encoded}&app_absent=0`
+            : `https://api.whatsapp.com/send?text=${encoded}&app_absent=0`;
+          businessLink.removeAttribute('aria-disabled');
+        }
         if (!result.digits) {
           note.textContent = 'No customer mobile number entered. Opening WhatsApp will let you choose the contact manually.';
           note.hidden = false;
@@ -1968,11 +1987,12 @@
         const select = document.getElementById('waDraftType');
         if (!select) return;
         const standard = [
-          ['paymentReminder', 'Payment reminder'],
+          ['location', 'Location request'],
           ['arrival', 'Arrival update'],
           ['completion', 'Job completion'],
           ['followUp', 'Follow-up'],
-          ['appointment', 'Appointment']
+          ['appointment', 'Appointment'],
+          ['thankYou', 'Thank you note']
         ].map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
         const customTemplates = Array.isArray(data.whatsappTemplates) ? data.whatsappTemplates : [];
         const customGroup = customTemplates.length
@@ -2028,7 +2048,7 @@
         const context = latestJob
           ? { ...whatsappContextForJob(latestJob, customer), pendingAmount: totalPending }
           : { customerName: customer.name, phone: customer.phone || '', model: 'Purifier', categoryLabel: '', dateText: '', dueDateText: '', pendingAmount: 0, parts: [] };
-        const defaultType = totalPending > 0 ? 'paymentReminder' : (latestJob ? defaultDraftTypeForJob(latestJob) : 'followUp');
+        const defaultType = latestJob ? defaultDraftTypeForJob(latestJob) : 'followUp';
         openWhatsAppDraftDialog(context, defaultType);
       }
       function renderJobDraftParts() {
@@ -2081,6 +2101,7 @@
         document.getElementById('jobWorkflowStatus').value = job ? workStatusFor(job) : 'upcoming';
         document.getElementById('purifierModel').value = job?.model || 'M1';
         document.getElementById('jobCategory').value = job?.category || '';
+        document.getElementById('refreshJobValue').value = (job?.category === 'refresh' && job?.jobValue != null) ? job.jobValue : '';
         document.getElementById('onTimeExpected').checked = job ? Boolean(job.onTimeExpected) : true;
         document.getElementById('ratingExpected').checked = Boolean(job?.ratingExpected);
         document.getElementById('referralExpected').value = job?.referralExpected || '';
@@ -2106,10 +2127,17 @@
       }
       function updateJobTypeFields() {
         const referralJob = document.getElementById('jobType').value === 'referral';
+        const category = document.getElementById('jobCategory').value;
         document.getElementById('regularJobFields').hidden = referralJob;
         document.getElementById('jobCategoryField').hidden = referralJob;
         document.getElementById('jobCategory').required = !referralJob;
         document.getElementById('jobCategory').disabled = referralJob;
+        const isRefresh = !referralJob && category === 'refresh';
+        const refreshField = document.getElementById('refreshJobValueField');
+        if (refreshField) {
+          refreshField.hidden = !isRefresh;
+          document.getElementById('refreshJobValue').required = isRefresh;
+        }
         updateJobWorkflowFields();
         document.getElementById('referralExpectedLabel').textContent = referralJob ? 'Referral job payout expected (₹)' : 'Referral bonus expected (₹)';
         document.getElementById('referralExpectedField').hidden = !referralJob && Number(document.getElementById('referralExpected').value || 0) <= 0;
@@ -2119,7 +2147,9 @@
         updateJobLocalityFields();
         document.getElementById('jobTypeHint').textContent = referralJob
           ? 'Referral jobs include only the amount entered above. No ₹354 net job value, on-time incentive, or 5-star reward is expected.'
-          : 'Regular jobs include the ₹354 net job value after completion. Choose Local or Non-local. Non-local jobs stay pending until an extra-mile payment is recorded.';
+          : (isRefresh
+            ? 'Refresh install jobs use your custom net job value instead of ₹354. Choose Local or Non-local.'
+            : 'Regular jobs include the ₹354 net job value after completion. Choose Local or Non-local. Non-local jobs stay pending until an extra-mile payment is recorded.');
       }
       function updateJobLocalityFields() {
         const referralJob = document.getElementById('jobType').value === 'referral';
@@ -2213,7 +2243,11 @@
         if (!amountInput || amountInput.value) return;
         const job = getJob(document.getElementById('paymentJob').value);
         const editingId = document.getElementById('paymentDialog').dataset.editingId || '';
-        const nominal = { jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE }[component] || 0;
+        const nominal = {
+          jobValue: (job?.category === 'refresh' && job?.jobValue != null && Number.isFinite(Number(job.jobValue))) ? Math.max(0, Number(job.jobValue)) : BASE_JOB_VALUE,
+          onTime: ON_TIME_VALUE,
+          rating: RATING_VALUE
+        }[component] || 0;
         const expected = job ? expectedFor(job, component) : nominal;
         const alreadyReceived = job ? receivedForExcluding(job.id, component, editingId) : 0;
         const remaining = job ? HisaabLedger.remainingExpected(expected, alreadyReceived) : nominal;
@@ -2262,7 +2296,11 @@
         document.querySelectorAll('#editPaymentComponent option').forEach(option => {
           option.disabled = Boolean((referralJob && !['referral', 'goodwill'].includes(option.value)) || (job && option.value === 'extraMile' && !nonLocalJob) || (job && option.value === 'goodwill' && !jobIsComplete(job)));
         });
-        const nominal = { jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE };
+        const nominal = {
+          jobValue: (job?.category === 'refresh' && job?.jobValue != null && Number.isFinite(Number(job.jobValue))) ? Math.max(0, Number(job.jobValue)) : BASE_JOB_VALUE,
+          onTime: ON_TIME_VALUE,
+          rating: RATING_VALUE
+        };
         document.querySelectorAll('[data-payment-part]').forEach(input => {
           const component = input.dataset.paymentPart;
           const received = job ? receivedForExcluding(job.id, component, editingId) : 0;
@@ -2567,6 +2605,20 @@
         if (!notesCheck.ok) { showToast(notesCheck.error); document.getElementById('jobNotes').focus(); return; }
         const timeCheck = HisaabLedger.normalizeTimeString(document.getElementById('jobDueTime').value);
         if (!timeCheck.ok) { showToast(timeCheck.error); document.getElementById('jobDueTime').focus(); return; }
+        const category = type === 'referral' ? '' : document.getElementById('jobCategory').value;
+        let customJobValue = null;
+        if (type !== 'referral' && category === 'refresh') {
+          const rawVal = document.getElementById('refreshJobValue').value.trim();
+          if (rawVal !== '') {
+            const parsed = Number(rawVal);
+            if (!Number.isFinite(parsed) || parsed < 0) {
+              showToast('Enter a valid non-negative net job value for refresh install');
+              document.getElementById('refreshJobValue').focus();
+              return;
+            }
+            customJobValue = Math.floor(parsed);
+          }
+        }
         const job = {
           ...(oldJob || {}),
           id: jobId || id(), customer: document.getElementById('customerName').value.trim(),
@@ -2575,7 +2627,8 @@
           dueDate: workStatus === 'completed' ? (oldJob?.dueDate || '') : document.getElementById('jobDueDate').value,
           dueTime: (workStatus === 'completed' || workStatus === 'cancelled') ? (oldJob?.dueTime || '') : timeCheck.time,
           workStatus, model: document.getElementById('purifierModel').value.trim() || 'Purifier',
-          category: type === 'referral' ? '' : document.getElementById('jobCategory').value,
+          category,
+          jobValue: customJobValue != null ? customJobValue : (category === 'refresh' ? (oldJob?.jobValue != null ? oldJob.jobValue : 354) : undefined),
           onTimeExpected: type === 'referral' ? false : document.getElementById('onTimeExpected').checked,
           ratingExpected: type === 'referral' ? false : document.getElementById('ratingExpected').checked,
           referralExpected: Number(document.getElementById('referralExpected').value || 0),
@@ -2595,6 +2648,7 @@
         showToast(oldJob ? 'Job updated' : 'Job added');
       });
       document.getElementById('jobType').addEventListener('change', updateJobTypeFields);
+      document.getElementById('jobCategory').addEventListener('change', updateJobTypeFields);
       document.getElementById('jobLocality').addEventListener('change', updateJobLocalityFields);
       document.getElementById('jobWorkflowStatus').addEventListener('change', updateJobWorkflowFields);
       document.getElementById('customerForm').addEventListener('submit', event => {
@@ -2720,7 +2774,11 @@
           saveData(); dialog.close(); render(); showToast('Payment updated'); return;
         }
         const amountEntries = [];
-        const fixedAmounts = { jobValue: BASE_JOB_VALUE, onTime: ON_TIME_VALUE, rating: RATING_VALUE };
+        const fixedAmounts = {
+          jobValue: (job?.category === 'refresh' && job?.jobValue != null && Number.isFinite(Number(job.jobValue))) ? Math.max(0, Number(job.jobValue)) : BASE_JOB_VALUE,
+          onTime: ON_TIME_VALUE,
+          rating: RATING_VALUE
+        };
         let invalidAmount = false;
         Object.entries(fixedAmounts).forEach(([component, amount]) => {
           if (document.querySelector(`[data-payment-part="${component}"]`).checked) {
@@ -2846,7 +2904,7 @@
         const tplId = value.slice('custom:'.length);
         data.whatsappTemplates = (data.whatsappTemplates || []).filter(item => item.id !== tplId);
         saveData();
-        const fallback = activeWhatsAppContext ? 'followUp' : 'paymentReminder';
+        const fallback = activeWhatsAppContext ? 'followUp' : 'location';
         populateWhatsAppTypeSelect(fallback);
         applyWhatsAppTemplate();
         showToast('Saved draft deleted');
@@ -2871,6 +2929,12 @@
         }
       });
       document.getElementById('waDraftOpenLink').addEventListener('click', event => {
+        if (event.currentTarget.getAttribute('aria-disabled') === 'true') {
+          event.preventDefault();
+          showToast(document.getElementById('waDraftPhoneNote')?.textContent || 'Check the WhatsApp number and message');
+        }
+      });
+      document.getElementById('waDraftBusinessLink').addEventListener('click', event => {
         if (event.currentTarget.getAttribute('aria-disabled') === 'true') {
           event.preventDefault();
           showToast(document.getElementById('waDraftPhoneNote')?.textContent || 'Check the WhatsApp number and message');

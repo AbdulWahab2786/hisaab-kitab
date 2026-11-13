@@ -1,4 +1,4 @@
-const CACHE_NAME = 'hisaab-kitab-shell-v13';
+const CACHE_NAME = 'hisaab-kitab-shell-v14';
 const APP_FILES = ['./', './index.html', './design-tokens.css', './ledger-core.js', './google-drive-config.js', './google-drive-backup.js', './manifest.webmanifest', './codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png'];
 
 self.addEventListener('install', event => {
