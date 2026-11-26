@@ -1,6 +1,6 @@
 {
   "name": "hisaab-kitab",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Hisaab Kitab — Partner job payment, ledger, and WhatsApp draft tracker",
   "private": true,
   "scripts": {

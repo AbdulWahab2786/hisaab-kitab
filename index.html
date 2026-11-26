@@ -730,7 +730,7 @@
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
         <div class="topbar-left"><img class="topbar-logo" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
-        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button><button type="button" class="button button-small" id="checkUpdateButton">Check for updates (v1.0.0)</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button><button type="button" class="button button-small" id="checkUpdateButton">Check for updates (v1.0.1)</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
@@ -1042,8 +1042,8 @@
         return `${dateText(job.dueDate)}${timeText}`;
       }
 
-      const APP_VERSION = '1.0.0';
-      const APP_VERSION_CODE = 1;
+      const APP_VERSION = '1.0.1';
+      const APP_VERSION_CODE = 2;
       const VERSION_CHECK_URL = 'https://abdulwahab2786.github.io/hisaab-kitab/version.json';
       let availableAppUpdate = null;
       let updateBannerDismissed = false;
