@@ -1,6 +1,6 @@
 {
-  "version": "1.1.0",
-  "versionCode": 3,
+  "version": "1.1.1",
+  "versionCode": 4,
   "apkUrl": "https://github.com/AbdulWahab2786/hisaab-kitab/releases/latest/download/HisaabKitab.apk",
-  "releaseNotes": "Added Android Back button fix for popups/menus, PDF payment statements, offline background notifications, home-screen icon shortcuts, and auto backup reminders."
+  "releaseNotes": "Fixed PDF statement download to save directly in Downloads and open automatically with Bank Mini-Statement layout."
 }

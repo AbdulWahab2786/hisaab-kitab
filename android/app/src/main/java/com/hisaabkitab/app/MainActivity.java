@@ -18,6 +18,7 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        registerPlugin(PdfExportPlugin.class);
         super.onCreate(savedInstanceState);
 
         Window window = getWindow();

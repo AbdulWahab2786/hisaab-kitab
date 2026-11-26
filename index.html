@@ -730,7 +730,7 @@
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
         <div class="topbar-left"><img class="topbar-logo" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
-        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="pdfReportButton">Download PDF statement</button><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button><button type="button" class="button button-small" id="checkUpdateButton">Check for updates (v1.1.0)</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="pdfReportButton">Download PDF statement</button><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button><button type="button" class="button button-small" id="checkUpdateButton">Check for updates (v1.1.1)</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
@@ -1043,8 +1043,8 @@
         return `${dateText(job.dueDate)}${timeText}`;
       }
 
-      const APP_VERSION = '1.1.0';
-      const APP_VERSION_CODE = 3;
+      const APP_VERSION = '1.1.1';
+      const APP_VERSION_CODE = 4;
       const VERSION_CHECK_URL = 'https://abdulwahab2786.github.io/hisaab-kitab/version.json';
       const BACKUP_META_KEY = 'hisaab-backup-reminder-v1';
       let availableAppUpdate = null;
@@ -1199,6 +1199,40 @@
           } catch (_) {}
         }, 800);
       }
+      function overviewStats() {
+        const windowRange = overviewWindow();
+        const periodPayments = data.payments.filter(payment => isInOverviewWindow(payment.date, windowRange));
+        const periodJobs = data.jobs.filter(job => jobIsComplete(job) && isInOverviewWindow(job.date, windowRange));
+        const receiptTotals = HisaabLedger.paymentTotals(periodPayments);
+        const expectedInPeriod = periodJobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
+        const unmatchedPayments = periodPayments.filter(payment => !getJob(payment.jobId));
+        const unmatchedTotal = unmatchedPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
+        return {
+          window: windowRange,
+          periodLabel: overviewPeriodLabel(),
+          periodJobs,
+          periodPayments,
+          receiptTotals,
+          expectedInPeriod,
+          unmatchedPayments,
+          unmatchedTotal
+        };
+      }
+      function utf8ToBase64(str) {
+        const bytes = new TextEncoder().encode(str);
+        let binary = '';
+        for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+        return btoa(binary);
+      }
+      async function saveNativeDocument(filename, mimeType, base64Data, openAfterSave = true) {
+        const pdfPlugin = window.Capacitor?.Plugins?.PdfExport;
+        if (pdfPlugin && typeof pdfPlugin.saveDocument === 'function') {
+          try {
+            return await pdfPlugin.saveDocument({ filename, mimeType, base64Data, openAfterSave });
+          } catch (_) {}
+        }
+        return null;
+      }
       async function generatePdfReport() {
         const jsPDFCtor = window.jspdf?.jsPDF;
         if (!jsPDFCtor) {
@@ -1207,78 +1241,317 @@
         }
         const { periodLabel, periodJobs, periodPayments, receiptTotals, expectedInPeriod } = overviewStats();
         const outstanding = totalKnownPending();
+        const pendingJobsList = data.jobs
+          .filter(job => jobIsComplete(job) && knownPendingFor(job) > 0)
+          .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        const pendingCustomersCount = new Set(pendingJobsList.map(job => customerKey(job.customer))).size;
         const formatPdfMoney = value => `Rs. ${Math.round(Number(value) || 0).toLocaleString('en-IN')}`;
+        const shortPdfDate = iso => {
+          if (!iso) return '-';
+          const d = new Date(`${iso}T00:00:00`);
+          if (Number.isNaN(d.getTime())) return String(iso);
+          return new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: 'short', year: '2-digit' }).format(d);
+        };
+        const clipText = (txt, maxLen) => {
+          const clean = String(txt ?? '').replace(/[^\x20-\x7E]/g, ' ').replace(/\s+/g, ' ').trim();
+          return clean.length > maxLen ? `${clean.slice(0, maxLen - 3)}...` : (clean || '-');
+        };
+
+        const now = new Date();
+        const dd = String(now.getDate()).padStart(2, '0');
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const yyyy = String(now.getFullYear());
+        const fileDate = `${dd}-${mm}-${yyyy}`;
+        const displayDate = new Intl.DateTimeFormat('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }).format(now);
+        const displayTimestamp = new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(now);
+
         const doc = new jsPDFCtor({ unit: 'pt', format: 'a4' });
-        let y = 48;
+        const pageW = 595;
+        const pageH = 842;
+        const left = 36;
+        const right = 559;
+        const contentW = right - left;
+
+        // Top institutional bank header band
+        doc.setFillColor(20, 45, 78);
+        doc.rect(0, 0, pageW, 74, 'F');
+        doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(18);
-        doc.text('Hisaab Kitab — Partner Payment Statement', 40, y);
-        y += 20;
+        doc.text('HISAAB KITAB', left, 33);
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.setTextColor(82, 101, 121);
-        doc.text(`Period: ${periodLabel}   |   Generated: ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date())}`, 40, y);
-        y += 22;
-        doc.setDrawColor(220, 228, 235);
-        doc.line(40, y, 555, y);
-        y += 22;
+        doc.setFontSize(9.5);
+        doc.setTextColor(210, 224, 240);
+        doc.text('PARTNER LEDGER & PAYMENT MINI STATEMENT', left, 50);
 
-        doc.setTextColor(20, 45, 78);
+        doc.setTextColor(255, 255, 255);
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(12);
-        doc.text('Summary', 40, y);
-        y += 18;
+        doc.setFontSize(11);
+        doc.text('MINI STATEMENT', right, 32, { align: 'right' });
         doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        const summaryRows = [
-          ['Completed Jobs in Period', String(periodJobs.length)],
-          ['Expected Earnings (Completed Jobs)', formatPdfMoney(expectedInPeriod)],
-          ['Job-Related Received', formatPdfMoney(receiptTotals.jobRelated)],
-          ['All Payments Received (Incl. Goodwill)', formatPdfMoney(receiptTotals.total)],
-          ['Total Pending Balance (All Jobs)', formatPdfMoney(outstanding)],
-          ['Goodwill Received', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'goodwill'))],
-          ['Extra-Mile Received', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'extraMile'))],
-          ['Commission Received', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'commission'))]
-        ];
-        summaryRows.forEach(([label, val]) => {
-          doc.text(label, 48, y);
-          doc.setFont('helvetica', 'bold');
-          doc.text(val, 360, y);
+        doc.setFontSize(8.5);
+        doc.setTextColor(210, 224, 240);
+        doc.text(`Statement Date: ${displayDate}`, right, 47, { align: 'right' });
+        doc.text(`Generated: ${clipText(displayTimestamp, 36)}`, right, 59, { align: 'right' });
+
+        let y = 92;
+
+        // Account Info & Financial Summary two-column bank box
+        const boxH = 92;
+        doc.setDrawColor(196, 208, 220);
+        doc.setFillColor(248, 250, 253);
+        doc.roundedRect(left, y, contentW, boxH, 4, 4, 'FD');
+        doc.line(left + contentW * 0.52, y, left + contentW * 0.52, y + boxH);
+
+        const col1X = left + 12;
+        const col1ValX = left + 110;
+        const col2X = left + contentW * 0.52 + 12;
+        const col2ValX = right - 12;
+
+        const drawMetaRow = (rowY, label, val) => {
           doc.setFont('helvetica', 'normal');
-          y += 16;
+          doc.setFontSize(8.5);
+          doc.setTextColor(92, 108, 125);
+          doc.text(label, col1X, rowY);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(20, 45, 78);
+          doc.text(clipText(val, 26), col1ValX, rowY);
+        };
+        drawMetaRow(y + 19, 'Account Name', 'Urban Company Partner');
+        drawMetaRow(y + 36, 'Statement Period', periodLabel);
+        drawMetaRow(y + 53, 'Completed Jobs', `${periodJobs.length} ${periodJobs.length === 1 ? 'job' : 'jobs'}`);
+        drawMetaRow(y + 70, 'Pending Clients', `${pendingCustomersCount} ${pendingCustomersCount === 1 ? 'customer' : 'customers'}`);
+
+        const drawSumRow = (rowY, label, val, accentColor = [20, 45, 78]) => {
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8.5);
+          doc.setTextColor(92, 108, 125);
+          doc.text(label, col2X, rowY);
+          doc.setFont('helvetica', 'bold');
+          doc.setTextColor(...accentColor);
+          doc.text(val, col2ValX, rowY, { align: 'right' });
+        };
+        drawSumRow(y + 19, 'Expected Earnings', formatPdfMoney(expectedInPeriod));
+        drawSumRow(y + 36, 'Job-Related Credits', formatPdfMoney(receiptTotals.jobRelated));
+        drawSumRow(y + 53, 'Total Credits Received', formatPdfMoney(receiptTotals.total), [8, 127, 91]);
+        drawSumRow(y + 72, 'Closing Pending Bal.', formatPdfMoney(outstanding), outstanding > 0 ? [180, 83, 9] : [8, 127, 91]);
+
+        y += boxH + 10;
+
+        // 4-cell breakdown bar
+        const stripH = 34;
+        const cellW = contentW / 4;
+        const breakdown = [
+          ['Job & Referral', formatPdfMoney(receiptTotals.jobRelated)],
+          ['Goodwill Bonus', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'goodwill'))],
+          ['Extra-Mile Pay', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'extraMile'))],
+          ['UC Commission', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'commission'))]
+        ];
+        doc.setDrawColor(210, 220, 230);
+        doc.setFillColor(255, 255, 255);
+        doc.rect(left, y, contentW, stripH, 'FD');
+        breakdown.forEach(([lbl, val], idx) => {
+          const cx = left + idx * cellW;
+          if (idx > 0) doc.line(cx, y, cx, y + stripH);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(7.5);
+          doc.setTextColor(100, 116, 139);
+          doc.text(lbl, cx + cellW / 2, y + 12, { align: 'center' });
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9.5);
+          doc.setTextColor(20, 45, 78);
+          doc.text(val, cx + cellW / 2, y + 26, { align: 'center' });
         });
 
-        y += 12;
-        const customerPending = customerGroups().filter(c => c.pending > 0);
+        y += stripH + 18;
+
+        // Transaction Mini Statement Table
+        const drawTxnHeader = startY => {
+          doc.setFillColor(237, 242, 247);
+          doc.setDrawColor(196, 208, 220);
+          doc.rect(left, startY, contentW, 20, 'FD');
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8.2);
+          doc.setTextColor(20, 45, 78);
+          doc.text('DATE', left + 8, startY + 13);
+          doc.text('PARTICULARS / NARRATION', left + 68, startY + 13);
+          doc.text('CATEGORY', left + 298, startY + 13);
+          doc.text('CREDIT (INR)', left + 432, startY + 13, { align: 'right' });
+          doc.text('JOB BAL.', right - 8, startY + 13, { align: 'right' });
+          return startY + 20;
+        };
+
         doc.setFont('helvetica', 'bold');
-        doc.setFontSize(12);
-        doc.text(`Pending Customer Balances (${customerPending.length})`, 40, y);
-        y += 18;
-        doc.setFontSize(10);
-        if (!customerPending.length) {
+        doc.setFontSize(10.5);
+        doc.setTextColor(20, 45, 78);
+        doc.text(`TRANSACTION STATEMENT (${clipText(periodLabel.toUpperCase(), 24)})`, left, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(100, 116, 139);
+        doc.text(`${periodPayments.length} ${periodPayments.length === 1 ? 'entry' : 'entries'}`, right, y, { align: 'right' });
+        y += 8;
+        y = drawTxnHeader(y);
+
+        const sortedPayments = periodPayments.slice().sort((a, b) =>
+          (b.date || '').localeCompare(a.date || '') || String(b.createdAt || '').localeCompare(String(a.createdAt || ''))
+        );
+
+        if (!sortedPayments.length) {
+          doc.setDrawColor(224, 232, 240);
+          doc.rect(left, y, contentW, 24, 'S');
           doc.setFont('helvetica', 'normal');
-          doc.text('All customer balances are settled.', 48, y);
-          y += 18;
+          doc.setFontSize(8.5);
+          doc.setTextColor(100, 116, 139);
+          doc.text('No payment transactions recorded in this statement period.', left + contentW / 2, y + 15, { align: 'center' });
+          y += 24;
         } else {
-          customerPending.slice(0, 28).forEach(cust => {
-            if (y > 760) { doc.addPage(); y = 48; }
+          sortedPayments.forEach((payment, idx) => {
+            if (y > pageH - 72) {
+              doc.addPage();
+              y = 42;
+              y = drawTxnHeader(y);
+            }
+            const job = getJob(payment.jobId);
+            const rowH = 21;
+            if (idx % 2 === 1) {
+              doc.setFillColor(248, 250, 253);
+              doc.rect(left, y, contentW, rowH, 'F');
+            }
+            doc.setDrawColor(226, 232, 240);
+            doc.line(left, y + rowH, right, y + rowH);
+
+            const custName = job?.customer || payment.customerName || 'Walk-in / Unlinked';
+            const compName = COMPONENT_LABELS[payment.component] || 'Payment';
+            const narration = clipText(`${custName} - ${compName}`, 44);
+            const category = job ? (job.type === 'referral' ? 'Referral' : jobCategoryLabel(job) || 'Job') : 'Unlinked';
+            const jobBalText = !job ? 'Unlinked' : (knownPendingFor(job) > 0 ? `${formatPdfMoney(knownPendingFor(job))} due` : 'Settled');
+
             doc.setFont('helvetica', 'normal');
-            doc.text(`${cust.name}${cust.phone ? ` (${cust.phone})` : ''}`, 48, y);
+            doc.setFontSize(8.3);
+            doc.setTextColor(51, 65, 85);
+            doc.text(shortPdfDate(payment.date), left + 8, y + 13.5);
+            doc.text(narration, left + 68, y + 13.5);
+            doc.setTextColor(100, 116, 139);
+            doc.text(clipText(category, 16), left + 298, y + 13.5);
             doc.setFont('helvetica', 'bold');
-            doc.text(formatPdfMoney(cust.pending), 360, y);
-            y += 15;
+            doc.setTextColor(8, 127, 91);
+            doc.text(`+ ${formatPdfMoney(payment.amount)}`, left + 432, y + 13.5, { align: 'right' });
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(job && knownPendingFor(job) > 0 ? 180 : 82, job && knownPendingFor(job) > 0 ? 83 : 101, job && knownPendingFor(job) > 0 ? 9 : 121);
+            doc.text(clipText(jobBalText, 16), right - 8, y + 13.5, { align: 'right' });
+            y += rowH;
+          });
+
+          // Transaction Total Footer Row
+          if (y > pageH - 72) { doc.addPage(); y = 42; }
+          doc.setFillColor(237, 242, 247);
+          doc.setDrawColor(196, 208, 220);
+          doc.rect(left, y, contentW, 22, 'FD');
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8.5);
+          doc.setTextColor(20, 45, 78);
+          doc.text(`TOTAL CREDITS (${sortedPayments.length} ${sortedPayments.length === 1 ? 'transaction' : 'transactions'})`, left + 8, y + 14);
+          doc.setTextColor(8, 127, 91);
+          doc.text(formatPdfMoney(receiptTotals.total), left + 432, y + 14, { align: 'right' });
+          y += 22;
+        }
+
+        // Pending Receivables Section
+        y += 18;
+        if (y > pageH - 96) { doc.addPage(); y = 42; }
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10.5);
+        doc.setTextColor(20, 45, 78);
+        doc.text(`PENDING RECEIVABLES (AS ON ${displayDate.toUpperCase()})`, left, y);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8.5);
+        doc.setTextColor(180, 83, 9);
+        doc.text(`Closing Pending: ${formatPdfMoney(outstanding)}`, right, y, { align: 'right' });
+        y += 8;
+
+        const drawPendingHeader = startY => {
+          doc.setFillColor(237, 242, 247);
+          doc.setDrawColor(196, 208, 220);
+          doc.rect(left, startY, contentW, 20, 'FD');
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8.2);
+          doc.setTextColor(20, 45, 78);
+          doc.text('JOB DATE', left + 8, startY + 13);
+          doc.text('CUSTOMER & SERVICE', left + 68, startY + 13);
+          doc.text('EXPECTED', left + 356, startY + 13, { align: 'right' });
+          doc.text('RECEIVED', left + 434, startY + 13, { align: 'right' });
+          doc.text('PENDING DUE', right - 8, startY + 13, { align: 'right' });
+          return startY + 20;
+        };
+        y = drawPendingHeader(y);
+
+        if (!pendingJobsList.length) {
+          doc.setDrawColor(224, 232, 240);
+          doc.rect(left, y, contentW, 24, 'S');
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8.5);
+          doc.setTextColor(8, 127, 91);
+          doc.text('All completed job balances are settled. Closing pending balance: Rs. 0', left + contentW / 2, y + 15, { align: 'center' });
+          y += 24;
+        } else {
+          pendingJobsList.forEach((job, idx) => {
+            if (y > pageH - 72) {
+              doc.addPage();
+              y = 42;
+              y = drawPendingHeader(y);
+            }
+            const rowH = 21;
+            if (idx % 2 === 1) {
+              doc.setFillColor(255, 251, 244);
+              doc.rect(left, y, contentW, rowH, 'F');
+            }
+            doc.setDrawColor(226, 232, 240);
+            doc.line(left, y + rowH, right, y + rowH);
+            const desc = clipText(`${job.customer} (${job.type === 'referral' ? 'Referral' : jobCategoryLabel(job) || 'Job'})`, 44);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8.3);
+            doc.setTextColor(51, 65, 85);
+            doc.text(shortPdfDate(job.date), left + 8, y + 13.5);
+            doc.text(desc, left + 68, y + 13.5);
+            doc.text(formatPdfMoney(knownExpectedFor(job)), left + 356, y + 13.5, { align: 'right' });
+            doc.text(formatPdfMoney(knownReceivedFor(job)), left + 434, y + 13.5, { align: 'right' });
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(180, 83, 9);
+            doc.text(formatPdfMoney(knownPendingFor(job)), right - 8, y + 13.5, { align: 'right' });
+            y += rowH;
           });
         }
 
-        const slug = String(periodLabel || 'statement').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-        const filename = `HisaabKitab-Statement-${slug}-${localISO()}.pdf`;
+        // Bank statement footer on every page
+        const totalPages = doc.getNumberOfPages();
+        for (let p = 1; p <= totalPages; p++) {
+          doc.setPage(p);
+          doc.setDrawColor(210, 220, 230);
+          doc.line(left, pageH - 36, right, pageH - 36);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(8);
+          doc.setTextColor(110, 125, 142);
+          doc.text('Hisaab Kitab Partner Ledger  |  Computer-generated mini statement (No signature required)', left, pageH - 22);
+          doc.text(`Page ${p} of ${totalPages}`, right, pageH - 22, { align: 'right' });
+        }
+
+        const filename = `Hisaab Kitab Statement ${fileDate}.pdf`;
         if (isNativeCapacitorApp()) {
           const dataUri = doc.output('datauristring');
           const base64Pdf = dataUri.split(',')[1] || '';
-          if (base64Pdf && await writeNativeBackupFile(filename, base64Pdf, null)) {
-            showToast('PDF saved to Documents/HisaabKitab');
-            return;
+          if (base64Pdf) {
+            const nativeResult = await saveNativeDocument(filename, 'application/pdf', base64Pdf, true);
+            if (nativeResult?.saved) {
+              showToast(`Saved to Downloads: ${nativeResult.filename || filename}`);
+              return;
+            }
+            if (await writeNativeBackupFile(filename, base64Pdf, null)) {
+              showToast(`PDF saved to Documents/HisaabKitab/${filename}`);
+              return;
+            }
           }
+          showToast('Unable to save PDF on device storage.');
+          return;
         }
         doc.save(filename);
         showToast('PDF statement downloaded');
@@ -1545,14 +1818,7 @@
         bindPageEvents();
       }
       function renderOverview() {
-        const window = overviewWindow();
-        const periodPayments = data.payments.filter(payment => isInOverviewWindow(payment.date, window));
-        const periodJobs = data.jobs.filter(job => jobIsComplete(job) && isInOverviewWindow(job.date, window));
-        const receiptTotals = HisaabLedger.paymentTotals(periodPayments);
-        const expectedInPeriod = periodJobs.reduce((sum, job) => sum + knownExpectedFor(job), 0);
-        const unmatchedPayments = periodPayments.filter(payment => !getJob(payment.jobId));
-        const unmatchedTotal = unmatchedPayments.reduce((sum, payment) => sum + Number(payment.amount || 0), 0);
-        const periodLabel = overviewPeriodLabel();
+        const { periodJobs, periodPayments, receiptTotals, expectedInPeriod, unmatchedPayments, unmatchedTotal, periodLabel } = overviewStats();
         const outstanding = totalKnownPending();
         const today = localISO();
         const todayJobs = data.jobs.filter(job => jobIsActiveScheduled(job) && job.dueDate === today).map(job => ({
@@ -2736,6 +3002,16 @@
         if (await writeNativeBackupFile(filename, jsonText, 'utf8')) {
           showToast('Backup saved to Documents/HisaabKitab');
           if (currentPage === 'overview') render();
+          return;
+        }
+        if (isNativeCapacitorApp()) {
+          const nativeResult = await saveNativeDocument(filename, 'application/json', utf8ToBase64(jsonText), false);
+          if (nativeResult?.saved) {
+            showToast(`Backup saved to Downloads: ${nativeResult.filename || filename}`);
+            if (currentPage === 'overview') render();
+            return;
+          }
+          showToast('Unable to save backup on device storage.');
           return;
         }
         const blob = new Blob([jsonText], { type: 'application/json' });
