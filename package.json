@@ -1,0 +1,19 @@
+{
+  "name": "hisaab-kitab",
+  "version": "1.0.0",
+  "description": "Hisaab Kitab — Partner job payment, ledger, and WhatsApp draft tracker",
+  "private": true,
+  "scripts": {
+    "build:web": "node scripts/build-web.mjs",
+    "cap:sync": "npm run build:web && npx cap sync android",
+    "test": "node --test tests/ledger-core.test.cjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^7.0.0",
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/filesystem": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.0.0"
+  }
+}

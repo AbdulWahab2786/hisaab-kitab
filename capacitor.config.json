@@ -1,0 +1,8 @@
+{
+  "appId": "com.hisaabkitab.app",
+  "appName": "Hisaab Kitab",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#F5F7FA"
+  }
+}
