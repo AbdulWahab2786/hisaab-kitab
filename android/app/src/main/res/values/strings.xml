@@ -4,4 +4,8 @@
     <string name="title_activity_main">Hisaab Kitab</string>
     <string name="package_name">com.hisaabkitab.app</string>
     <string name="custom_url_scheme">com.hisaabkitab.app</string>
+    <string name="shortcut_add_job_short">Add Job</string>
+    <string name="shortcut_add_job_long">Add a new job</string>
+    <string name="shortcut_pending_short">Pending</string>
+    <string name="shortcut_pending_long">View pending payments</string>
 </resources>

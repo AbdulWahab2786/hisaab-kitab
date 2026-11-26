@@ -1,5 +1,6 @@
 package com.hisaabkitab.app;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,9 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import com.getcapacitor.BridgeActivity;
 
 public class MainActivity extends BridgeActivity {
+    private static final String ACTION_ADD_JOB = "com.hisaabkitab.app.ACTION_ADD_JOB";
+    private static final String ACTION_PENDING_PAYMENTS = "com.hisaabkitab.app.ACTION_PENDING_PAYMENTS";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +41,32 @@ public class MainActivity extends BridgeActivity {
                 Insets ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime());
                 v.setPadding(bars.left, bars.top, bars.right, Math.max(bars.bottom, ime.bottom));
                 return WindowInsetsCompat.CONSUMED;
+            });
+        }
+
+        dispatchShortcutIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        dispatchShortcutIntent(intent);
+    }
+
+    private void dispatchShortcutIntent(Intent intent) {
+        if (intent == null || intent.getAction() == null) return;
+        String shortcut = null;
+        if (ACTION_ADD_JOB.equals(intent.getAction())) {
+            shortcut = "add-job";
+        } else if (ACTION_PENDING_PAYMENTS.equals(intent.getAction())) {
+            shortcut = "pending";
+        }
+        if (shortcut != null && getBridge() != null && getBridge().getWebView() != null) {
+            final String target = shortcut;
+            getBridge().getWebView().post(() -> {
+                String js = "window.__hkPendingShortcut='" + target + "';window.dispatchEvent(new CustomEvent('hk:shortcut',{detail:'" + target + "'}));";
+                getBridge().getWebView().evaluateJavascript(js, null);
             });
         }
     }

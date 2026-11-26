@@ -28,4 +28,9 @@ for (const file of FILES_TO_COPY) {
   }
 }
 
-console.log(`Built web bundle into ${outDir} (${FILES_TO_COPY.length} files checked).`);
+const jspdfSrc = path.join(rootDir, 'node_modules', 'jspdf', 'dist', 'jspdf.umd.min.js');
+if (fs.existsSync(jspdfSrc)) {
+  fs.copyFileSync(jspdfSrc, path.join(outDir, 'jspdf.umd.min.js'));
+}
+
+console.log(`Built web bundle into ${outDir} (${FILES_TO_COPY.length} core files + jspdf checked).`);

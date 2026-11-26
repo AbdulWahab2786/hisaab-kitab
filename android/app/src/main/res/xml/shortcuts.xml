@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="add_job"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_add_job_short"
+        android:shortcutLongLabel="@string/shortcut_add_job_long">
+        <intent
+            android:action="com.hisaabkitab.app.ACTION_ADD_JOB"
+            android:targetPackage="com.hisaabkitab.app"
+            android:targetClass="com.hisaabkitab.app.MainActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="pending_payments"
+        android:enabled="true"
+        android:icon="@mipmap/ic_launcher"
+        android:shortcutShortLabel="@string/shortcut_pending_short"
+        android:shortcutLongLabel="@string/shortcut_pending_long">
+        <intent
+            android:action="com.hisaabkitab.app.ACTION_PENDING_PAYMENTS"
+            android:targetPackage="com.hisaabkitab.app"
+            android:targetClass="com.hisaabkitab.app.MainActivity" />
+    </shortcut>
+</shortcuts>

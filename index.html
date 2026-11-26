@@ -730,7 +730,7 @@
       <div class="storage-warning" id="storageWarning" role="alert" hidden></div>
       <header class="topbar">
         <div class="topbar-left"><img class="topbar-logo" src="./codex-clipboard-fc4981cf-e1ef-4c4f-b420-d57eb681c6e9.png" alt="Hisaab Kitab"><h1 class="page-heading" id="topTitle">Home</h1></div>
-        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button><button type="button" class="button button-small" id="checkUpdateButton">Check for updates (v1.0.1)</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+        <div class="top-actions"><button type="button" class="button reminder-trigger" id="reminderButton" aria-label="Open reminders"><span aria-hidden="true">🔔</span><span class="profile-trigger-label">Reminders</span><span class="reminder-badge" id="reminderBadgeCount" hidden>0</span></button><details class="profile-menu" id="profileMenu"><summary class="profile-trigger" aria-label="Settings and backup"><span class="profile-avatar" aria-hidden="true">HK</span><span class="profile-trigger-label">Settings</span><span aria-hidden="true">⌄</span></summary><div class="profile-menu-panel"><div class="profile-menu-heading"><strong>Hisaab Kitab</strong><span>Local data · Drive backups on demand</span></div><button type="button" class="button button-small" id="pdfReportButton">Download PDF statement</button><button type="button" class="button button-small" id="googleDriveButton">Google Drive backups</button><button type="button" class="button button-small" id="exportButton">Export backup</button><button type="button" class="button button-small" id="importButton">Import backup</button><button type="button" class="button button-small" id="checkUpdateButton">Check for updates (v1.1.0)</button></div></details><input type="file" id="backupFile" accept="application/json,.json" hidden></div>
       </header>
       <section class="content" id="pageContent"></section>
     </main>
@@ -962,6 +962,7 @@
   </dialog>
   <div class="toast" id="toast" role="status"></div>
 
+  <script src="./jspdf.umd.min.js" defer></script>
   <script src="./ledger-core.js"></script>
   <script src="./google-drive-config.js"></script>
   <script src="./google-drive-backup.js"></script>
@@ -1042,28 +1043,31 @@
         return `${dateText(job.dueDate)}${timeText}`;
       }
 
-      const APP_VERSION = '1.0.1';
-      const APP_VERSION_CODE = 2;
+      const APP_VERSION = '1.1.0';
+      const APP_VERSION_CODE = 3;
       const VERSION_CHECK_URL = 'https://abdulwahab2786.github.io/hisaab-kitab/version.json';
+      const BACKUP_META_KEY = 'hisaab-backup-reminder-v1';
       let availableAppUpdate = null;
       let updateBannerDismissed = false;
       let nativeAutoBackupTimer = null;
+      let nativeNotifySyncTimer = null;
 
       function isNativeCapacitorApp() {
         return Boolean(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
       }
-      async function writeNativeBackupFile(filename, contentText) {
+      async function writeNativeBackupFile(filename, contentText, encoding = 'utf8') {
         if (!isNativeCapacitorApp()) return false;
         const fsPlugin = window.Capacitor?.Plugins?.Filesystem;
         if (!fsPlugin || typeof fsPlugin.writeFile !== 'function') return false;
         try {
-          await fsPlugin.writeFile({
+          const opts = {
             path: `HisaabKitab/${filename}`,
             data: contentText,
             directory: 'DOCUMENTS',
-            encoding: 'utf8',
             recursive: true
-          });
+          };
+          if (encoding) opts.encoding = encoding;
+          await fsPlugin.writeFile(opts);
           return true;
         } catch (_) {
           return false;
@@ -1074,8 +1078,210 @@
         clearTimeout(nativeAutoBackupTimer);
         nativeAutoBackupTimer = setTimeout(() => {
           const payload = JSON.stringify({ app: 'Hisaab Kitab', exportedAt: new Date().toISOString(), ...data }, null, 2);
-          writeNativeBackupFile('hisaab-kitab-latest-backup.json', payload);
+          writeNativeBackupFile('hisaab-kitab-latest-backup.json', payload, 'utf8');
         }, 2000);
+      }
+      function readBackupMeta() {
+        try {
+          const raw = localStorage.getItem(BACKUP_META_KEY);
+          if (!raw) return { lastBackupAt: '', jobsAtLastBackup: 0, snoozedUntil: 0 };
+          const parsed = JSON.parse(raw);
+          return {
+            lastBackupAt: typeof parsed.lastBackupAt === 'string' ? parsed.lastBackupAt : '',
+            jobsAtLastBackup: Number(parsed.jobsAtLastBackup) || 0,
+            snoozedUntil: Number(parsed.snoozedUntil) || 0
+          };
+        } catch (_) {
+          return { lastBackupAt: '', jobsAtLastBackup: 0, snoozedUntil: 0 };
+        }
+      }
+      function markBackupCompleted() {
+        try {
+          localStorage.setItem(BACKUP_META_KEY, JSON.stringify({
+            lastBackupAt: new Date().toISOString(),
+            jobsAtLastBackup: data.jobs.length,
+            snoozedUntil: 0
+          }));
+        } catch (_) {}
+      }
+      function snoozeBackupReminder() {
+        const meta = readBackupMeta();
+        meta.snoozedUntil = Date.now() + 24 * 60 * 60 * 1000;
+        try { localStorage.setItem(BACKUP_META_KEY, JSON.stringify(meta)); } catch (_) {}
+      }
+      function shouldShowBackupReminder() {
+        const totalRecords = data.jobs.length + data.payments.length;
+        if (totalRecords < 3) return false;
+        const meta = readBackupMeta();
+        if (meta.snoozedUntil && Date.now() < meta.snoozedUntil) return false;
+        if (!meta.lastBackupAt) return true;
+        const daysSince = (Date.now() - Date.parse(meta.lastBackupAt)) / (1000 * 60 * 60 * 24);
+        const jobsAdded = data.jobs.length - meta.jobsAtLastBackup;
+        return daysSince >= 7 || jobsAdded >= 10;
+      }
+      function parseScheduleDateTimeLocal(isoDate, hhmm) {
+        if (!isoDate || !hhmm) return null;
+        const [y, m, d] = isoDate.split('-').map(Number);
+        const [hh, mm] = hhmm.split(':').map(Number);
+        if (![y, m, d, hh, mm].every(Number.isFinite)) return null;
+        return new Date(y, m - 1, d, hh, mm, 0, 0);
+      }
+      function syncNativeBackgroundNotifications() {
+        if (!isNativeCapacitorApp()) return;
+        const ln = window.Capacitor?.Plugins?.LocalNotifications;
+        if (!ln || typeof ln.schedule !== 'function') return;
+        clearTimeout(nativeNotifySyncTimer);
+        nativeNotifySyncTimer = setTimeout(async () => {
+          try {
+            const perm = await ln.checkPermissions();
+            if (perm?.display === 'prompt' || perm?.display === 'prompt-with-rationale') {
+              const req = await ln.requestPermissions();
+              if (req?.display !== 'granted') return;
+            } else if (perm?.display !== 'granted') {
+              return;
+            }
+            const pending = await ln.getPending();
+            const existingIds = (pending?.notifications || []).filter(n => n.id >= 1000 && n.id < 2000).map(n => ({ id: n.id }));
+            if (existingIds.length) {
+              await ln.cancel({ notifications: existingIds });
+            }
+            const nowMs = Date.now();
+            const toSchedule = [];
+            let nextId = 1000;
+            const activeJobs = (data.jobs || []).filter(job => jobIsActiveScheduled(job));
+            activeJobs.forEach(job => {
+              if (job.dueDate && job.dueTime) {
+                const start = parseScheduleDateTimeLocal(job.dueDate, job.dueTime);
+                if (start) {
+                  const triggerMs = start.getTime() - 30 * 60 * 1000;
+                  if (triggerMs > nowMs + 15000 && toSchedule.length < 40) {
+                    toSchedule.push({
+                      id: nextId++,
+                      title: `Upcoming Job in 30 mins: ${job.customer}`,
+                      body: `${job.model || 'Purifier'} at ${HisaabLedger.formatTime12h(job.dueTime)}`,
+                      schedule: { at: new Date(triggerMs), allowWhileIdle: true }
+                    });
+                  }
+                }
+              }
+            });
+            const todayIso = localISO();
+            const tomorrowDate = new Date();
+            tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+            const tomorrowIso = localISO(tomorrowDate);
+            const todayCount = activeJobs.filter(j => j.dueDate === todayIso).length;
+            const tomorrowCount = activeJobs.filter(j => j.dueDate === tomorrowIso).length;
+            if (todayCount > 0) {
+              const morning = parseScheduleDateTimeLocal(todayIso, '08:00');
+              if (morning && morning.getTime() > nowMs + 15000) {
+                toSchedule.push({
+                  id: nextId++,
+                  title: `Today's Schedule (${todayCount} ${todayCount === 1 ? 'job' : 'jobs'})`,
+                  body: 'Tap to review your scheduled jobs for today.',
+                  schedule: { at: morning, allowWhileIdle: true }
+                });
+              }
+            }
+            if (tomorrowCount > 0) {
+              const evening = parseScheduleDateTimeLocal(todayIso, '20:00');
+              if (evening && evening.getTime() > nowMs + 15000) {
+                toSchedule.push({
+                  id: nextId++,
+                  title: `Tomorrow's Schedule (${tomorrowCount} ${tomorrowCount === 1 ? 'job' : 'jobs'})`,
+                  body: `You have ${tomorrowCount} ${tomorrowCount === 1 ? 'job' : 'jobs'} scheduled for tomorrow.`,
+                  schedule: { at: evening, allowWhileIdle: true }
+                });
+              }
+            }
+            if (toSchedule.length) {
+              await ln.schedule({ notifications: toSchedule });
+            }
+          } catch (_) {}
+        }, 800);
+      }
+      async function generatePdfReport() {
+        const jsPDFCtor = window.jspdf?.jsPDF;
+        if (!jsPDFCtor) {
+          showToast('PDF engine is loading. Please try again in a moment.');
+          return;
+        }
+        const { periodLabel, periodJobs, periodPayments, receiptTotals, expectedInPeriod } = overviewStats();
+        const outstanding = totalKnownPending();
+        const formatPdfMoney = value => `Rs. ${Math.round(Number(value) || 0).toLocaleString('en-IN')}`;
+        const doc = new jsPDFCtor({ unit: 'pt', format: 'a4' });
+        let y = 48;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(18);
+        doc.text('Hisaab Kitab — Partner Payment Statement', 40, y);
+        y += 20;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(82, 101, 121);
+        doc.text(`Period: ${periodLabel}   |   Generated: ${new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date())}`, 40, y);
+        y += 22;
+        doc.setDrawColor(220, 228, 235);
+        doc.line(40, y, 555, y);
+        y += 22;
+
+        doc.setTextColor(20, 45, 78);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.text('Summary', 40, y);
+        y += 18;
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        const summaryRows = [
+          ['Completed Jobs in Period', String(periodJobs.length)],
+          ['Expected Earnings (Completed Jobs)', formatPdfMoney(expectedInPeriod)],
+          ['Job-Related Received', formatPdfMoney(receiptTotals.jobRelated)],
+          ['All Payments Received (Incl. Goodwill)', formatPdfMoney(receiptTotals.total)],
+          ['Total Pending Balance (All Jobs)', formatPdfMoney(outstanding)],
+          ['Goodwill Received', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'goodwill'))],
+          ['Extra-Mile Received', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'extraMile'))],
+          ['Commission Received', formatPdfMoney(HisaabLedger.componentTotal(periodPayments, 'commission'))]
+        ];
+        summaryRows.forEach(([label, val]) => {
+          doc.text(label, 48, y);
+          doc.setFont('helvetica', 'bold');
+          doc.text(val, 360, y);
+          doc.setFont('helvetica', 'normal');
+          y += 16;
+        });
+
+        y += 12;
+        const customerPending = customerGroups().filter(c => c.pending > 0);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.text(`Pending Customer Balances (${customerPending.length})`, 40, y);
+        y += 18;
+        doc.setFontSize(10);
+        if (!customerPending.length) {
+          doc.setFont('helvetica', 'normal');
+          doc.text('All customer balances are settled.', 48, y);
+          y += 18;
+        } else {
+          customerPending.slice(0, 28).forEach(cust => {
+            if (y > 760) { doc.addPage(); y = 48; }
+            doc.setFont('helvetica', 'normal');
+            doc.text(`${cust.name}${cust.phone ? ` (${cust.phone})` : ''}`, 48, y);
+            doc.setFont('helvetica', 'bold');
+            doc.text(formatPdfMoney(cust.pending), 360, y);
+            y += 15;
+          });
+        }
+
+        const slug = String(periodLabel || 'statement').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+        const filename = `HisaabKitab-Statement-${slug}-${localISO()}.pdf`;
+        if (isNativeCapacitorApp()) {
+          const dataUri = doc.output('datauristring');
+          const base64Pdf = dataUri.split(',')[1] || '';
+          if (base64Pdf && await writeNativeBackupFile(filename, base64Pdf, null)) {
+            showToast('PDF saved to Documents/HisaabKitab');
+            return;
+          }
+        }
+        doc.save(filename);
+        showToast('PDF statement downloaded');
       }
       async function checkForAppUpdate({ manual = false } = {}) {
         if (!navigator.onLine) {
@@ -1357,6 +1563,7 @@
         const activeReminders = latestReminderEval.active || [];
         const reminderBanner = activeReminders.length ? `<section class="reminder-banner" aria-label="In-app reminders"><div class="reminder-banner-head"><h3>Reminders (${activeReminders.length})</h3><button type="button" class="button button-small" data-action="open-reminders">View all</button></div><div class="reminder-list">${activeReminders.map(rem => `<article class="reminder-card"><div class="reminder-card-head"><span class="reminder-card-title">${escapeHtml(rem.title)}</span><button type="button" class="button button-small" data-action="dismiss-reminder" data-id="${escapeHtml(rem.id)}">Dismiss</button></div><div class="reminder-card-body">${escapeHtml(rem.body)}</div>${rem.jobIds.length === 1 ? `<div class="reminder-card-actions"><button type="button" class="button button-small" data-action="focus-job" data-id="${escapeHtml(rem.jobIds[0])}">View job</button><button type="button" class="button button-small" data-action="open-wa-job" data-id="${escapeHtml(rem.jobIds[0])}">WhatsApp</button></div>` : ''}</article>`).join('')}</div></section>` : '';
         const updateBanner = (availableAppUpdate && !updateBannerDismissed) ? `<section class="app-update-banner" aria-label="App update available"><div class="app-update-copy"><strong>Update Available (v${escapeHtml(availableAppUpdate.version)})</strong><span>${escapeHtml(availableAppUpdate.releaseNotes || 'A newer version of Hisaab Kitab is ready to download and install.')}</span></div><div class="app-update-actions"><a class="button button-small button-primary" href="${escapeHtml(availableAppUpdate.apkUrl)}" target="_blank" rel="noopener noreferrer">Download Update</a><button type="button" class="button button-small" data-action="dismiss-app-update">Later</button></div></section>` : '';
+        const backupReminderBanner = shouldShowBackupReminder() ? `<section class="migration-card" aria-label="Backup reminder"><h3>Back Up Your Ledger</h3><p>Save a fresh backup to Google Drive or your device so your customer and payment records stay safe.</p><div class="migration-actions"><button type="button" class="button button-small button-primary" data-action="open-drive-backup">Backup to Drive</button><button type="button" class="button button-small" data-action="export-json-backup">Save JSON</button><button type="button" class="button button-small button-quiet" data-action="snooze-backup-reminder">Remind me later</button></div></section>` : '';
         const isFreshWorkspace = data.jobs.length === 0 && data.payments.length === 0 && data.customers.length === 0;
         const migrationCard = isFreshWorkspace ? `<section class="migration-card" aria-label="Restore existing data"><h3>Restore Existing Data</h3><p>Already used Hisaab Kitab in your web browser? Import your saved JSON backup or restore from Google Drive to bring back all your customers, jobs, and payment records.</p><div class="migration-actions"><button type="button" class="button button-small button-primary" data-action="import-json">Import JSON Backup</button><button type="button" class="button button-small" data-action="open-drive-backup">Google Drive Backup</button></div></section>` : '';
         const attention = [...todayJobs, ...needsAttentionItems()]
@@ -1369,6 +1576,7 @@
         return `<div class="dashboard-home">
   ${updateBanner}
   ${reminderBanner}
+  ${backupReminderBanner}
   ${migrationCard}
   <header class="dashboard-heading"><div><h2>Your money at a glance</h2><p>${escapeHtml(periodLabel)} · ${periodJobs.length} completed ${periodJobs.length === 1 ? 'job' : 'jobs'}</p></div><label class="dashboard-period" for="overviewPeriod">View period<select id="overviewPeriod" aria-label="Filter dashboard activity by period"><option value="thisMonth" ${overviewPeriodFilter === 'thisMonth' ? 'selected' : ''}>This month</option><option value="lastMonth" ${overviewPeriodFilter === 'lastMonth' ? 'selected' : ''}>Last month</option><option value="all" ${overviewPeriodFilter === 'all' ? 'selected' : ''}>All time</option></select></label></header>
   <section class="hk-home-balance" aria-label="Payment summary">
@@ -1386,6 +1594,7 @@
     <div class="dashboard-detail-row"><span>All payments received</span><strong>${money(receiptTotals.total)}</strong></div>
     <div class="dashboard-detail-row"><span>Unmatched payments (included above)</span><strong>${unmatchedPayments.length} · ${money(unmatchedTotal)}</strong></div>
     <p class="dashboard-date-note">Received totals use payment dates; expected totals use job completion dates.</p>
+    <div style="padding:10px 0 14px"><button type="button" class="button button-small" data-action="download-pdf-report">Download PDF Statement (${escapeHtml(periodLabel)})</button></div>
   </div></details>
 </div>`;
       }
@@ -1905,6 +2114,9 @@
           if (action === 'dismiss-app-update') { updateBannerDismissed = true; render(); }
           if (action === 'import-json') document.getElementById('backupFile').click();
           if (action === 'open-drive-backup') window.HisaabKitabDriveBackup.open();
+          if (action === 'export-json-backup') exportBackup();
+          if (action === 'snooze-backup-reminder') { snoozeBackupReminder(); render(); }
+          if (action === 'download-pdf-report') generatePdfReport();
         }));
       }
       function updateReminderBadge() {
@@ -2019,6 +2231,7 @@
         }
         updateReminderBadge();
         scheduleNextReminderTimer();
+        syncNativeBackgroundNotifications();
         if (document.getElementById('remindersDialog')?.open) renderRemindersDialogContent();
         if (rerender && currentPage === 'overview') render();
       }
@@ -2519,13 +2732,16 @@
       async function exportBackup() {
         const filename = 'hisaab-kitab-backup-' + backupTimestamp() + '.json';
         const jsonText = JSON.stringify({ app: 'Hisaab Kitab', exportedAt: new Date().toISOString(), ...data }, null, 2);
-        if (await writeNativeBackupFile(filename, jsonText)) {
+        markBackupCompleted();
+        if (await writeNativeBackupFile(filename, jsonText, 'utf8')) {
           showToast('Backup saved to Documents/HisaabKitab');
+          if (currentPage === 'overview') render();
           return;
         }
         const blob = new Blob([jsonText], { type: 'application/json' });
         const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = filename; link.click(); setTimeout(() => URL.revokeObjectURL(link.href), 1000);
         showToast('Backup downloaded');
+        if (currentPage === 'overview') render();
       }
       function backupCounts(recordData) {
         return {
@@ -2606,7 +2822,9 @@
         previewBackup: (payload, filename) => showBackupPreview(validateBackup(payload), { name: filename }),
         onToast: showToast
       });
+      document.getElementById('pdfReportButton').addEventListener('click', generatePdfReport);
       document.getElementById('googleDriveButton').addEventListener('click', () => window.HisaabKitabDriveBackup.open());
+      document.getElementById('driveUploadButton')?.addEventListener('click', () => markBackupCompleted());
       document.getElementById('checkUpdateButton').addEventListener('click', () => checkForAppUpdate({ manual: true }));
       setTimeout(() => checkForAppUpdate(), 2500);
       document.getElementById('backupPreviewExport').addEventListener('click', exportBackup);
@@ -3089,6 +3307,67 @@
       reconcileReminders({ notify: true, rerender: false });
       render();
       if (storageLoadError) showStorageWarning(storageLoadError);
+
+      function applyShortcutAction(shortcut) {
+        if (!shortcut) return;
+        if (shortcut === 'add-job') {
+          openJobDialog();
+        } else if (shortcut === 'pending') {
+          selectedCustomerKey = null;
+          setPage('payments');
+        }
+      }
+      function consumeShortcutFromEnvironment() {
+        if (window.__hkPendingShortcut) {
+          const target = window.__hkPendingShortcut;
+          window.__hkPendingShortcut = '';
+          applyShortcutAction(target);
+          return;
+        }
+        if (location.hash === '#shortcut=add-job') {
+          history.replaceState(null, '', location.pathname + location.search);
+          applyShortcutAction('add-job');
+        } else if (location.hash === '#shortcut=pending') {
+          history.replaceState(null, '', location.pathname + location.search);
+          applyShortcutAction('pending');
+        }
+      }
+      window.addEventListener('hk:shortcut', event => {
+        if (event?.detail) {
+          window.__hkPendingShortcut = '';
+          applyShortcutAction(event.detail);
+        }
+      });
+      consumeShortcutFromEnvironment();
+
+      const capAppPlugin = window.Capacitor?.Plugins?.App;
+      if (capAppPlugin && typeof capAppPlugin.addListener === 'function') {
+        capAppPlugin.addListener('backButton', () => {
+          const openDialogs = [...document.querySelectorAll('dialog[open]')];
+          if (openDialogs.length) {
+            openDialogs[openDialogs.length - 1].close();
+            return;
+          }
+          const openDetails = document.querySelector('#profileMenu[open], details.customer-menu[open]');
+          if (openDetails) {
+            openDetails.removeAttribute('open');
+            return;
+          }
+          if (selectedCustomerKey) {
+            selectedCustomerKey = null;
+            render();
+            return;
+          }
+          if (currentPage !== 'overview') {
+            setPage('overview');
+            return;
+          }
+          if (typeof capAppPlugin.exitApp === 'function') {
+            capAppPlugin.exitApp();
+          }
+        });
+      }
+
       if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
         navigator.serviceWorker.register('./sw.js').catch(() => {});
       }
